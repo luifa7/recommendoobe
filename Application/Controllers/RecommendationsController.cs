@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Commands;
 using Application.Services;
@@ -7,7 +6,6 @@ using Domain.Objects;
 using DTOs.Recommendations;
 using Infrastructure.Mappers;
 using MediatR;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Controllers
@@ -38,11 +36,21 @@ namespace Application.Controllers
         public async Task<IActionResult> Create([FromBody] CreateRecommendation createRecommendation)
         {
             var command = new CreateRecommendationCommand(
+                createRecommendation.PlaceName,
                 createRecommendation.Title,
                 createRecommendation.Text,
-                createRecommendation.MapLink,
+                createRecommendation.Address,
+                createRecommendation.Maps,
                 createRecommendation.Website,
-                createRecommendation.Photo
+                createRecommendation.Instagram,
+                createRecommendation.Facebook,
+                createRecommendation.OtherLink,
+                createRecommendation.Photo,
+                createRecommendation.CreatedOn,
+                createRecommendation.CityDId,
+                createRecommendation.Tags,
+                createRecommendation.FromUserDId,
+                createRecommendation.ToUserDId
                 );
             Recommendation recommendation = await _mediator.Send(command);
 

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Infrastructure.Database.Entities
+﻿namespace DTOs.Users
 {
-    public class Users
+    public class CreateUser
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
-        public string DId { get; set; }
-        public string UserName { get; set; }
+        public string UserName { get; private set; }
         public string Name { get; set; }
         public string ShortFact1 { get; set; }
         public string ShortFact2 { get; set; }

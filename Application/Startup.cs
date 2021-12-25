@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,14 +22,19 @@ namespace Application
                 options.AddDefaultPolicy(builder =>
                                   {
                                       builder.WithOrigins("http://localhost:8080",
-                                                          "https://localhost:8080").SetIsOriginAllowedToAllowWildcardSubdomains();
+                                                          "https://localhost:8080")
+                                      .SetIsOriginAllowedToAllowWildcardSubdomains();
                                   });
             });
 
             services.AddMediatR(typeof(CreateRecommendationCommandHandler));
             services.AddControllers();
             services.AddTransient<IRecommendationRepository, RecommendationRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ICityRepository, CityRepository>();
             services.AddTransient<RecommendationCRUDService>();
+            services.AddTransient<UserCRUDService>();
+            services.AddTransient<CityCRUDService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

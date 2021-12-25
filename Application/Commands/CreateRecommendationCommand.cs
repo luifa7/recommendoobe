@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Application.Services;
 using Domain.Objects;
@@ -10,20 +8,42 @@ namespace Application.Commands
 {
     public class CreateRecommendationCommand : IRequest<Recommendation>
     {
+        public string PlaceName;
         public string Title;
         public string Text;
-        public string MapLink;
+        public string Address;
+        public string Maps;
         public string Website;
+        public string Instagram;
+        public string Facebook;
+        public string OtherLink;
         public string Photo;
+        public int CreatedOn;
+        public string CityDId;
+        public string[] Tags;
+        public string FromUserDId;
+        public string ToUserDId;
 
-        public CreateRecommendationCommand(string title, string text, string mapLink,
-            string website, string photo)
+        public CreateRecommendationCommand(string placeName, string title, string text,
+            string address, string maps, string website, string instagram, string facebook,
+            string otherLink, string photo, int createdOn, string cityDId, string[] tags,
+            string fromUserDId, string toUserDId)
         {
+            PlaceName = placeName;
             Title = title;
             Text = text;
-            MapLink = mapLink;
+            Address = address;
+            Maps = maps;
             Website = website;
+            Instagram = instagram;
+            Facebook = facebook;
+            OtherLink = otherLink;
             Photo = photo;
+            CreatedOn = createdOn;
+            CityDId = cityDId;
+            Tags = tags;
+            FromUserDId = fromUserDId;
+            ToUserDId = toUserDId;
         }
     }
 
@@ -38,8 +58,12 @@ namespace Application.Commands
 
         public async Task<Recommendation> Handle(CreateRecommendationCommand request, CancellationToken cancellationToken)
         {
-            var recommendation = Recommendation.Create(request.Title, request.Text,
-                request.MapLink, request.Website, request.Photo);
+            var recommendation = Recommendation.Create(request.PlaceName,
+                request.Title, request.Text, request.Address, request.Maps,
+                request.Website, request.Instagram, request.Facebook,
+                request.OtherLink, request.Photo, request.CreatedOn,
+                request.CityDId, request.Tags, request.FromUserDId,
+                request.ToUserDId);
 
             await _recommendationService.PersistAsync(recommendation);
 

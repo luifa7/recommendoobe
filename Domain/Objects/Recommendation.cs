@@ -1,34 +1,60 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Domain.Objects
 {
     public class Recommendation
     {
         public string DId { get; private set; }
+        public string PlaceName { get; private set; }
         public string Title { get; private set; }
         public string Text { get; private set; }
-        public string MapLink { get; private set; }
+        public string Address { get; private set; }
+        public string Maps { get; private set; }
         public string Website { get; private set; }
+        public string Instagram { get; private set; }
+        public string Facebook { get; private set; }
+        public string OtherLink { get; private set; }
         public string Photo { get; private set; }
+        public int CreatedOn { get; private set; }
+        public string CityDId { get; private set; }
+        public string[] Tags { get; private set; }
+        public string FromUserDId { get; private set; }
+        public string ToUserDId { get; private set; }
 
 
-        public Recommendation(string dId, string title, string text, string mapLink,
-            string website, string photo)
+        public Recommendation(string dId, string placeName, string title, string text,
+            string address, string maps, string website, string instagram, string facebook,
+            string otherLink, string photo, int createdOn, string cityDId, string[] tags,
+            string fromUserDId, string toUserDId)
         {
             DId = dId;
+            PlaceName = placeName;
             Title = title;
             Text = text;
-            MapLink = mapLink;
+            Address = address;
+            Maps = maps;
             Website = website;
+            Instagram = instagram;
+            Facebook = facebook;
+            OtherLink = otherLink;
             Photo = photo;
+            CreatedOn = createdOn;
+            CityDId = cityDId;
+            Tags = tags;
+            FromUserDId = fromUserDId;
+            ToUserDId = toUserDId;
         }
 
-        public static Recommendation Create(string title, string text, string mapLink,
-            string website, string photo)
+        public static Recommendation Create(string placeName, string title,
+            string text, string address, string maps, string website, 
+            string instagram, string facebook, string otherLink, string photo,
+            int createdOn, string cityDId, string[] tags, string fromUserDId,
+            string toUserDId)
         {
             var DId = Guid.NewGuid().ToString();
-            return new Recommendation(DId, title, text, mapLink, website, photo);
+            return new Recommendation(DId, placeName, title, text, address,
+                maps, website, instagram, facebook, otherLink, photo, createdOn,
+                cityDId, tags, fromUserDId, toUserDId);
         }
     }
 }

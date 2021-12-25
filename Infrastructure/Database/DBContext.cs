@@ -1,14 +1,15 @@
-﻿using System;
-using Infrastructure.Database.Entities;
+﻿using Infrastructure.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Database
 {
-    class RecommendationContext: DbContext
+    class DBContext : DbContext
     {
         public DbSet<Recommendations> Recommendations { get; set; }
+        public DbSet<Users> Users { get; set; }
+        public DbSet<Cities> Cities { get; set; }
 
-        public RecommendationContext()
+        public DBContext()
         {
             Database.EnsureCreatedAsync().Wait();
         }

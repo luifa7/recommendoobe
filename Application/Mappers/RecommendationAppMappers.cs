@@ -1,5 +1,4 @@
-﻿using System;
-using Domain.Objects;
+﻿using Domain.Objects;
 using DTOs.Recommendations;
 
 namespace Infrastructure.Mappers
@@ -10,13 +9,22 @@ namespace Infrastructure.Mappers
         {
             return new ReadRecommendation(
                 dId: recommendation.DId,
+                placeName: recommendation.PlaceName,
                 title: recommendation.Title,
                 text: recommendation.Text,
-                mapLink: recommendation.MapLink,
+                address: recommendation.Address,
+                maps: recommendation.Maps,
                 website: recommendation.Website,
-                photo: recommendation.Photo
+                instagram: recommendation.Instagram,
+                facebook: recommendation.Facebook,
+                otherLink: recommendation.OtherLink,
+                photo: recommendation.Photo,
+                createdOn: recommendation.CreatedOn,
+                cityDId: recommendation.CityDId,
+                tags: recommendation.Tags,
+                fromUserDId: recommendation.FromUserDId,
+                toUserDId: recommendation.ToUserDId
                 );
-
         }
     }
 }

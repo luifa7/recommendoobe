@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain.Objects;
@@ -12,11 +11,11 @@ namespace Infrastructure.Repositories
 {
     public class RecommendationRepository: IRecommendationRepository
     {
-        private RecommendationContext _dbContext;
+        private DBContext _dbContext;
 
         public RecommendationRepository()
         {
-            _dbContext = new RecommendationContext();
+            _dbContext = new DBContext();
         }
 
         public List<Recommendation> GetAll()

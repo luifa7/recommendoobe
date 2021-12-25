@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Domain.Objects;
+﻿using Domain.Objects;
 using Infrastructure.Database.Entities;
 
 namespace Infrastructure.Mappers
@@ -12,12 +10,22 @@ namespace Infrastructure.Mappers
             return new Recommendations()
             {
                 DId = recommendation.DId,
+                PlaceName = recommendation.PlaceName,
                 Title = recommendation.Title,
                 Text = recommendation.Text,
-                MapLink = recommendation.MapLink,
+                Address = recommendation.Address,
+                Maps = recommendation.Maps,
                 Website = recommendation.Website,
-                Photo = recommendation.Photo
-            };
+                Instagram = recommendation.Instagram,
+                Facebook = recommendation.Facebook,
+                OtherLink = recommendation.OtherLink,
+                Photo = recommendation.Photo,
+                CreatedOn = recommendation.CreatedOn,
+                CityDId = recommendation.CityDId,
+                Tags = recommendation.Tags,
+                FromUserDId = recommendation.FromUserDId,
+                ToUserDId = recommendation.ToUserDId,
+        };
 
         }
 
@@ -25,11 +33,21 @@ namespace Infrastructure.Mappers
         {
             return new Recommendation(
                 dId:recommendationDBEntity.DId,
+                placeName:recommendationDBEntity.PlaceName,
                 title:recommendationDBEntity.Title,
                 text:recommendationDBEntity.Text,
-                mapLink:recommendationDBEntity.MapLink,
+                address:recommendationDBEntity.Address,
+                maps:recommendationDBEntity.Maps,
                 website:recommendationDBEntity.Website,
-                photo: recommendationDBEntity.Photo
+                instagram:recommendationDBEntity.Instagram,
+                facebook:recommendationDBEntity.Facebook,
+                otherLink:recommendationDBEntity.OtherLink,
+                photo:recommendationDBEntity.Photo,
+                createdOn:recommendationDBEntity.CreatedOn,
+                cityDId:recommendationDBEntity.CityDId,
+                tags:recommendationDBEntity.Tags,
+                fromUserDId:recommendationDBEntity.FromUserDId,
+                toUserDId:recommendationDBEntity.ToUserDId
                 );
         }
     }
