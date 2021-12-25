@@ -56,6 +56,7 @@ namespace Infrastructure.Mappers
 
         private static string[] FromListTagsToArrStr(List<Tags> tags)
         {
+            if (tags == null) return System.Array.Empty<string>();
             return tags.Select(tag => tag.Word).ToArray();
         }
     }

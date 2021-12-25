@@ -2,7 +2,7 @@
 {
     public class CreateUser
     {
-        public string UserName { get; private set; }
+        public string UserName { get; set; }
         public string Name { get; set; }
         public string ShortFact1 { get; set; }
         public string ShortFact2 { get; set; }

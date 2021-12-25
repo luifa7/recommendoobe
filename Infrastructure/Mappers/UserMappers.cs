@@ -45,6 +45,7 @@ namespace Infrastructure.Mappers
 
         private static string[] FromListUsersToArrStr(List<Users> users)
         {
+            if (users == null) return System.Array.Empty<string>();
             return users.Select(user => user.DId).ToArray();
         }
     }
