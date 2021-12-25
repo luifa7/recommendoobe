@@ -17,7 +17,7 @@ namespace Infrastructure.Database.Entities
         public string Facebook { get; set; }
         public string OtherLink { get; set; }
         public string Photo { get; set; }
-        public int CreatedOn { get; set; }
+        public long CreatedOn { get; set; }
         public Cities City { get; set; }
         public List<Tags> Tags { get; set; }
         public Users FromUser { get; set; }

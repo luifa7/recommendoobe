@@ -46,7 +46,6 @@ namespace Application.Controllers
                 createRecommendation.Facebook,
                 createRecommendation.OtherLink,
                 createRecommendation.Photo,
-                createRecommendation.CreatedOn,
                 createRecommendation.CityDId,
                 createRecommendation.Tags,
                 createRecommendation.FromUserDId,

@@ -18,7 +18,6 @@ namespace Application.Commands
         public string Facebook;
         public string OtherLink;
         public string Photo;
-        public int CreatedOn;
         public string CityDId;
         public string[] Tags;
         public string FromUserDId;
@@ -26,7 +25,7 @@ namespace Application.Commands
 
         public CreateRecommendationCommand(string placeName, string title, string text,
             string address, string maps, string website, string instagram, string facebook,
-            string otherLink, string photo, int createdOn, string cityDId, string[] tags,
+            string otherLink, string photo, string cityDId, string[] tags,
             string fromUserDId, string toUserDId)
         {
             PlaceName = placeName;
@@ -39,7 +38,6 @@ namespace Application.Commands
             Facebook = facebook;
             OtherLink = otherLink;
             Photo = photo;
-            CreatedOn = createdOn;
             CityDId = cityDId;
             Tags = tags;
             FromUserDId = fromUserDId;
@@ -61,9 +59,8 @@ namespace Application.Commands
             var recommendation = Recommendation.Create(request.PlaceName,
                 request.Title, request.Text, request.Address, request.Maps,
                 request.Website, request.Instagram, request.Facebook,
-                request.OtherLink, request.Photo, request.CreatedOn,
-                request.CityDId, request.Tags, request.FromUserDId,
-                request.ToUserDId);
+                request.OtherLink, request.Photo, request.CityDId, request.Tags,
+                request.FromUserDId, request.ToUserDId);
 
             await _recommendationService.PersistAsync(recommendation);
 

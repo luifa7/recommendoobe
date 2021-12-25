@@ -12,7 +12,6 @@
         public string Facebook { get; set; }
         public string OtherLink { get; set; }
         public string Photo { get; set; }
-        public int CreatedOn { get; set; }
         public string CityDId { get; set; }
         public string[] Tags { get; set; }
         public string FromUserDId { get; set; }
