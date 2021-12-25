@@ -8,6 +8,7 @@ namespace Infrastructure.Database
         public DbSet<Recommendations> Recommendations { get; set; }
         public DbSet<Users> Users { get; set; }
         public DbSet<Cities> Cities { get; set; }
+        public DbSet<Tags> Tags { get; set; }
 
         public DBContext()
         {

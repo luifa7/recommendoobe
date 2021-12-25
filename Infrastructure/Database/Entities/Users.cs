@@ -15,6 +15,6 @@ namespace Infrastructure.Database.Entities
         public string AboutMe { get; set; }
         public string InterestedIn { get; set; }
         public string Photo { get; set; }
-        public string[] Friends { get; set; }
+        public List<Users> Friends { get; set; }
     }
 }

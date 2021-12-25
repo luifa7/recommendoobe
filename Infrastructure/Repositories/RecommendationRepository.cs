@@ -33,8 +33,13 @@ namespace Infrastructure.Repositories
 
         public Task PersistAsync(Recommendation recommendation)
         {
+            List<Tags> tags =
+                _dbContext.Tags.Where(
+                    t => recommendation.Tags.Contains(t.Word)).ToList();
+
             var recommendationDBEntity =
-                RecommendationMappers.FromDomainObjectToDBEntity(recommendation);
+                RecommendationMappers.FromDomainObjectToDBEntity(
+                    recommendation, tags);
             _dbContext.Recommendations.Add(recommendationDBEntity);
             return _dbContext.SaveChangesAsync();
         }

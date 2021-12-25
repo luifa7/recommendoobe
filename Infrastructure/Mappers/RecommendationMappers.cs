@@ -1,11 +1,14 @@
-﻿using Domain.Objects;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Domain.Objects;
 using Infrastructure.Database.Entities;
 
 namespace Infrastructure.Mappers
 {
     public class RecommendationMappers
     {
-        public static Recommendations FromDomainObjectToDBEntity(Recommendation recommendation)
+        public static Recommendations FromDomainObjectToDBEntity(
+            Recommendation recommendation, List<Tags> tags)
         {
             return new Recommendations()
             {
@@ -22,7 +25,7 @@ namespace Infrastructure.Mappers
                 Photo = recommendation.Photo,
                 CreatedOn = recommendation.CreatedOn,
                 CityDId = recommendation.CityDId,
-                Tags = recommendation.Tags,
+                Tags = tags,
                 FromUserDId = recommendation.FromUserDId,
                 ToUserDId = recommendation.ToUserDId,
         };
@@ -45,10 +48,15 @@ namespace Infrastructure.Mappers
                 photo:recommendationDBEntity.Photo,
                 createdOn:recommendationDBEntity.CreatedOn,
                 cityDId:recommendationDBEntity.CityDId,
-                tags:recommendationDBEntity.Tags,
+                tags: FromListTagsToArrStr(recommendationDBEntity.Tags),
                 fromUserDId:recommendationDBEntity.FromUserDId,
                 toUserDId:recommendationDBEntity.ToUserDId
                 );
+        }
+
+        private static string[] FromListTagsToArrStr(List<Tags> tags)
+        {
+            return tags.Select(tag => tag.Word).ToArray();
         }
     }
 }

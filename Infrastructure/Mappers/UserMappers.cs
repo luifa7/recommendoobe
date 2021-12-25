@@ -1,11 +1,15 @@
-﻿using Domain.Objects;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Domain.Objects;
 using Infrastructure.Database.Entities;
 
 namespace Infrastructure.Mappers
 {
     public class UserMappers
     {
-        public static Users FromDomainObjectToDBEntity(User user)
+
+        public static Users FromDomainObjectToDBEntity(User user,
+            List<Users> friends)
         {
             return new Users()
             {
@@ -18,7 +22,7 @@ namespace Infrastructure.Mappers
                 AboutMe = user.AboutMe,
                 InterestedIn = user.InterestedIn,
                 Photo = user.Photo,
-                Friends = user.Friends,
+                Friends = friends,
         };
 
         }
@@ -35,8 +39,13 @@ namespace Infrastructure.Mappers
                 aboutMe: userDBEntity.AboutMe,
                 interestedIn: userDBEntity.InterestedIn,
                 photo: userDBEntity.Photo,
-                friends: userDBEntity.Friends
+                friends: FromListUsersToArrStr(userDBEntity.Friends)
                 );
+        }
+
+        private static string[] FromListUsersToArrStr(List<Users> users)
+        {
+            return users.Select(user => user.DId).ToArray();
         }
     }
 }
