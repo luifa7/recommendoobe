@@ -33,8 +33,10 @@ namespace Infrastructure.Repositories
 
         public Task PersistAsync(City city)
         {
+            Users userFromDB =
+                _dbContext.Users.FirstOrDefault(u => u.DId == city.UserDId);
             var cityDBEntity =
-                CityMappers.FromDomainObjectToDBEntity(city);
+                CityMappers.FromDomainObjectToDBEntity(city, userFromDB);
             _dbContext.Cities.Add(cityDBEntity);
             return _dbContext.SaveChangesAsync();
         }

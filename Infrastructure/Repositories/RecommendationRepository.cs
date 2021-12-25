@@ -33,13 +33,26 @@ namespace Infrastructure.Repositories
 
         public Task PersistAsync(Recommendation recommendation)
         {
+            Cities cityFromDB =
+                _dbContext.Cities.FirstOrDefault(
+                    c => c.DId == recommendation.CityDId);
+
             List<Tags> tags =
                 _dbContext.Tags.Where(
                     t => recommendation.Tags.Contains(t.Word)).ToList();
 
+            Users fromUserFromDB =
+                _dbContext.Users.FirstOrDefault(
+                    u => u.DId == recommendation.FromUserDId);
+
+            Users toUserFromDB =
+                _dbContext.Users.FirstOrDefault(
+                    u => u.DId == recommendation.ToUserDId);
+
             var recommendationDBEntity =
                 RecommendationMappers.FromDomainObjectToDBEntity(
-                    recommendation, tags);
+                    recommendation, cityFromDB, tags,
+                    fromUserFromDB, toUserFromDB);
             _dbContext.Recommendations.Add(recommendationDBEntity);
             return _dbContext.SaveChangesAsync();
         }

@@ -9,7 +9,7 @@ namespace Infrastructure.Database.Entities
         public string Name { get; set; }
         public string Country { get; set; }
         public string Photo { get; set; }
-        public string UserDId { get; set; }
+        public Users User { get; set; }
         public bool Visited { get; set; }
     }
 }

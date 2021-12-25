@@ -5,7 +5,7 @@ namespace Infrastructure.Mappers
 {
     public class CityMappers
     {
-        public static Cities FromDomainObjectToDBEntity(City city)
+        public static Cities FromDomainObjectToDBEntity(City city, Users user)
         {
             return new Cities()
             {
@@ -13,7 +13,7 @@ namespace Infrastructure.Mappers
                 Name = city.Name,
                 Country = city.Country,
                 Photo = city.Photo,
-                UserDId = city.UserDId,
+                User = user,
                 Visited = city.Visited
         };
 
@@ -26,7 +26,7 @@ namespace Infrastructure.Mappers
                 name: cityDBEntity.Name,
                 country: cityDBEntity.Country,
                 photo:cityDBEntity.Photo,
-                userDId: cityDBEntity.UserDId,
+                userDId: cityDBEntity.User.DId,
                 visited: cityDBEntity.Visited
                 );
         }

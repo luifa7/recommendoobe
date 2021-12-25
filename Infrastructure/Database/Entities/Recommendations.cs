@@ -18,9 +18,9 @@ namespace Infrastructure.Database.Entities
         public string OtherLink { get; set; }
         public string Photo { get; set; }
         public int CreatedOn { get; set; }
-        public string CityDId { get; set; }
+        public Cities City { get; set; }
         public List<Tags> Tags { get; set; }
-        public string FromUserDId { get; set; }
-        public string ToUserDId { get; set; }
+        public Users FromUser { get; set; }
+        public Users ToUser { get; set; }
     }
 }

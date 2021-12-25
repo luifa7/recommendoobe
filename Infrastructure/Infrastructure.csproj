@@ -11,14 +11,12 @@
     <None Remove="Mappers\" />
     <None Remove="Microsoft.EntityFrameworkCore.Design" />
     <None Remove="Microsoft.EntityFrameworkCore.Sqlite" />
-    <None Remove="Migrations\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Repositories\" />
     <Folder Include="Database\" />
     <Folder Include="Database\Entities\" />
     <Folder Include="Mappers\" />
-    <Folder Include="Migrations\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
