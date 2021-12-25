@@ -2,6 +2,7 @@
 Makefile.in
 *.userprefs
 *.usertasks
+*.db
 config.make
 config.status
 aclocal.m4
