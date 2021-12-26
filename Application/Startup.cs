@@ -32,9 +32,11 @@ namespace Application
             services.AddTransient<IRecommendationRepository, RecommendationRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ICityRepository, CityRepository>();
+            services.AddTransient<ITagRepository, TagRepository>();
             services.AddTransient<RecommendationCRUDService>();
             services.AddTransient<UserCRUDService>();
             services.AddTransient<CityCRUDService>();
+            services.AddTransient<TagCRUDService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
