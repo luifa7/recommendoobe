@@ -32,22 +32,24 @@ namespace Application.Controllers
             return Ok(cities);
         }
 
-        [HttpGet("{dId:string}")]
+        [HttpGet("{dId}")]
         public IActionResult GetByDId(string dId)
         {
-            var domainCity = _cityService.GetByDId(dId);
-            ReadCity city = CityAppMappers.FromDomainObjectToApiDTO(domainCity);
-            return Ok(city);
-        }
-
-        [HttpPost]
-        public IActionResult GetCitiesByDIdList([FromBody] string[] citiesDIds)
-        {
-            var domainCities = _cityService.GetCitiesByDIdList(citiesDIds);
-            List<ReadCity> cities = new();
-            domainCities.ForEach(dcity => cities.Add(
-                CityAppMappers.FromDomainObjectToApiDTO(dcity)));
-            return Ok(cities);
+            if (dId.Contains(','))
+            {
+                string[] citiesDIds = dId.Split(',');
+                var domainCities = _cityService.GetCitiesByDIdList(citiesDIds);
+                List<ReadCity> cities = new();
+                domainCities.ForEach(dcity => cities.Add(
+                    CityAppMappers.FromDomainObjectToApiDTO(dcity)));
+                return Ok(cities);
+            }
+            else
+            {
+                var domainCity = _cityService.GetByDId(dId);
+                ReadCity city = CityAppMappers.FromDomainObjectToApiDTO(domainCity);
+                return Ok(city);
+            }
         }
 
         [HttpPost]
