@@ -16,11 +16,10 @@ namespace Application.Commands
         public string AboutMe;
         public string InterestedIn;
         public string Photo;
-        public string[] Friends;
 
         public CreateUserCommand(string userName, string name,
             string shortFact1, string shortFact2, string shortFact3,
-            string aboutMe, string interestedIn, string photo, string[] friends)
+            string aboutMe, string interestedIn, string photo)
         {
             UserName = userName;
             Name = name;
@@ -30,7 +29,6 @@ namespace Application.Commands
             AboutMe = aboutMe;
             InterestedIn = interestedIn;
             Photo = photo;
-            Friends = friends;
         }
     }
 
@@ -47,8 +45,7 @@ namespace Application.Commands
         {
             var user = User.Create(request.UserName, request.Name,
                 request.ShortFact1, request.ShortFact2, request.ShortFact3,
-                request.AboutMe, request.InterestedIn, request.Photo,
-                request.Friends);
+                request.AboutMe, request.InterestedIn, request.Photo);
 
             await _userService.PersistAsync(user);
 

@@ -19,9 +19,23 @@ namespace Application.Services
             return _tagRepository.GetByWord(word);
         }
 
+        public Tag GetByWordAndRecommendationDId(
+            string recommendationDId,
+            string word)
+        {
+            return _tagRepository.GetByWordAndRecommendationDId(
+                recommendationDId,
+                word);
+        }
+
         public List<Tag> GetTagsByWordList(string[] words)
         {
             return _tagRepository.GetTagsByWordList(words);
+        }
+
+        public List<Tag> GetTagsByRecommendationDId(string recommendationDId)
+        {
+            return _tagRepository.GetTagsByRecommendationDId(recommendationDId);
         }
 
         public Task PersistAsync(Tag tag)

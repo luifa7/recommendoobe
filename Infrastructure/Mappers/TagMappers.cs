@@ -7,13 +7,19 @@ namespace Infrastructure.Mappers
     {
         public static Tags FromDomainObjectToDBEntity(Tag tag)
         {
-            return new Tags() { Word = tag.Word };
+            return new Tags() {
+                RecommendationDId = tag.RecommendationDId,
+                Word = tag.Word
+                };
 
         }
 
         public static Tag FromDBEntityToDomainObject(Tags tagDBEntity)
         {
-            return new Tag(word: tagDBEntity.Word);
+            return new Tag(
+                recommendationDId: tagDBEntity.RecommendationDId,
+                word: tagDBEntity.Word
+                );
         }
     }
 }

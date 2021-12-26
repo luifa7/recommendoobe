@@ -1,4 +1,5 @@
-﻿using Domain.Objects;
+﻿using System;
+using Domain.Objects;
 using Infrastructure.Database.Entities;
 
 namespace Infrastructure.Mappers

@@ -8,10 +8,12 @@
     <None Remove="Recommendations\" />
     <None Remove="Recommendations %28copy%29\" />
     <None Remove="Recommendations %28another copy%29\" />
+    <None Remove="Friend\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Recommendations\" />
     <Folder Include="Cities\" />
     <Folder Include="Users\" />
+    <Folder Include="Friend\" />
   </ItemGroup>
 </Project>

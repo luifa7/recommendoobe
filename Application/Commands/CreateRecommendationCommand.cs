@@ -48,10 +48,14 @@ namespace Application.Commands
     public class CreateRecommendationCommandHandler : IRequestHandler<CreateRecommendationCommand, Recommendation>
     {
         private readonly RecommendationCRUDService _recommendationService;
+        private readonly TagCRUDService _tagService;
 
-        public CreateRecommendationCommandHandler(RecommendationCRUDService recommendationCRUDService)
+        public CreateRecommendationCommandHandler(
+            RecommendationCRUDService recommendationCRUDService,
+            TagCRUDService tagCRUDService)
         {
             _recommendationService = recommendationCRUDService;
+            _tagService = tagCRUDService;
         }
 
         public async Task<Recommendation> Handle(CreateRecommendationCommand request, CancellationToken cancellationToken)
@@ -59,10 +63,23 @@ namespace Application.Commands
             var recommendation = Recommendation.Create(request.PlaceName,
                 request.Title, request.Text, request.Address, request.Maps,
                 request.Website, request.Instagram, request.Facebook,
-                request.OtherLink, request.Photo, request.CityDId, request.Tags,
+                request.OtherLink, request.Photo, request.CityDId,
                 request.FromUserDId, request.ToUserDId);
 
             await _recommendationService.PersistAsync(recommendation);
+
+            foreach (string tag in request.Tags)
+            {
+                Tag existingTag = _tagService.GetByWordAndRecommendationDId(
+                    recommendation.DId, tag);
+                if (existingTag == null)
+                {
+                    Tag newTag = new(
+                    recommendationDId: recommendation.DId,
+                    word: tag);
+                    await _tagService.PersistAsync(newTag);
+                }
+            }
 
             return recommendation;
         }

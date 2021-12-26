@@ -16,8 +16,7 @@ namespace Infrastructure.Mappers
                 shortFact3: user.ShortFact3,
                 aboutMe: user.AboutMe,
                 interestedIn: user.InterestedIn,
-                photo: user.Photo,
-                friends: user.Friends
+                photo: user.Photo
                 );
         }
     }

@@ -8,10 +8,12 @@ namespace Application.Commands
 {
     public class CreateTagCommand : IRequest<Tag>
     {
+        public string RecommendationDId;
         public string Word;
 
-        public CreateTagCommand(string word)
+        public CreateTagCommand(string recommendationDId, string word)
         {
+            RecommendationDId = recommendationDId;
             Word = word;
         }
     }
@@ -27,7 +29,7 @@ namespace Application.Commands
 
         public async Task<Tag> Handle(CreateTagCommand request, CancellationToken cancellationToken)
         {
-            var tag = Tag.Create(request.Word);
+            var tag = Tag.Create(request.RecommendationDId, request.Word);
 
             await _tagService.PersistAsync(tag);
 

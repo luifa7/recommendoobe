@@ -8,7 +8,7 @@ namespace Infrastructure.Mappers
     public class RecommendationMappers
     {
         public static Recommendations FromDomainObjectToDBEntity(
-            Recommendation recommendation, Cities city, List<Tags> tags,
+            Recommendation recommendation, Cities city,
             Users fromUser, Users toUser)
         {
             return new Recommendations()
@@ -26,7 +26,6 @@ namespace Infrastructure.Mappers
                 Photo = recommendation.Photo,
                 CreatedOn = recommendation.CreatedOn,
                 City = city,
-                Tags = tags,
                 FromUser = fromUser,
                 ToUser = toUser,
         };
@@ -49,16 +48,9 @@ namespace Infrastructure.Mappers
                 photo:recommendationDBEntity.Photo,
                 createdOn:recommendationDBEntity.CreatedOn,
                 cityDId:recommendationDBEntity.City.DId,
-                tags: FromListTagsToArrStr(recommendationDBEntity.Tags),
                 fromUserDId:recommendationDBEntity.FromUser.DId,
                 toUserDId:recommendationDBEntity.ToUser.DId
                 );
-        }
-
-        private static string[] FromListTagsToArrStr(List<Tags> tags)
-        {
-            if (tags == null) return System.Array.Empty<string>();
-            return tags.Select(tag => tag.Word).ToArray();
         }
     }
 }

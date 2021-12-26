@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Infrastructure.Database.Entities
 {
@@ -19,7 +18,6 @@ namespace Infrastructure.Database.Entities
         public string Photo { get; set; }
         public long CreatedOn { get; set; }
         public Cities City { get; set; }
-        public List<Tags> Tags { get; set; }
         public Users FromUser { get; set; }
         public Users ToUser { get; set; }
     }

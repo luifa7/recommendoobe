@@ -23,6 +23,19 @@ namespace Infrastructure.Repositories
             Tags tagFromDB =
                 _dbContext.Tags.FirstOrDefault(t => t.Word == word);
 
+            if (tagFromDB == null) return null;
+            return TagMappers.FromDBEntityToDomainObject(tagFromDB);
+        }
+
+        public Tag GetByWordAndRecommendationDId(
+            string recommendationDId, string word)
+        {
+            Tags tagFromDB =
+                _dbContext.Tags.FirstOrDefault(
+                    t => t.RecommendationDId == recommendationDId
+                    && t.Word == word);
+
+            if (tagFromDB == null) return null;
             return TagMappers.FromDBEntityToDomainObject(tagFromDB);
         }
 
@@ -30,6 +43,19 @@ namespace Infrastructure.Repositories
         {
             var tagsFromDB = _dbContext.Tags.Where(
                 t => words.Contains(t.Word)).ToList();
+            List<Tag> tags = new();
+
+            tagsFromDB.ForEach(re => tags.Add
+            (TagMappers.FromDBEntityToDomainObject(re)));
+
+            return tags;
+
+        }
+
+        public List<Tag> GetTagsByRecommendationDId(string recommendationDId)
+        {
+            var tagsFromDB = _dbContext.Tags.Where(
+                t => t.RecommendationDId == recommendationDId).ToList();
             List<Tag> tags = new();
 
             tagsFromDB.ForEach(re => tags.Add

@@ -17,14 +17,13 @@ namespace Domain.Objects
         public string Photo { get; private set; }
         public long CreatedOn { get; private set; }
         public string CityDId { get; private set; }
-        public string[] Tags { get; private set; }
         public string FromUserDId { get; private set; }
         public string ToUserDId { get; private set; }
 
 
         public Recommendation(string dId, string placeName, string title, string text,
             string address, string maps, string website, string instagram, string facebook,
-            string otherLink, string photo, long createdOn, string cityDId, string[] tags,
+            string otherLink, string photo, long createdOn, string cityDId,
             string fromUserDId, string toUserDId)
         {
             DId = dId;
@@ -40,7 +39,6 @@ namespace Domain.Objects
             Photo = photo;
             CreatedOn = createdOn;
             CityDId = cityDId;
-            Tags = tags;
             FromUserDId = fromUserDId;
             ToUserDId = toUserDId;
         }
@@ -48,14 +46,14 @@ namespace Domain.Objects
         public static Recommendation Create(string placeName, string title,
             string text, string address, string maps, string website, 
             string instagram, string facebook, string otherLink, string photo,
-            string cityDId, string[] tags, string fromUserDId, string toUserDId)
+            string cityDId, string fromUserDId, string toUserDId)
         {
             var DId = Guid.NewGuid().ToString();
             DateTime foo = DateTime.Now;
             long createdOn = ((DateTimeOffset)foo).ToUnixTimeSeconds();
             return new Recommendation(DId, placeName, title, text, address,
                 maps, website, instagram, facebook, otherLink, photo, createdOn,
-                cityDId, tags, fromUserDId, toUserDId);
+                cityDId, fromUserDId, toUserDId);
         }
     }
 }

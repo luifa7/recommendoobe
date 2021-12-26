@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace DTOs.Users
+﻿namespace DTOs.Users
 {
     public class ReadUser
     {
@@ -14,11 +11,10 @@ namespace DTOs.Users
         public string AboutMe { get; set; }
         public string InterestedIn { get; set; }
         public string Photo { get; set; }
-        public string[] Friends { get; set; }
 
         public ReadUser(string dId, string userName, string name, string shortFact1,
             string shortFact2, string shortFact3, string aboutMe,
-            string interestedIn, string photo, string[] friends)
+            string interestedIn, string photo)
         {
             DId = dId;
             UserName = userName;
@@ -29,7 +25,6 @@ namespace DTOs.Users
             AboutMe = aboutMe;
             InterestedIn = interestedIn;
             Photo = photo;
-            Friends = friends;
         }
     }
 }

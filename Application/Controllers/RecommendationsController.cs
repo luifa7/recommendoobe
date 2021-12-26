@@ -15,11 +15,15 @@ namespace Application.Controllers
     {
         private readonly IMediator _mediator;
         private readonly RecommendationCRUDService _recommendationService;
+        private readonly TagCRUDService _tagService;
 
-        public RecommendationsController(IMediator mediator, RecommendationCRUDService recommendationCRUDService)
+        public RecommendationsController(IMediator mediator,
+            RecommendationCRUDService recommendationCRUDService,
+            TagCRUDService tagCRUDService)
         {
             _mediator = mediator;
             _recommendationService = recommendationCRUDService;
+            _tagService = tagCRUDService;
         }
 
         [HttpGet]
@@ -27,8 +31,15 @@ namespace Application.Controllers
         {
             var domainRecommendations = _recommendationService.GetAll();
             List<ReadRecommendation> recommendations = new();
-            domainRecommendations.ForEach(dre => recommendations.Add(
-                RecommendationAppMappers.FromDomainObjectToApiDTO(dre)));
+            foreach(Recommendation domainRecommendation in domainRecommendations)
+            {
+                List<Tag> domainTags =
+                    _tagService.GetTagsByRecommendationDId(domainRecommendation.DId);
+                recommendations.Add(
+                RecommendationAppMappers.FromDomainObjectToApiDTO(
+                    domainRecommendation, domainTags));
+            }
+            
             return Ok(recommendations);
         }
 
@@ -41,16 +52,24 @@ namespace Application.Controllers
                 var domainRecommendations = _recommendationService
                     .GetRecommendationsByDIdList(recommendationsDIds);
                 List<ReadRecommendation> recommendations = new();
-                domainRecommendations.ForEach(dre => recommendations.Add(
-                    RecommendationAppMappers.FromDomainObjectToApiDTO(dre)));
+                foreach (Recommendation domainRecommendation in domainRecommendations)
+                {
+                    List<Tag> domainTags =
+                        _tagService.GetTagsByRecommendationDId(domainRecommendation.DId);
+                    recommendations.Add(
+                    RecommendationAppMappers.FromDomainObjectToApiDTO(
+                        domainRecommendation, domainTags));
+                }
                 return Ok(recommendations);
             }
             else
             {
                 var domainRecommendation = _recommendationService.GetByDId(dId);
+                List<Tag> domainTags =
+                        _tagService.GetTagsByRecommendationDId(dId);
                 ReadRecommendation recommendation =
                     RecommendationAppMappers
-                    .FromDomainObjectToApiDTO(domainRecommendation);
+                    .FromDomainObjectToApiDTO(domainRecommendation, domainTags);
                 return Ok(recommendation);
             }
         }
@@ -75,8 +94,12 @@ namespace Application.Controllers
                 createRecommendation.ToUserDId
                 );
             Recommendation recommendation = await _mediator.Send(command);
+            List<Tag> domainTags =
+                        _tagService.GetTagsByRecommendationDId(recommendation.DId);
 
-            return Created(recommendation.DId, RecommendationAppMappers.FromDomainObjectToApiDTO(recommendation));
+            return Created(recommendation.DId,
+                RecommendationAppMappers
+                .FromDomainObjectToApiDTO(recommendation, domainTags));
         }
     }
 }

@@ -6,6 +6,7 @@ using Domain.Interfaces;
 using Infrastructure.Database;
 using Infrastructure.Database.Entities;
 using Infrastructure.Mappers;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
@@ -21,15 +22,24 @@ namespace Infrastructure.Repositories
         public Recommendation GetByDId(string dId)
         {
             Recommendations recommendationFromDB =
-                _dbContext.Recommendations.FirstOrDefault(r => r.DId == dId);
+                _dbContext.Recommendations
+                .Include(r => r.FromUser)
+                .Include(r => r.ToUser)
+                .Include(r => r.City)
+                .FirstOrDefault(r => r.DId == dId);
 
+            if (recommendationFromDB == null) return null;
             return RecommendationMappers.FromDBEntityToDomainObject(
                 recommendationFromDB);
         }
 
         public List<Recommendation> GetRecommendationsByDIdList(string[] dIds)
         {
-            var recommendationsFromDB = _dbContext.Recommendations.Where(r => dIds.Contains(r.DId)).ToList();
+            var recommendationsFromDB = _dbContext.Recommendations
+                .Include(r => r.FromUser)
+                .Include(r => r.ToUser)
+                .Include(r => r.City)
+                .Where(r => dIds.Contains(r.DId)).ToList();
             List<Recommendation> recommendations = new();
 
             recommendationsFromDB.ForEach(re => recommendations.Add
@@ -42,7 +52,11 @@ namespace Infrastructure.Repositories
         public List<Recommendation> GetAll()
         {
             List<Recommendations> recommendationsFromDB =
-                _dbContext.Recommendations.ToList();
+                _dbContext.Recommendations
+                .Include(r => r.FromUser)
+                .Include(r => r.ToUser)
+                .Include(r => r.City)
+                .ToList();
 
             List<Recommendation> recommendations = new();
 
@@ -58,10 +72,6 @@ namespace Infrastructure.Repositories
                 _dbContext.Cities.FirstOrDefault(
                     c => c.DId == recommendation.CityDId);
 
-            List<Tags> tags =
-                _dbContext.Tags.Where(
-                    t => recommendation.Tags.Contains(t.Word)).ToList();
-
             Users fromUserFromDB =
                 _dbContext.Users.FirstOrDefault(
                     u => u.DId == recommendation.FromUserDId);
@@ -72,7 +82,7 @@ namespace Infrastructure.Repositories
 
             var recommendationDBEntity =
                 RecommendationMappers.FromDomainObjectToDBEntity(
-                    recommendation, cityFromDB, tags,
+                    recommendation, cityFromDB,
                     fromUserFromDB, toUserFromDB);
             _dbContext.Recommendations.Add(recommendationDBEntity);
             return _dbContext.SaveChangesAsync();

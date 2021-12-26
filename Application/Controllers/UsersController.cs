@@ -58,8 +58,7 @@ namespace Application.Controllers
             var command = new CreateUserCommand(
                 createUser.UserName, createUser.Name, createUser.ShortFact1,
                 createUser.ShortFact2, createUser.ShortFact3,
-                createUser.AboutMe, createUser.InterestedIn, createUser.Photo,
-                createUser.Friends
+                createUser.AboutMe, createUser.InterestedIn, createUser.Photo
                 );
             User user = await _mediator.Send(command);
 

@@ -24,6 +24,7 @@ namespace Infrastructure.Repositories
             Users userFromDB =
                 _dbContext.Users.FirstOrDefault(u => u.DId == dId);
 
+            if (userFromDB == null) return null;
             return UserMappers.FromDBEntityToDomainObject(userFromDB);
         }
 
@@ -54,11 +55,8 @@ namespace Infrastructure.Repositories
 
         public Task PersistAsync(User user)
         {
-            List<Users> friends =
-                _dbContext.Users.Where(u => user.Friends.Contains(u.DId)).ToList();
-
             var userDBEntity =
-                UserMappers.FromDomainObjectToDBEntity(user, friends);
+                UserMappers.FromDomainObjectToDBEntity(user);
             _dbContext.Users.Add(userDBEntity);
             return _dbContext.SaveChangesAsync();
         }
