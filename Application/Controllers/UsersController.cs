@@ -32,6 +32,24 @@ namespace Application.Controllers
             return Ok(users);
         }
 
+        [HttpGet("{dId:string}")]
+        public IActionResult GetByDId(string dId)
+        {
+            var domainUser = _userService.GetByDId(dId);
+            ReadUser user = UserAppMappers.FromDomainObjectToApiDTO(domainUser);
+            return Ok(user);
+        }
+
+        [HttpPost]
+        public IActionResult GetUsersByDIdList([FromBody] string[] usersDIds)
+        {
+            var domainUsers = _userService.GetUsersByDIdList(usersDIds);
+            List<ReadUser> users = new();
+            domainUsers.ForEach(duser => users.Add(
+                UserAppMappers.FromDomainObjectToApiDTO(duser)));
+            return Ok(users);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateUser createUser)
         {

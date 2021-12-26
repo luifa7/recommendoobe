@@ -32,6 +32,28 @@ namespace Application.Controllers
             return Ok(recommendations);
         }
 
+        [HttpGet("{dId:string}")]
+        public IActionResult GetByDId(string dId)
+        {
+            var domainRecommendation = _recommendationService.GetByDId(dId);
+            ReadRecommendation recommendation =
+                RecommendationAppMappers
+                .FromDomainObjectToApiDTO(domainRecommendation);
+            return Ok(recommendation);
+        }
+
+        [HttpPost]
+        public IActionResult GetRecommendationsByDIdList(
+            [FromBody] string[] recommendationsDIds)
+        {
+            var domainRecommendations = _recommendationService
+                .GetRecommendationsByDIdList(recommendationsDIds);
+            List<ReadRecommendation> recommendations = new();
+            domainRecommendations.ForEach(dre => recommendations.Add(
+                RecommendationAppMappers.FromDomainObjectToApiDTO(dre)));
+            return Ok(recommendations);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateRecommendation createRecommendation)
         {

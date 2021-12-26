@@ -14,6 +14,16 @@ namespace Application.Services
             _userRepository = userRepository;
         }
 
+        public User GetByDId(string dId)
+        {
+            return _userRepository.GetByDId(dId);
+        }
+
+        public List<User> GetUsersByDIdList(string[] dIds)
+        {
+            return _userRepository.GetUsersByDIdList(dIds);
+        }
+
         public Task PersistAsync(User user)
         {
             return _userRepository.PersistAsync(user);

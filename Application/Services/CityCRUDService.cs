@@ -14,6 +14,16 @@ namespace Application.Services
             _cityRepository = cityRepository;
         }
 
+        public City GetByDId(string dId)
+        {
+            return _cityRepository.GetByDId(dId);
+        }
+
+        public List<City> GetCitiesByDIdList(string[] dIds)
+        {
+            return _cityRepository.GetCitiesByDIdList(dIds);
+        }
+
         public Task PersistAsync(City city)
         {
             return _cityRepository.PersistAsync(city);

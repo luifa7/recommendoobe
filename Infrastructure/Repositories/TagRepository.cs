@@ -18,6 +18,27 @@ namespace Infrastructure.Repositories
             _dbContext = new DBContext();
         }
 
+        public Tag GetByWord(string word)
+        {
+            Tags tagFromDB =
+                _dbContext.Tags.FirstOrDefault(t => t.Word == word);
+
+            return TagMappers.FromDBEntityToDomainObject(tagFromDB);
+        }
+
+        public List<Tag> GetTagsByWordList(string[] words)
+        {
+            var tagsFromDB = _dbContext.Tags.Where(
+                t => words.Contains(t.Word)).ToList();
+            List<Tag> tags = new();
+
+            tagsFromDB.ForEach(re => tags.Add
+            (TagMappers.FromDBEntityToDomainObject(re)));
+
+            return tags;
+
+        }
+
         public List<Tag> GetAll()
         {
             List<Tags> tagsFromDB =

@@ -18,6 +18,26 @@ namespace Infrastructure.Repositories
             _dbContext = new DBContext();
         }
 
+        public City GetByDId(string dId)
+        {
+            Cities cityFromDB =
+                _dbContext.Cities.FirstOrDefault(c => c.DId == dId);
+
+            return CityMappers.FromDBEntityToDomainObject(cityFromDB);
+        }
+
+        public List<City> GetCitiesByDIdList(string[] dIds)
+        {
+            var citiesFromDB = _dbContext.Cities.Where(c => dIds.Contains(c.DId)).ToList();
+            List<City> cities = new();
+
+            citiesFromDB.ForEach(re => cities.Add
+            (CityMappers.FromDBEntityToDomainObject(re)));
+
+            return cities;
+
+        }
+
         public List<City> GetAll()
         {
             List<Cities> citiesFromDB =

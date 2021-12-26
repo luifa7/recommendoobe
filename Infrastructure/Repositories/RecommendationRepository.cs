@@ -18,6 +18,27 @@ namespace Infrastructure.Repositories
             _dbContext = new DBContext();
         }
 
+        public Recommendation GetByDId(string dId)
+        {
+            Recommendations recommendationFromDB =
+                _dbContext.Recommendations.FirstOrDefault(r => r.DId == dId);
+
+            return RecommendationMappers.FromDBEntityToDomainObject(
+                recommendationFromDB);
+        }
+
+        public List<Recommendation> GetRecommendationsByDIdList(string[] dIds)
+        {
+            var recommendationsFromDB = _dbContext.Recommendations.Where(r => dIds.Contains(r.DId)).ToList();
+            List<Recommendation> recommendations = new();
+
+            recommendationsFromDB.ForEach(re => recommendations.Add
+            (RecommendationMappers.FromDBEntityToDomainObject(re)));
+
+            return recommendations;
+
+        }
+
         public List<Recommendation> GetAll()
         {
             List<Recommendations> recommendationsFromDB =
