@@ -22,6 +22,13 @@ namespace Domain.Interfaces
         List<City> GetCitiesByDIdList(string[] dIds);
 
         /// <summary>
+        /// Return all Recommendations from Database from city dId
+        /// </summary>
+        /// <param name="dId">DId of the City</param>
+        /// <returns></returns>
+        List<Recommendation> GetRecommendationsByCityDId(string dId);
+
+        /// <summary>
         /// Persist City into the Database
         /// </summary>
         /// <param name="city">City to persist</param>

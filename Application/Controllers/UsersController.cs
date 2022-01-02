@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Application.Commands;
 using Application.Services;
 using Domain.Objects;
+using DTOs.Cities;
 using DTOs.Users;
 using Infrastructure.Mappers;
 using MediatR;
@@ -50,6 +51,16 @@ namespace Application.Controllers
                 ReadUser user = UserAppMappers.FromDomainObjectToApiDTO(domainUser);
                 return Ok(user);
             }
+        }
+
+        [HttpGet("{dId}/cities")]
+        public IActionResult GetCitiesByUserDId(string dId)
+        {
+            var domainCities = _userService.GetCitiesByUserDId(dId);
+            List<ReadCity> cities = new();
+            domainCities.ForEach(dcity => cities.Add(
+                CityAppMappers.FromDomainObjectToApiDTO(dcity)));
+            return Ok(cities);
         }
 
         [HttpPost]

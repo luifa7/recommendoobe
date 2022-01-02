@@ -24,6 +24,11 @@ namespace Application.Services
             return _cityRepository.GetCitiesByDIdList(dIds);
         }
 
+        public List<Recommendation> GetRecommendationsByCityDId(string dId)
+        {
+            return _cityRepository.GetRecommendationsByCityDId(dId);
+        }
+
         public Task PersistAsync(City city)
         {
             return _cityRepository.PersistAsync(city);

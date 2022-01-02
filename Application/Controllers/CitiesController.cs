@@ -4,6 +4,7 @@ using Application.Commands;
 using Application.Services;
 using Domain.Objects;
 using DTOs.Cities;
+using DTOs.Recommendations;
 using Infrastructure.Mappers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +16,15 @@ namespace Application.Controllers
     {
         private readonly IMediator _mediator;
         private readonly CityCRUDService _cityService;
+        private readonly TagCRUDService _tagService;
 
-        public CitiesController(IMediator mediator, CityCRUDService cityCRUDService)
+        public CitiesController(IMediator mediator,
+            CityCRUDService cityCRUDService,
+            TagCRUDService tagCRUDService)
         {
             _mediator = mediator;
             _cityService = cityCRUDService;
+            _tagService = tagCRUDService;
         }
 
         [HttpGet]
@@ -50,6 +55,23 @@ namespace Application.Controllers
                 ReadCity city = CityAppMappers.FromDomainObjectToApiDTO(domainCity);
                 return Ok(city);
             }
+        }
+
+        [HttpGet("{dId}/recommendations")]
+        public IActionResult GetRecommendationsByCityDId(string dId)
+        {
+            var domainRecommendations = _cityService.GetRecommendationsByCityDId(dId);
+            List<Tag> tags = new();
+            List<ReadRecommendation> recommendations = new();
+            foreach (Recommendation domainRecommendation in domainRecommendations)
+            {
+                List<Tag> domainTags =
+                    _tagService.GetTagsByRecommendationDId(domainRecommendation.DId);
+                recommendations.Add(
+                RecommendationAppMappers.FromDomainObjectToApiDTO(
+                    domainRecommendation, domainTags));
+            }
+            return Ok(recommendations);
         }
 
         [HttpPost]

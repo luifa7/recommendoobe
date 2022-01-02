@@ -22,6 +22,13 @@ namespace Domain.Interfaces
         List<User> GetUsersByDIdList(string[] dIds);
 
         /// <summary>
+        /// Return all Cities from Database from user dId
+        /// </summary>
+        /// <param name="dId">DId of the User</param>
+        /// <returns></returns>
+        List<City> GetCitiesByUserDId(string dId);
+
+        /// <summary>
         /// Persist User into the Database
         /// </summary>
         /// <param name="user">User to persist</param>

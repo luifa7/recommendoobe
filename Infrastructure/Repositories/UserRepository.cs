@@ -7,6 +7,7 @@ using Domain.Interfaces;
 using Infrastructure.Database;
 using Infrastructure.Database.Entities;
 using Infrastructure.Mappers;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
@@ -37,6 +38,19 @@ namespace Infrastructure.Repositories
             (UserMappers.FromDBEntityToDomainObject(re)));
 
             return users;
+
+        }
+
+        public List<City> GetCitiesByUserDId(string dId)
+        {
+            var citiesFromDB = _dbContext.Cities.Include(c => c.User)
+                .Where(c => c.User.DId == dId).ToList();
+            List<City> cities = new();
+
+            citiesFromDB.ForEach(re => cities.Add
+            (CityMappers.FromDBEntityToDomainObject(re)));
+
+            return cities;
 
         }
 
