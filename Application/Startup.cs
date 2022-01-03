@@ -19,12 +19,16 @@ namespace Application
         {
             services.AddCors(options =>
             {
-                options.AddDefaultPolicy(builder =>
-                                  {
-                                      builder.WithOrigins("http://localhost:8080",
-                                                          "https://localhost:8080")
-                                      .SetIsOriginAllowedToAllowWildcardSubdomains();
-                                  });
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:8080",
+                                            "https://localhost:8080")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials()
+                        .SetIsOriginAllowedToAllowWildcardSubdomains();
+                    });
             });
 
             services.AddMediatR(typeof(CreateRecommendationCommandHandler));
@@ -57,7 +61,7 @@ namespace Application
                 endpoints.MapControllers();
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Hello World!");
+                    await context.Response.WriteAsync("Recommendoo API");
                 });
             });
         }
