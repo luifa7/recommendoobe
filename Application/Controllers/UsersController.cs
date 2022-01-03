@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Commands;
 using Application.Services;
@@ -26,10 +27,25 @@ namespace Application.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var domainUsers = _userService.GetAll();
             List<ReadUser> users = new();
-            domainUsers.ForEach(dre => users.Add(
-                UserAppMappers.FromDomainObjectToApiDTO(dre)));
+            if (!String.IsNullOrEmpty(HttpContext.Request.Query["username"]))
+            {
+                var username = HttpContext.Request.Query["username"];
+
+                var domainUser = _userService.GetByUserName(username);
+                if (domainUser != null)
+                {
+                    users.Add(
+                    UserAppMappers.FromDomainObjectToApiDTO(domainUser));
+                }
+            }
+            else
+            {
+                var domainUsers = _userService.GetAll();
+                domainUsers.ForEach(dre => users.Add(
+                    UserAppMappers.FromDomainObjectToApiDTO(dre)));
+                
+            }
             return Ok(users);
         }
 

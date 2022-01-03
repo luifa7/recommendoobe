@@ -19,6 +19,11 @@ namespace Application.Services
             return _userRepository.GetByDId(dId);
         }
 
+        public User GetByUserName(string username)
+        {
+            return _userRepository.GetByUserName(username);
+        }
+
         public List<User> GetUsersByDIdList(string[] dIds)
         {
             return _userRepository.GetUsersByDIdList(dIds);

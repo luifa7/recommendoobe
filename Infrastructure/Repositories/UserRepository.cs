@@ -29,6 +29,15 @@ namespace Infrastructure.Repositories
             return UserMappers.FromDBEntityToDomainObject(userFromDB);
         }
 
+        public User GetByUserName(string username)
+        {
+            Users userFromDB =
+                _dbContext.Users.FirstOrDefault(u => u.UserName == username);
+
+            if (userFromDB == null) return null;
+            return UserMappers.FromDBEntityToDomainObject(userFromDB);
+        }
+
         public List<User> GetUsersByDIdList(string[] dIds)
         {
             var usersFromDB = _dbContext.Users.Where(u => dIds.Contains(u.DId)).ToList();

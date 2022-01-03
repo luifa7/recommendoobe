@@ -15,6 +15,13 @@ namespace Domain.Interfaces
         User GetByDId(String dId);
 
         /// <summary>
+        /// Return a User from Database by its UserName
+        /// </summary>
+        /// <param name="username">UserName of the User to find</param>
+        /// <returns></returns>
+        User GetByUserName(String username);
+
+        /// <summary>
         /// Return all Users from Database with tehir dIds on the list
         /// </summary>
         /// <param name="dIds">List of Users DIds</param>
