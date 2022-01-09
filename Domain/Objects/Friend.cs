@@ -4,19 +4,27 @@ namespace Domain.Objects
 {
     public class Friend
     {
+        public string DId { get; private set; }
         public string UserDId { get; private set; }
         public string FriendDId { get; private set; }
+        public string Status { get; private set; }
 
 
-        public Friend(string userDId, string friendDId)
+        public Friend(string dId, string userDId, string friendDId, string status)
         {
+            DId = dId;
             UserDId = userDId;
             FriendDId = friendDId;
+            Status = status;
         }
 
-        public static Friend Create(string userDId, string friendDId)
+        public static Friend Create(
+            string userDId,
+            string friendDId,
+            string status)
         {
-            return new Friend(userDId, friendDId);
+            var DId = Guid.NewGuid().ToString();
+            return new Friend(DId, userDId, friendDId, status);
         }
     }
 }

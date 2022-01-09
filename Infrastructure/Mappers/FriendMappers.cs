@@ -10,8 +10,10 @@ namespace Infrastructure.Mappers
         {
             return new Friends()
             {
+                DId = friend.DId,
                 UserDId = friend.UserDId,
                 FriendDId = friend.FriendDId,
+                Status = friend.Status
         };
 
         }
@@ -19,8 +21,10 @@ namespace Infrastructure.Mappers
         public static Friend FromDBEntityToDomainObject(Friends friendDBEntity)
         {
             return new Friend(
+                dId: friendDBEntity.DId,
                 userDId: friendDBEntity.UserDId,
-                friendDId: friendDBEntity.FriendDId
+                friendDId: friendDBEntity.FriendDId,
+                status: friendDBEntity.Status
                 );
         }
     }

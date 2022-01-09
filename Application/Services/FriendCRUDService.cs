@@ -14,10 +14,28 @@ namespace Application.Services
             _friendRepository = friednRepository;
         }
 
-        public List<Friend> GetFriendsByUserDID(string userDId)
+        public List<Friend> GetAllFriendsByUserDId(string userDId)
         {
-            return _friendRepository.GetAllByUserDId(userDId);
+            return _friendRepository.GetAllFriendsByUserDId(userDId);
         }
+
+        public List<Friend> GetAllReceivedPendingByUserDId(string userDId)
+        {
+            return _friendRepository.GetAllReceivedPendingByUserDId(userDId);
+        }
+
+        public List<Friend> GetAllSentPendingByUserDId(string userDId)
+        {
+            return _friendRepository.GetAllSentPendingByUserDId(userDId);
+        }
+
+        public bool IsRequestPendingBetweenUsers(
+            string user1DId, string user2DId)
+        {
+            return _friendRepository.IsRequestPendingBetweenUsers(
+                user1DId, user2DId);
+        }
+
 
         public Task PersistAsync(Friend friend)
         {

@@ -6,30 +6,34 @@ using MediatR;
 
 namespace Application.Commands
 {
-    public class CreateFriendCommand : IRequest<Friend>
+    public class CreatePendingFriendCommand : IRequest<Friend>
     {
         public string UserDId;
         public string FriendDId;
 
-        public CreateFriendCommand(string userDId, string friendDId)
+        public CreatePendingFriendCommand(string userDId, string friendDId)
         {
             UserDId = userDId;
             FriendDId = friendDId;
         }
     }
 
-    public class CreateFriendCommandHandler : IRequestHandler<CreateFriendCommand, Friend>
+    public class CreatePendingFriendCommandHandler :
+        IRequestHandler<CreatePendingFriendCommand, Friend>
     {
         private readonly FriendCRUDService _friendService;
+        private const string FriendshipPending = "pending";
 
-        public CreateFriendCommandHandler(FriendCRUDService friendCRUDService)
+        public CreatePendingFriendCommandHandler(FriendCRUDService friendCRUDService)
         {
             _friendService = friendCRUDService;
         }
 
-        public async Task<Friend> Handle(CreateFriendCommand request, CancellationToken cancellationToken)
+        public async Task<Friend> Handle(CreatePendingFriendCommand request,
+            CancellationToken cancellationToken)
         {
-            var friend = Friend.Create(request.UserDId, request.FriendDId);
+            var friend = Friend.Create(
+                request.UserDId, request.FriendDId, FriendshipPending);
 
             await _friendService.PersistAsync(friend);
 
