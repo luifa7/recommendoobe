@@ -1,7 +1,10 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Database.Entities
 {
+    [Index(nameof(DId), IsUnique = true)]
+    [Index(nameof(UserName), IsUnique = true)]
     public class Users
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();

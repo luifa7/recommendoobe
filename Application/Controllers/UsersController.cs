@@ -32,7 +32,7 @@ namespace Application.Controllers
             {
                 var username = HttpContext.Request.Query["username"];
 
-                var domainUser = _userService.GetByUserName(username);
+                var domainUser = _userService.GetByUserNameCaseInsensitive(username);
                 if (domainUser != null)
                 {
                     users.Add(
@@ -82,14 +82,25 @@ namespace Application.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateUser createUser)
         {
-            var command = new CreateUserCommand(
+            var domainUserWithThisUsername =
+                _userService.GetByUserNameCaseInsensitive(
+                createUser.UserName);
+            if (domainUserWithThisUsername != null)
+            {
+                return Conflict();
+            }
+            else
+            {
+                var command = new CreateUserCommand(
                 createUser.UserName.ToLower(), createUser.Name, createUser.ShortFact1,
                 createUser.ShortFact2, createUser.ShortFact3,
                 createUser.AboutMe, createUser.InterestedIn, createUser.Photo
                 );
-            User user = await _mediator.Send(command);
+                User user = await _mediator.Send(command);
 
-            return Created(user.DId, UserAppMappers.FromDomainObjectToApiDTO(user));
+                return Created(user.DId, UserAppMappers.FromDomainObjectToApiDTO(user));
+
+            }
         }
     }
 }

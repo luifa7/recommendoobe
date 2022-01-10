@@ -1,7 +1,9 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Database.Entities
 {
+    [Index(nameof(DId), IsUnique = true)]
     public class Recommendations
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();

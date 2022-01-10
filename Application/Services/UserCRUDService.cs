@@ -19,7 +19,7 @@ namespace Application.Services
             return _userRepository.GetByDId(dId);
         }
 
-        public User GetByUserName(string username)
+        public User GetByUserNameCaseInsensitive(string username)
         {
             return _userRepository.GetByUserName(username.ToLower());
         }
