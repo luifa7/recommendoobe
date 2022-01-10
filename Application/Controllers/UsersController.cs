@@ -83,7 +83,7 @@ namespace Application.Controllers
         public async Task<IActionResult> Create([FromBody] CreateUser createUser)
         {
             var command = new CreateUserCommand(
-                createUser.UserName, createUser.Name, createUser.ShortFact1,
+                createUser.UserName.ToLower(), createUser.Name, createUser.ShortFact1,
                 createUser.ShortFact2, createUser.ShortFact3,
                 createUser.AboutMe, createUser.InterestedIn, createUser.Photo
                 );

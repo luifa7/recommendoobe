@@ -21,7 +21,7 @@ namespace Application.Services
 
         public User GetByUserName(string username)
         {
-            return _userRepository.GetByUserName(username);
+            return _userRepository.GetByUserName(username.ToLower());
         }
 
         public List<User> GetUsersByDIdList(string[] dIds)
