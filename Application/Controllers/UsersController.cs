@@ -64,8 +64,15 @@ namespace Application.Controllers
             else
             {
                 var domainUser = _userService.GetByDId(dId);
-                ReadUser user = UserAppMappers.FromDomainObjectToApiDTO(domainUser);
-                return Ok(user);
+                if (domainUser != null)
+                {
+                    ReadUser user = UserAppMappers.FromDomainObjectToApiDTO(domainUser);
+                    return Ok(user);
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
         }
 
