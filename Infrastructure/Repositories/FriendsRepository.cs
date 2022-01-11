@@ -38,14 +38,14 @@ namespace Infrastructure.Repositories
 
         public List<Friend> GetAllSentPendingByUserDId(string userDId)
         {
-            List<Friends> pendingFriendsFromDB =
+            List<Friends> sentFriendsFromDB =
                 _dbContext.Friends.Where(
                     f => f.UserDId == userDId
                     && f.Status == FriendshipPending
                 ).ToList();
 
             List<Friend> friends = new();
-            pendingFriendsFromDB.ForEach(fr => friends.Add
+            sentFriendsFromDB.ForEach(fr => friends.Add
             (FriendMappers.FromDBEntityToDomainObject(fr)));
 
             return friends;
