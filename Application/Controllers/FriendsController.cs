@@ -74,5 +74,47 @@ namespace Application.Controllers
 
             return Created(friend.UserDId, friend);
         }
+
+        [HttpPut]
+        public async Task<IActionResult> AcceptFriendRequest(
+            [FromBody] CreateFriend createFriend)
+        {
+            
+            var command = new AcceptFriendRequestCommand(
+            createFriend.UserDId, createFriend.FriendDId);
+            bool success = await _mediator.Send(command);
+            if (success)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete("{userDId}")]
+        public async Task<IActionResult> Delete(string userDId)
+        {
+            if (String.IsNullOrEmpty(HttpContext.Request.Query["friend"]))
+            {
+                return BadRequest();
+            }
+            else
+            {
+                var friendDId = HttpContext.Request.Query["friend"];
+                var command = new DeletePendingFriendCommand(
+                userDId, friendDId);
+                bool success = await _mediator.Send(command);
+                if(success)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+        }
     }
 }

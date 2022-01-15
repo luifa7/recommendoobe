@@ -42,5 +42,24 @@ namespace Domain.Interfaces
         /// <param name="friend">Friend relation to persist</param>
         /// <returns></returns>
         Task PersistAsync(Friend friend);
+
+        /// <summary>
+        /// Delete pending Friend relation into the Database
+        /// </summary>
+        /// <param name="user1DId">One user of the relation</param>
+        /// <param name="user2DId">Other user of the relation</param>
+        /// <returns></returns>
+        Task DeletePendingFriendRequest(string user1DId, string user2DId);
+
+        /// <summary>
+        /// Mark friend request as accepted and create it on the other direction
+        /// </summary>
+        /// <param name="user1DId">One user of the relation</param>
+        /// <param name="user2DId">Other user of the relation</param>
+        /// <param name="friendshipInTheOtherDirection">
+        /// The friendship relation in the other direction</param>
+        /// <returns></returns>
+        Task AcceptFriendRequest(string receiverDId, string senderDId,
+            Friend friendshipInTheOtherDirection);
     }
 }

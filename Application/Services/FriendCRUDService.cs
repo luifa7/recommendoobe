@@ -36,10 +36,24 @@ namespace Application.Services
                 user1DId, user2DId);
         }
 
-
         public Task PersistAsync(Friend friend)
         {
             return _friendRepository.PersistAsync(friend);
+        }
+
+        public Task DeletePendingFriendRequest(
+            string user1DId, string user2DId)
+        {
+            return _friendRepository.DeletePendingFriendRequest(
+                user1DId, user2DId);
+        }
+
+        public Task AcceptFriendRequest(
+            string receiverDId, string senderDId,
+            Friend friendshipInTheOtherDirection)
+        {
+            return _friendRepository.AcceptFriendRequest(
+                receiverDId, senderDId, friendshipInTheOtherDirection);
         }
     }
 }
