@@ -40,5 +40,12 @@ namespace Domain.Interfaces
         /// </summary>
         /// <returns></returns>
         List<City> GetAll();
+
+        /// <summary>
+        /// Delete City from Database
+        /// </summary>
+        /// <param name="dId">DId of the City to delete</param>
+        /// <returns></returns>
+        Task DeleteCity(String dId);
     }
 }

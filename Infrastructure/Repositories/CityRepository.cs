@@ -83,5 +83,11 @@ namespace Infrastructure.Repositories
             _dbContext.Cities.Add(cityDBEntity);
             return _dbContext.SaveChangesAsync();
         }
+
+        public Task DeleteCity(string dId)
+        {
+            _dbContext.Remove(_dbContext.Cities.Single(c => c.DId == dId));
+            return _dbContext.SaveChangesAsync();
+        }
     }
 }

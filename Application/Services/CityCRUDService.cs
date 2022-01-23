@@ -38,5 +38,10 @@ namespace Application.Services
         {
             return _cityRepository.GetAll();
         }
+
+        public Task DeleteCity(string dId)
+        {
+            return _cityRepository.DeleteCity(dId);
+        }
     }
 }

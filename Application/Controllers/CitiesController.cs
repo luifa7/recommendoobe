@@ -61,7 +61,6 @@ namespace Application.Controllers
         public IActionResult GetRecommendationsByCityDId(string dId)
         {
             var domainRecommendations = _cityService.GetRecommendationsByCityDId(dId);
-            List<Tag> tags = new();
             List<ReadRecommendation> recommendations = new();
             foreach (Recommendation domainRecommendation in domainRecommendations)
             {
@@ -87,6 +86,21 @@ namespace Application.Controllers
             City city = await _mediator.Send(command);
 
             return Created(city.DId, CityAppMappers.FromDomainObjectToApiDTO(city));
+        }
+
+        [HttpDelete("{dId}")]
+        public async Task<IActionResult> Delete(string dId)
+        {
+            var command = new DeleteCityCommand(dId);
+            bool success = await _mediator.Send(command);
+            if (success)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
     }
 }
