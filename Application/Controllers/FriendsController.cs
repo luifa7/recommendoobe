@@ -103,7 +103,7 @@ namespace Application.Controllers
             else
             {
                 var friendDId = HttpContext.Request.Query["friend"];
-                var command = new DeletePendingFriendCommand(
+                var command = new DeleteFriendCommand(
                 userDId, friendDId);
                 bool success = await _mediator.Send(command);
                 if(success)

@@ -49,7 +49,7 @@ namespace Domain.Interfaces
         /// <param name="user1DId">One user of the relation</param>
         /// <param name="user2DId">Other user of the relation</param>
         /// <returns></returns>
-        Task DeletePendingFriendRequest(string user1DId, string user2DId);
+        Task DeleteFriend(string user1DId, string user2DId);
 
         /// <summary>
         /// Mark friend request as accepted and create it on the other direction

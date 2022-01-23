@@ -6,35 +6,35 @@ using MediatR;
 
 namespace Application.Commands
 {
-    public class DeletePendingFriendCommand : IRequest<bool>
+    public class DeleteFriendCommand : IRequest<bool>
     {
         public string User1DId;
         public string User2DId;
 
-        public DeletePendingFriendCommand(string user1DId, string user2DId)
+        public DeleteFriendCommand(string user1DId, string user2DId)
         {
             User1DId = user1DId;
             User2DId = user2DId;
         }
     }
 
-    public class DeletePendingFriendCommandHandler :
-        IRequestHandler<DeletePendingFriendCommand, bool>
+    public class DeleteFriendCommandHandler :
+        IRequestHandler<DeleteFriendCommand, bool>
     {
         private readonly FriendCRUDService _friendService;
 
-        public DeletePendingFriendCommandHandler(
+        public DeleteFriendCommandHandler(
             FriendCRUDService friendCRUDService)
         {
             _friendService = friendCRUDService;
         }
 
-        public async Task<bool> Handle(DeletePendingFriendCommand request,
+        public async Task<bool> Handle(DeleteFriendCommand request,
             CancellationToken cancellationToken)
         {
             try
             {
-                await _friendService.DeletePendingFriendRequest(
+                await _friendService.DeleteFriend(
                 request.User1DId, request.User2DId);
 
                 return true;

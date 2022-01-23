@@ -87,13 +87,12 @@ namespace Infrastructure.Repositories
             return _dbContext.SaveChangesAsync();
         }
 
-        public Task DeletePendingFriendRequest(string user1DId, string user2DId)
+        public Task DeleteFriend(string user1DId, string user2DId)
         {
             _dbContext.Friends.Where(
                 f => (
                 (f.UserDId == user1DId && f.FriendDId == user2DId)
                 || (f.UserDId == user2DId && f.FriendDId == user1DId))
-                && f.Status == FriendshipPending
             ).ToList().ForEach(f => _dbContext.Friends.Remove(f));
 
             return _dbContext.SaveChangesAsync();

@@ -41,10 +41,10 @@ namespace Application.Services
             return _friendRepository.PersistAsync(friend);
         }
 
-        public Task DeletePendingFriendRequest(
+        public Task DeleteFriend(
             string user1DId, string user2DId)
         {
-            return _friendRepository.DeletePendingFriendRequest(
+            return _friendRepository.DeleteFriend(
                 user1DId, user2DId);
         }
 
