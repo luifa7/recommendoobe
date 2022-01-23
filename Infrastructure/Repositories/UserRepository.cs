@@ -83,5 +83,11 @@ namespace Infrastructure.Repositories
             _dbContext.Users.Add(userDBEntity);
             return _dbContext.SaveChangesAsync();
         }
+
+        public Task DeleteUser(string dId)
+        {
+            _dbContext.Remove(_dbContext.Users.Single(u => u.DId == dId));
+            return _dbContext.SaveChangesAsync();
+        }
     }
 }

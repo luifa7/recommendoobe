@@ -6,33 +6,33 @@ using MediatR;
 
 namespace Application.Commands
 {
-    public class DeleteCityCommand : IRequest<bool>
+    public class DeleteUserCommand : IRequest<bool>
     {
         public string DId;
 
-        public DeleteCityCommand(string dId)
+        public DeleteUserCommand(string dId)
         {
             DId = dId;
         }
     }
 
-    public class DeleteCityCommandHandler :
-        IRequestHandler<DeleteCityCommand, bool>
+    public class DeleteUserCommandHandler :
+        IRequestHandler<DeleteUserCommand, bool>
     {
-        private readonly CityCRUDService _cityService;
+        private readonly UserCRUDService _userService;
 
-        public DeleteCityCommandHandler(
-            CityCRUDService cityCRUDService)
+        public DeleteUserCommandHandler(
+            UserCRUDService userCRUDService)
         {
-            _cityService = cityCRUDService;
+            _userService = userCRUDService;
         }
 
-        public async Task<bool> Handle(DeleteCityCommand request,
+        public async Task<bool> Handle(DeleteUserCommand request,
             CancellationToken cancellationToken)
         {
             try
             {
-                await _cityService.DeleteCity(request.DId);
+                await _userService.DeleteUser(request.DId);
 
                 return true;
             }

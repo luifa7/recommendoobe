@@ -47,5 +47,12 @@ namespace Domain.Interfaces
         /// </summary>
         /// <returns></returns>
         List<User> GetAll();
+
+        /// <summary>
+        /// Delete User from Database
+        /// </summary>
+        /// <param name="dId">DId of the User to delete</param>
+        /// <returns></returns>
+        Task DeleteUser(String dId);
     }
 }

@@ -109,5 +109,20 @@ namespace Application.Controllers
 
             }
         }
+
+        [HttpDelete("{dId}")]
+        public async Task<IActionResult> Delete(string dId)
+        {
+            var command = new DeleteUserCommand(dId);
+            bool success = await _mediator.Send(command);
+            if (success)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
     }
 }

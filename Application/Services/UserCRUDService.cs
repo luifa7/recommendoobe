@@ -43,5 +43,10 @@ namespace Application.Services
         {
             return _userRepository.GetAll();
         }
+
+        public Task DeleteUser(string dId)
+        {
+            return _userRepository.DeleteUser(dId);
+        }
     }
 }
