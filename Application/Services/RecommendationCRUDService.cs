@@ -34,5 +34,10 @@ namespace Application.Services
         {
             return _recommendationRepository.GetAll();
         }
+
+        public Task DeleteRecommendation(string dId)
+        {
+            return _recommendationRepository.DeleteRecommendation(dId);
+        }
     }
 }

@@ -87,5 +87,12 @@ namespace Infrastructure.Repositories
             _dbContext.Recommendations.Add(recommendationDBEntity);
             return _dbContext.SaveChangesAsync();
         }
+
+        public Task DeleteRecommendation(string dId)
+        {
+            _dbContext.Remove(
+                _dbContext.Recommendations.Single(r => r.DId == dId));
+            return _dbContext.SaveChangesAsync();
+        }
     }
 }

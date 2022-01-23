@@ -33,5 +33,12 @@ namespace Domain.Interfaces
         /// </summary>
         /// <returns></returns>
         List<Recommendation> GetAll();
+
+        /// <summary>
+        /// Delete Recommendation from Database
+        /// </summary>
+        /// <param name="dId">DId of the Recommendation to delete</param>
+        /// <returns></returns>
+        Task DeleteRecommendation(String dId);
     }
 }
