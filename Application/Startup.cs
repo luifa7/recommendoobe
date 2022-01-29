@@ -44,6 +44,7 @@ namespace Application
 
             services.AddMediatR(typeof(AcceptFriendRequestCommandHandler));
             services.AddMediatR(typeof(UpdateCityCommandHandler));
+            services.AddMediatR(typeof(UpdateRecommendationCommandHandler));
 
             services.AddControllers();
             services.AddTransient<IRecommendationRepository, RecommendationRepository>();
