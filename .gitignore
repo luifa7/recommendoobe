@@ -405,7 +405,13 @@ ASALocalRun/
 # Local History for Visual Studio
 .localhistory/
 
-### VisualStudioCode ###
+### DotnetCore ###
+# .NET Core build folders
+bin/
+obj/
+
+# VSCode settings
+.vscode/
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -423,4 +429,3 @@ ASALocalRun/
 # Ignore all local history of files
 .history
 .ionide
-
