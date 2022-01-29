@@ -405,5 +405,10 @@ ASALocalRun/
 # Local History for Visual Studio
 .localhistory/
 
+### DotnetCore ###
+# .NET Core build folders
+bin/
+obj/
+
 # VSCode settings
 .vscode/
