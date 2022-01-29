@@ -17,14 +17,17 @@ namespace Application.Controllers
         private readonly IMediator _mediator;
         private readonly CityCRUDService _cityService;
         private readonly TagCRUDService _tagService;
+        private readonly RecommendationCRUDService _recommendationService;
 
         public CitiesController(IMediator mediator,
             CityCRUDService cityCRUDService,
-            TagCRUDService tagCRUDService)
+            TagCRUDService tagCRUDService,
+            RecommendationCRUDService recommendationCRUDService)
         {
             _mediator = mediator;
             _cityService = cityCRUDService;
             _tagService = tagCRUDService;
+            _recommendationService = recommendationCRUDService;
         }
 
         [HttpGet]
@@ -60,7 +63,8 @@ namespace Application.Controllers
         [HttpGet("{dId}/recommendations")]
         public IActionResult GetRecommendationsByCityDId(string dId)
         {
-            var domainRecommendations = _cityService.GetRecommendationsByCityDId(dId);
+            var domainRecommendations =
+                _recommendationService.GetRecommendationsByCityDId(dId);
             List<ReadRecommendation> recommendations = new();
             foreach (Recommendation domainRecommendation in domainRecommendations)
             {
@@ -86,6 +90,27 @@ namespace Application.Controllers
             City city = await _mediator.Send(command);
 
             return Created(city.DId, CityAppMappers.FromDomainObjectToApiDTO(city));
+        }
+
+        [HttpPut("{dId}")]
+        public async Task<IActionResult> Update(string dId,
+            [FromBody] UpdateCity updateCity)
+        {
+            var command = new UpdateCityCommand(
+                dId,
+                updateCity.Name,
+                updateCity.Country,
+                updateCity.Photo,
+                updateCity.Visited);
+            bool success = await _mediator.Send(command);
+            if (success)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         [HttpDelete("{dId}")]

@@ -24,11 +24,6 @@ namespace Application.Services
             return _cityRepository.GetCitiesByDIdList(dIds);
         }
 
-        public List<Recommendation> GetRecommendationsByCityDId(string dId)
-        {
-            return _cityRepository.GetRecommendationsByCityDId(dId);
-        }
-
         public Task PersistAsync(City city)
         {
             return _cityRepository.PersistAsync(city);
@@ -37,6 +32,13 @@ namespace Application.Services
         public List<City> GetAll()
         {
             return _cityRepository.GetAll();
+        }
+
+        public Task UpdateCity(string dId, string name, string country,
+            string photo, bool visited)
+        {
+            return _cityRepository.UpdateCity(dId, name, country,
+                photo, visited);
         }
 
         public Task DeleteCity(string dId)

@@ -21,13 +21,6 @@ namespace Domain.Interfaces
         List<City> GetCitiesByDIdList(string[] dIds);
 
         /// <summary>
-        /// Return all Recommendations from Database from city dId
-        /// </summary>
-        /// <param name="dId">DId of the City</param>
-        /// <returns></returns>
-        List<Recommendation> GetRecommendationsByCityDId(string dId);
-
-        /// <summary>
         /// Persist City into the Database
         /// </summary>
         /// <param name="city">City to persist</param>
@@ -46,5 +39,17 @@ namespace Domain.Interfaces
         /// <param name="dId">DId of the City to delete</param>
         /// <returns></returns>
         Task DeleteCity(string dId);
+
+        /// <summary>
+        /// Update City
+        /// </summary>
+        /// <param name="dId">DId of the City to update</param>
+        /// <param name="name">updated name for the City</param>
+        /// <param name="country">updated name for the City</param>
+        /// <param name="photo">updated name for the City</param>
+        /// <param name="visited">updated name for the City</param>
+        /// <returns></returns>
+        Task UpdateCity(string dId, string name, string country, string photo,
+            bool visited);
     }
 }

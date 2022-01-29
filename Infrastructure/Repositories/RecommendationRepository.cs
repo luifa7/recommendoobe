@@ -49,6 +49,25 @@ namespace Infrastructure.Repositories
 
         }
 
+        public List<Recommendation> GetRecommendationsByCityDId(string dId)
+        {
+            List<Recommendations> recommendationsFromDB =
+                _dbContext.Recommendations
+                .Include(r => r.FromUser)
+                .Include(r => r.ToUser)
+                .Include(r => r.City)
+                .Where(r => r.City.DId == dId)
+                .ToList();
+
+            List<Recommendation> recommendations = new();
+
+            recommendationsFromDB.ForEach(re => recommendations.Add
+            (RecommendationMappers.FromDBEntityToDomainObject(re)));
+
+            return recommendations;
+
+        }
+
         public List<Recommendation> GetAll()
         {
             List<Recommendations> recommendationsFromDB =

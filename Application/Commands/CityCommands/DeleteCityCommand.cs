@@ -21,8 +21,7 @@ namespace Application.Commands
     {
         private readonly CityCRUDService _cityService;
 
-        public DeleteCityCommandHandler(
-            CityCRUDService cityCRUDService)
+        public DeleteCityCommandHandler(CityCRUDService cityCRUDService)
         {
             _cityService = cityCRUDService;
         }

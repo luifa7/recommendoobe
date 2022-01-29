@@ -32,6 +32,19 @@ namespace Application
             });
 
             services.AddMediatR(typeof(CreateRecommendationCommandHandler));
+            services.AddMediatR(typeof(CreateCityCommandHandler));
+            services.AddMediatR(typeof(CreateUserCommandHandler));
+            services.AddMediatR(typeof(CreateTagCommandHandler));
+            services.AddMediatR(typeof(CreatePendingFriendCommandHandler));
+
+            services.AddMediatR(typeof(DeleteRecommendationCommandHandler));
+            services.AddMediatR(typeof(DeleteCityCommandHandler));
+            services.AddMediatR(typeof(DeleteUserCommandHandler));
+            services.AddMediatR(typeof(DeleteFriendCommandHandler));
+
+            services.AddMediatR(typeof(AcceptFriendRequestCommandHandler));
+            services.AddMediatR(typeof(UpdateCityCommandHandler));
+
             services.AddControllers();
             services.AddTransient<IRecommendationRepository, RecommendationRepository>();
             services.AddTransient<IUserRepository, UserRepository>();

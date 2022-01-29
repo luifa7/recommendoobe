@@ -42,25 +42,6 @@ namespace Infrastructure.Repositories
 
         }
 
-        public List<Recommendation> GetRecommendationsByCityDId(string dId)
-        {
-            List<Recommendations> recommendationsFromDB =
-                _dbContext.Recommendations
-                .Include(r => r.FromUser)
-                .Include(r => r.ToUser)
-                .Include(r => r.City)
-                .Where(r => r.City.DId == dId)
-                .ToList();
-
-            List<Recommendation> recommendations = new();
-
-            recommendationsFromDB.ForEach(re => recommendations.Add
-            (RecommendationMappers.FromDBEntityToDomainObject(re)));
-
-            return recommendations;
-
-        }
-
         public List<City> GetAll()
         {
             List<Cities> citiesFromDB =
@@ -87,6 +68,17 @@ namespace Infrastructure.Repositories
         public Task DeleteCity(string dId)
         {
             _dbContext.Remove(_dbContext.Cities.Single(c => c.DId == dId));
+            return _dbContext.SaveChangesAsync();
+        }
+
+        public Task UpdateCity(string dId, string name, string country,
+            string photo, bool visited)
+        {
+            var city = _dbContext.Cities.First(c =>c.DId == dId);
+            city.Name = name;
+            city.Country = country;
+            city.Photo = photo;
+            city.Visited = visited;
             return _dbContext.SaveChangesAsync();
         }
     }
