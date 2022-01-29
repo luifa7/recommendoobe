@@ -48,6 +48,22 @@ namespace Domain.Interfaces
         List<User> GetAll();
 
         /// <summary>
+        /// Update User
+        /// </summary>
+        /// <param name="dId">DId of the User to update</param>
+        /// <param name="name">updated name for the User</param>
+        /// <param name="shortFact1">updated shortFact1 for the User</param>
+        /// <param name="shortFact2">updated shortFact2 for the User</param>
+        /// <param name="shortFact3">updated shortFact3 for the User</param>
+        /// <param name="aboutMe">updated aboutMe for the User</param>
+        /// <param name="interestedIn">updated interestedIn for the User</param>
+        /// <param name="photo">updated photo for the User</param>
+        /// <returns></returns>
+        Task UpdateUser(string dId, string name, string shortFact1,
+            string shortFact2, string shortFact3, string aboutMe,
+            string interestedIn, string photo);
+
+        /// <summary>
         /// Delete User from Database
         /// </summary>
         /// <param name="dId">DId of the User to delete</param>

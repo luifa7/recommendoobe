@@ -34,13 +34,6 @@ namespace Domain.Interfaces
         List<City> GetAll();
 
         /// <summary>
-        /// Delete City from Database
-        /// </summary>
-        /// <param name="dId">DId of the City to delete</param>
-        /// <returns></returns>
-        Task DeleteCity(string dId);
-
-        /// <summary>
         /// Update City
         /// </summary>
         /// <param name="dId">DId of the City to update</param>
@@ -51,5 +44,12 @@ namespace Domain.Interfaces
         /// <returns></returns>
         Task UpdateCity(string dId, string name, string country, string photo,
             bool visited);
+
+        /// <summary>
+        /// Delete City from Database
+        /// </summary>
+        /// <param name="dId">DId of the City to delete</param>
+        /// <returns></returns>
+        Task DeleteCity(string dId);
     }
 }

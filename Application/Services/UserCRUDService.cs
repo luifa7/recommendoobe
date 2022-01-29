@@ -44,6 +44,14 @@ namespace Application.Services
             return _userRepository.GetAll();
         }
 
+        public Task UpdateUser(string dId, string name, string shortFact1,
+            string shortFact2, string shortFact3, string aboutMe,
+            string interestedIn, string photo)
+        {
+            return _userRepository.UpdateUser(dId, name, shortFact1,
+                shortFact2, shortFact3, aboutMe, interestedIn, photo);
+        }
+
         public Task DeleteUser(string dId)
         {
             return _userRepository.DeleteUser(dId);

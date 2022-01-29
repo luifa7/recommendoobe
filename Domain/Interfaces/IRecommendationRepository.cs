@@ -46,5 +46,26 @@ namespace Domain.Interfaces
         /// <param name="dId">DId of the Recommendation to delete</param>
         /// <returns></returns>
         Task DeleteRecommendation(string dId);
+
+        /// <summary>
+        /// Update Recommendation
+        /// </summary>
+        /// <param name="dId">DId of the Recommendation to update</param>
+        /// <param name="placeName">updated placeName for the Recommendation</param>
+        /// <param name="title">updated title for the Recommendation</param>
+        /// <param name="text">updated text for the Recommendation</param>
+        /// <param name="address">updated address for the Recommendation</param>
+        /// <param name="maps">updated maps for the Recommendation</param>
+        /// <param name="website">updated website for the Recommendation</param>
+        /// <param name="instagram">updated instagram for the Recommendation</param>
+        /// <param name="facebook">updated facebook for the Recommendation</param>
+        /// <param name="otherLink">updated otherLink for the Recommendation</param>
+        /// <param name="photo">updated phot for the Recommendation</param>
+        /// <param name="tags">updated tags for the Recommendation</param>
+        /// <returns></returns>
+        Task UpdateRecommendation(string dId, string placeName, string title,
+            string text, string address, string maps, string website,
+            string instagram, string facebook, string otherLink, string photo,
+            string[] tags);
     }
 }

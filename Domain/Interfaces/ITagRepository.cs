@@ -48,5 +48,14 @@ namespace Domain.Interfaces
         /// </summary>
         /// <returns></returns>
         List<Tag> GetAll();
+
+        /// <summary>
+        /// Delete a Tag from Database by its Word
+        /// </summary>
+        /// <param name="recommendationDId">RecommendationDId</param>
+        /// <param name="word">Word of the Tag to find</param>
+        /// <returns></returns>
+        Task DeleteByWordAndRecommendationDId(string recommendationDId,
+            string word);
     }
 }

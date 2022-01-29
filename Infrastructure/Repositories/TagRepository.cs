@@ -85,5 +85,15 @@ namespace Infrastructure.Repositories
             _dbContext.Tags.Add(tagDBEntity);
             return _dbContext.SaveChangesAsync();
         }
+
+        public Task DeleteByWordAndRecommendationDId(
+            string recommendationDId, string word)
+        {
+            _dbContext.Remove(
+                _dbContext.Tags.Single(
+                    t => t.RecommendationDId == recommendationDId
+                    && t.Word == word));
+            return _dbContext.SaveChangesAsync();
+        }
     }
 }

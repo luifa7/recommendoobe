@@ -65,20 +65,20 @@ namespace Infrastructure.Repositories
             return _dbContext.SaveChangesAsync();
         }
 
-        public Task DeleteCity(string dId)
-        {
-            _dbContext.Remove(_dbContext.Cities.Single(c => c.DId == dId));
-            return _dbContext.SaveChangesAsync();
-        }
-
         public Task UpdateCity(string dId, string name, string country,
             string photo, bool visited)
         {
-            var city = _dbContext.Cities.First(c =>c.DId == dId);
+            var city = _dbContext.Cities.First(c => c.DId == dId);
             city.Name = name;
             city.Country = country;
             city.Photo = photo;
             city.Visited = visited;
+            return _dbContext.SaveChangesAsync();
+        }
+
+        public Task DeleteCity(string dId)
+        {
+            _dbContext.Remove(_dbContext.Cities.Single(c => c.DId == dId));
             return _dbContext.SaveChangesAsync();
         }
     }

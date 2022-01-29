@@ -13,10 +13,12 @@ namespace Infrastructure.Repositories
     public class RecommendationRepository: IRecommendationRepository
     {
         private DBContext _dbContext;
+        private readonly ITagRepository _tagRepository;
 
-        public RecommendationRepository()
+        public RecommendationRepository(ITagRepository tagRepository)
         {
             _dbContext = new DBContext();
+            _tagRepository = tagRepository;
         }
 
         public Recommendation GetByDId(string dId)
@@ -111,6 +113,44 @@ namespace Infrastructure.Repositories
         {
             _dbContext.Remove(
                 _dbContext.Recommendations.Single(r => r.DId == dId));
+            return _dbContext.SaveChangesAsync();
+        }
+
+        public Task UpdateRecommendation(string dId, string placeName,
+            string title, string text, string address, string maps,
+            string website, string instagram, string facebook, string otherLink,
+            string photo, string[] tags)
+        {
+            var recommendation = _dbContext.Recommendations.First(
+                r => r.DId == dId);
+            var dbTags = _tagRepository.GetTagsByRecommendationDId(dId);
+            foreach(var dbTag in dbTags)
+            {
+                if (!tags.Contains(dbTag.Word))
+                {
+                    _tagRepository.DeleteByWordAndRecommendationDId(
+                        dId, dbTag.Word);
+                }
+            }
+
+            foreach(var tag in tags)
+            {
+                if(dbTags.Where(t => t.Word == tag).ToList().Count < 1){
+                    Tag newTag = Tag.Create(dId, tag);
+                    _tagRepository.PersistAsync(newTag);
+                }
+            }
+
+            recommendation.PlaceName = placeName;
+            recommendation.Title = title;
+            recommendation.Text = text;
+            recommendation.Address = address;
+            recommendation.Maps = maps;
+            recommendation.Website = website;
+            recommendation.Instagram = instagram;
+            recommendation.Facebook = facebook;
+            recommendation.OtherLink = otherLink;
+            recommendation.Photo = photo;
             return _dbContext.SaveChangesAsync();
         }
     }

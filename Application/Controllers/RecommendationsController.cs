@@ -102,6 +102,35 @@ namespace Application.Controllers
                 .FromDomainObjectToApiDTO(recommendation, domainTags));
         }
 
+        [HttpPut("{dId}")]
+        public async Task<IActionResult> Update(string dId,
+            [FromBody] UpdateRecommendation updateRecommendation)
+        {
+            var command = new UpdateRecommendationCommand(
+                dId,
+                updateRecommendation.PlaceName,
+                updateRecommendation.Title,
+                updateRecommendation.Text,
+                updateRecommendation.Address,
+                updateRecommendation.Maps,
+                updateRecommendation.Website,
+                updateRecommendation.Instagram,
+                updateRecommendation.Facebook,
+                updateRecommendation.OtherLink,
+                updateRecommendation.Photo,
+                updateRecommendation.Tags
+                );
+            bool success = await _mediator.Send(command);
+            if (success)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpDelete("{dId}")]
         public async Task<IActionResult> Delete(string dId)
         {
