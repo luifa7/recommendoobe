@@ -40,11 +40,6 @@ namespace Application.Services
             return _recommendationRepository.GetAll();
         }
 
-        public Task DeleteRecommendation(string dId)
-        {
-            return _recommendationRepository.DeleteRecommendation(dId);
-        }
-
         public Task UpdateRecommendation(string dId, string placeName,
             string title, string text, string address, string maps,
             string website, string instagram, string facebook, string otherLink,
@@ -53,6 +48,11 @@ namespace Application.Services
             return _recommendationRepository.UpdateRecommendation(dId,
                 placeName, title, text, address, maps, website, instagram,
                 facebook, otherLink, photo, tags);
+        }
+
+        public Task DeleteRecommendation(string dId)
+        {
+            return _recommendationRepository.DeleteRecommendation(dId);
         }
     }
 }

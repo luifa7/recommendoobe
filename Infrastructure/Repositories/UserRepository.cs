@@ -86,6 +86,21 @@ namespace Infrastructure.Repositories
             return _dbContext.SaveChangesAsync();
         }
 
+        public Task UpdateUser(string dId, string name, string shortFact1,
+            string shortFact2, string shortFact3, string aboutMe,
+            string interestedIn, string photo)
+        {
+            var user = _dbContext.Users.First(u => u.DId == dId);
+            user.Name = name;
+            user.ShortFact1 = shortFact1;
+            user.ShortFact2 = shortFact2;
+            user.ShortFact3 = shortFact3;
+            user.AboutMe = aboutMe;
+            user.InterestedIn = interestedIn;
+            user.Photo = photo;
+            return _dbContext.SaveChangesAsync();
+        }
+
         public Task DeleteUser(string dId)
         {
             _friendRepository.DeleteAllFriendForUser(dId);

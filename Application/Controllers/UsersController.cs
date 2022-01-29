@@ -109,6 +109,30 @@ namespace Application.Controllers
             }
         }
 
+        [HttpPut("{dId}")]
+        public async Task<IActionResult> Update(string dId,
+            [FromBody] UpdateUser updateUser)
+        {
+            var command = new UpdateUserCommand(
+                dId,
+                updateUser.Name,
+                updateUser.ShortFact1,
+                updateUser.ShortFact2,
+                updateUser.ShortFact3,
+                updateUser.AboutMe,
+                updateUser.InterestedIn,
+                updateUser.Photo);
+            bool success = await _mediator.Send(command);
+            if (success)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpDelete("{dId}")]
         public async Task<IActionResult> Delete(string dId)
         {
