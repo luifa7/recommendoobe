@@ -15,12 +15,22 @@
     <None Remove="MediatR" />
     <None Remove="MediatR.Extensions.Microsoft.DependencyInjection" />
     <None Remove="Microsoft.AspNet.WebApi.Cors" />
+    <None Remove="Commands\UserCommands\" />
+    <None Remove="Commands\CityCommands\" />
+    <None Remove="Commands\FriendCommands\" />
+    <None Remove="Commands\RecommendationCommands\" />
+    <None Remove="Commands\TagCommands\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\" />
     <Folder Include="Controllers\" />
     <Folder Include="Mappers\" />
     <Folder Include="Services\" />
+    <Folder Include="Commands\UserCommands\" />
+    <Folder Include="Commands\CityCommands\" />
+    <Folder Include="Commands\FriendCommands\" />
+    <Folder Include="Commands\RecommendationCommands\" />
+    <Folder Include="Commands\TagCommands\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj">

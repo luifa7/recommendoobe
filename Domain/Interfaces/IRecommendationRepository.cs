@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain.Objects;
 
@@ -12,7 +11,7 @@ namespace Domain.Interfaces
         /// </summary>
         /// <param name="dId">DId of the Recommendation to find</param>
         /// <returns></returns>
-        Recommendation GetByDId(String dId);
+        Recommendation GetByDId(string dId);
 
         /// <summary>
         /// Return all Recommendations from Database with tehir dIds on the list
@@ -39,6 +38,6 @@ namespace Domain.Interfaces
         /// </summary>
         /// <param name="dId">DId of the Recommendation to delete</param>
         /// <returns></returns>
-        Task DeleteRecommendation(String dId);
+        Task DeleteRecommendation(string dId);
     }
 }

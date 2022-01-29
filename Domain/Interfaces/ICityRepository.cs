@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain.Objects;
 
@@ -12,7 +11,7 @@ namespace Domain.Interfaces
         /// </summary>
         /// <param name="dId">DId of the City to find</param>
         /// <returns></returns>
-        City GetByDId(String dId);
+        City GetByDId(string dId);
 
         /// <summary>
         /// Return all Cities from Database with tehir dIds on the list
@@ -46,6 +45,6 @@ namespace Domain.Interfaces
         /// </summary>
         /// <param name="dId">DId of the City to delete</param>
         /// <returns></returns>
-        Task DeleteCity(String dId);
+        Task DeleteCity(string dId);
     }
 }

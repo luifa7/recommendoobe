@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain.Objects;
 
@@ -12,21 +11,21 @@ namespace Domain.Interfaces
         /// </summary>
         /// <param name="userDId">DId of the User to find friends status accepted</param>
         /// <returns></returns>
-        List<Friend> GetAllFriendsByUserDId(String userDId);
+        List<Friend> GetAllFriendsByUserDId(string userDId);
 
         /// <summary>
         /// Return a list of pending sent Friend relation from Database by User DId
         /// </summary>
         /// <param name="userDId">DId of the User to find friends status pending</param>
         /// <returns></returns>
-        List<Friend> GetAllSentPendingByUserDId(String userDId);
+        List<Friend> GetAllSentPendingByUserDId(string userDId);
 
         /// <summary>
         /// Return a list of pending received Friend relation from Database by User DId
         /// </summary>
         /// <param name="userDId">DId of the User to find friends status pending</param>
         /// <returns></returns>
-        List<Friend> GetAllReceivedPendingByUserDId(String userDId);
+        List<Friend> GetAllReceivedPendingByUserDId(string userDId);
 
         /// <summary>
         /// Return if there is a relation pending between users
@@ -34,7 +33,7 @@ namespace Domain.Interfaces
         /// <param name="user1DId">DId of one User</param>
         /// <param name="user2DId">DId of another User</param>
         /// <returns></returns>
-        bool IsRequestPendingBetweenUsers(String user1DId, String user2DId);
+        bool IsRequestPendingBetweenUsers(string user1DId, string user2DId);
 
         /// <summary>
         /// Persist Friend relation into the Database

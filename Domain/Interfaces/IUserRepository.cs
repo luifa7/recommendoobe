@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain.Objects;
 
@@ -12,14 +11,14 @@ namespace Domain.Interfaces
         /// </summary>
         /// <param name="dId">DId of the User to find</param>
         /// <returns></returns>
-        User GetByDId(String dId);
+        User GetByDId(string dId);
 
         /// <summary>
         /// Return a User from Database by its UserName
         /// </summary>
         /// <param name="username">UserName of the User to find</param>
         /// <returns></returns>
-        User GetByUserName(String username);
+        User GetByUserName(string username);
 
         /// <summary>
         /// Return all Users from Database with tehir dIds on the list
@@ -53,6 +52,6 @@ namespace Domain.Interfaces
         /// </summary>
         /// <param name="dId">DId of the User to delete</param>
         /// <returns></returns>
-        Task DeleteUser(String dId);
+        Task DeleteUser(string dId);
     }
 }

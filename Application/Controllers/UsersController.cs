@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Commands;
 using Application.Services;
@@ -28,7 +27,7 @@ namespace Application.Controllers
         public IActionResult GetAll()
         {
             List<ReadUser> users = new();
-            if (!String.IsNullOrEmpty(HttpContext.Request.Query["username"]))
+            if (!string.IsNullOrEmpty(HttpContext.Request.Query["username"]))
             {
                 var username = HttpContext.Request.Query["username"];
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Commands;
 using Application.Services;
@@ -27,7 +26,7 @@ namespace Application.Controllers
         public IActionResult GetByDId(string userDId)
         {
             List<string> friends = new();
-            if (String.IsNullOrEmpty(HttpContext.Request.Query["status"]))
+            if (string.IsNullOrEmpty(HttpContext.Request.Query["status"]))
             {
                 var domainFriends = _friendService.GetAllFriendsByUserDId(userDId);
                 domainFriends.ForEach(dfriend => friends.Add(dfriend.FriendDId));
@@ -50,7 +49,7 @@ namespace Application.Controllers
         [HttpGet("{userDId}/ispending")]
         public IActionResult IsPending(string userDId)
         {
-            if (!String.IsNullOrEmpty(HttpContext.Request.Query["userid"]))
+            if (!string.IsNullOrEmpty(HttpContext.Request.Query["userid"]))
             {
                 var pendingExist =
                     _friendService.IsRequestPendingBetweenUsers(
@@ -96,7 +95,7 @@ namespace Application.Controllers
         [HttpDelete("{userDId}")]
         public async Task<IActionResult> Delete(string userDId)
         {
-            if (String.IsNullOrEmpty(HttpContext.Request.Query["friend"]))
+            if (string.IsNullOrEmpty(HttpContext.Request.Query["friend"]))
             {
                 return BadRequest();
             }
