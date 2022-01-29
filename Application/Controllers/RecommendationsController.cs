@@ -102,6 +102,38 @@ namespace Application.Controllers
                 .FromDomainObjectToApiDTO(recommendation, domainTags));
         }
 
+        [HttpPost("copy")]
+        public async Task<IActionResult> Copy([FromBody] CopyRecommendation copyRecommendation)
+        {
+            var existingRecommendation = _recommendationService.GetByDId(copyRecommendation.RecommendationDId);
+            List<Tag> existingTags =
+                        _tagService.GetTagsByRecommendationDId(copyRecommendation.RecommendationDId);
+
+            var command = new CreateRecommendationCommand(
+                existingRecommendation.PlaceName,
+                existingRecommendation.Title,
+                existingRecommendation.Text,
+                existingRecommendation.Address,
+                existingRecommendation.Maps,
+                existingRecommendation.Website,
+                existingRecommendation.Instagram,
+                existingRecommendation.Facebook,
+                existingRecommendation.OtherLink,
+                existingRecommendation.Photo,
+                copyRecommendation.CityDId,
+                RecommendationAppMappers.FromTagListToArrayString(existingTags),
+                existingRecommendation.FromUserDId,
+                copyRecommendation.ToUserDId
+                );
+            Recommendation recommendation = await _mediator.Send(command);
+            List<Tag> domainTags =
+                        _tagService.GetTagsByRecommendationDId(recommendation.DId);
+
+            return Created(recommendation.DId,
+                RecommendationAppMappers
+                .FromDomainObjectToApiDTO(recommendation, domainTags));
+        }
+
         [HttpPut("{dId}")]
         public async Task<IActionResult> Update(string dId,
             [FromBody] UpdateRecommendation updateRecommendation)
