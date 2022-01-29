@@ -14,10 +14,12 @@ namespace Infrastructure.Repositories
     public class UserRepository: IUserRepository
     {
         private DBContext _dbContext;
+        private readonly IFriendRepository _friendRepository;
 
-        public UserRepository()
+        public UserRepository(IFriendRepository friednRepository)
         {
             _dbContext = new DBContext();
+            _friendRepository = friednRepository;
         }
 
         public User GetByDId(string dId)
@@ -86,6 +88,7 @@ namespace Infrastructure.Repositories
 
         public Task DeleteUser(string dId)
         {
+            _friendRepository.DeleteAllFriendForUser(dId);
             _dbContext.Remove(_dbContext.Users.Single(u => u.DId == dId));
             return _dbContext.SaveChangesAsync();
         }

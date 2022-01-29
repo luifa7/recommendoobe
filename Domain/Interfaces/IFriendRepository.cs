@@ -52,6 +52,13 @@ namespace Domain.Interfaces
         Task DeleteFriend(string user1DId, string user2DId);
 
         /// <summary>
+        /// Delete all Friend relation from a User into the Database
+        /// </summary>
+        /// <param name="userDId">User did to delete friends</param>
+        /// <returns></returns>
+        Task DeleteAllFriendForUser(string userDId);
+
+        /// <summary>
         /// Mark friend request as accepted and create it on the other direction
         /// </summary>
         /// <param name="user1DId">One user of the relation</param>

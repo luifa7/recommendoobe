@@ -98,6 +98,15 @@ namespace Infrastructure.Repositories
             return _dbContext.SaveChangesAsync();
         }
 
+        public Task DeleteAllFriendForUser(string userDId)
+        {
+            _dbContext.Friends.Where(
+                f => f.UserDId == userDId ||  f.FriendDId == userDId
+            ).ToList().ForEach(f => _dbContext.Friends.Remove(f));
+
+            return _dbContext.SaveChangesAsync();
+        }
+
         public Task AcceptFriendRequest(string receiverDId, string senderDId,
             Friend friendshipInTheOtherDirection)
         {
