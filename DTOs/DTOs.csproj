@@ -9,11 +9,13 @@
     <None Remove="Recommendations %28copy%29\" />
     <None Remove="Recommendations %28another copy%29\" />
     <None Remove="Friend\" />
+    <None Remove="Recommendation\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Recommendations\" />
     <Folder Include="Cities\" />
     <Folder Include="Users\" />
     <Folder Include="Friend\" />
+    <Folder Include="Notification\" />
   </ItemGroup>
 </Project>

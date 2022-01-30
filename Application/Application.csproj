@@ -20,6 +20,7 @@
     <None Remove="Commands\FriendCommands\" />
     <None Remove="Commands\RecommendationCommands\" />
     <None Remove="Commands\TagCommands\" />
+    <None Remove="Commands\NotificationCommands\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\" />
@@ -31,6 +32,7 @@
     <Folder Include="Commands\FriendCommands\" />
     <Folder Include="Commands\RecommendationCommands\" />
     <Folder Include="Commands\TagCommands\" />
+    <Folder Include="Commands\NotificationCommands\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj">

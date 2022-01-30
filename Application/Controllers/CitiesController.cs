@@ -18,16 +18,19 @@ namespace Application.Controllers
         private readonly CityCRUDService _cityService;
         private readonly TagCRUDService _tagService;
         private readonly RecommendationCRUDService _recommendationService;
+        private readonly FriendCRUDService _friendService;
 
         public CitiesController(IMediator mediator,
             CityCRUDService cityCRUDService,
             TagCRUDService tagCRUDService,
-            RecommendationCRUDService recommendationCRUDService)
+            RecommendationCRUDService recommendationCRUDService,
+            FriendCRUDService friendCRUDService)
         {
             _mediator = mediator;
             _cityService = cityCRUDService;
             _tagService = tagCRUDService;
             _recommendationService = recommendationCRUDService;
+            _friendService = friendCRUDService;
         }
 
         [HttpGet]
@@ -89,6 +92,17 @@ namespace Application.Controllers
                 );
             City city = await _mediator.Send(command);
 
+            var domainFriends = _friendService.GetAllFriendsByUserDId(createCity.UserDId);
+            foreach(Friend friend in domainFriends)
+            {
+                var notificationCommand = new CreateNotificationCommand(
+                friend.DId,
+                Notification.TypeFriendWillVisitCity,
+                city.UserDId
+                );
+                await _mediator.Send(notificationCommand);
+            }
+            
             return Created(city.DId, CityAppMappers.FromDomainObjectToApiDTO(city));
         }
 

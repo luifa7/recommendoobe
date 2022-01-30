@@ -36,16 +36,19 @@ namespace Application
             services.AddMediatR(typeof(CreateUserCommandHandler));
             services.AddMediatR(typeof(CreateTagCommandHandler));
             services.AddMediatR(typeof(CreatePendingFriendCommandHandler));
+            services.AddMediatR(typeof(CreateNotificationCommandHandler));
 
             services.AddMediatR(typeof(DeleteRecommendationCommandHandler));
             services.AddMediatR(typeof(DeleteCityCommandHandler));
             services.AddMediatR(typeof(DeleteUserCommandHandler));
             services.AddMediatR(typeof(DeleteFriendCommandHandler));
+            services.AddMediatR(typeof(DeleteNotificationCommandHandler));
 
             services.AddMediatR(typeof(AcceptFriendRequestCommandHandler));
             services.AddMediatR(typeof(UpdateCityCommandHandler));
             services.AddMediatR(typeof(UpdateRecommendationCommandHandler));
             services.AddMediatR(typeof(UpdateUserCommandHandler));
+            services.AddMediatR(typeof(MarkNotificationAsOpenedCommandHandler));
 
             services.AddControllers();
             services.AddTransient<IRecommendationRepository, RecommendationRepository>();
@@ -53,11 +56,14 @@ namespace Application
             services.AddTransient<ICityRepository, CityRepository>();
             services.AddTransient<ITagRepository, TagRepository>();
             services.AddTransient<IFriendRepository, FriendRepository>();
+            services.AddTransient<INotificationRepository, NotificationRepository>();
+
             services.AddTransient<RecommendationCRUDService>();
             services.AddTransient<UserCRUDService>();
             services.AddTransient<CityCRUDService>();
             services.AddTransient<TagCRUDService>();
             services.AddTransient<FriendCRUDService>();
+            services.AddTransient<NotificationCRUDService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

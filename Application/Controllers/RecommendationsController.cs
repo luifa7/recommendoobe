@@ -97,6 +97,13 @@ namespace Application.Controllers
             List<Tag> domainTags =
                         _tagService.GetTagsByRecommendationDId(recommendation.DId);
 
+            var notificationCommand = new CreateNotificationCommand(
+                createRecommendation.ToUserDId,
+                Notification.TypeRecommendationReceived,
+                recommendation.DId
+                );
+            await _mediator.Send(notificationCommand);
+
             return Created(recommendation.DId,
                 RecommendationAppMappers
                 .FromDomainObjectToApiDTO(recommendation, domainTags));

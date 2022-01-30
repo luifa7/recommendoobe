@@ -10,6 +10,7 @@ namespace Infrastructure.Database
         public DbSet<Cities> Cities { get; set; }
         public DbSet<Tags> Tags { get; set; }
         public DbSet<Friends> Friends { get; set; }
+        public DbSet<Notifications> Notifications { get; set; }
 
         public DBContext()
         {

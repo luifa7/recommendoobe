@@ -71,6 +71,13 @@ namespace Application.Controllers
                 );
             Friend friend = await _mediator.Send(command);
 
+            var notificationCommand = new CreateNotificationCommand(
+                createFriend.FriendDId,
+                Notification.TypeFriendRequestReceived,
+                friend.DId
+                );
+            await _mediator.Send(notificationCommand);
+
             return Created(friend.UserDId, friend);
         }
 
@@ -84,6 +91,13 @@ namespace Application.Controllers
             bool success = await _mediator.Send(command);
             if (success)
             {
+                var notificationCommand = new CreateNotificationCommand(
+                createFriend.FriendDId,
+                Notification.TypeFriendRequestAccepted,
+                createFriend.UserDId
+                );
+                await _mediator.Send(notificationCommand);
+
                 return Ok();
             }
             else
