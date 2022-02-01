@@ -49,6 +49,8 @@ namespace Application.Controllers
         [HttpGet("{userDId}/ispending")]
         public IActionResult IsPending(string userDId)
         {
+
+            // TODO: status pending query
             if (!string.IsNullOrEmpty(HttpContext.Request.Query["userid"]))
             {
                 var pendingExist =
@@ -106,6 +108,8 @@ namespace Application.Controllers
             }
         }
 
+        // TODO: /friends/{friendDId}
+        // TODO: [FromBody] from query
         [HttpDelete("{userDId}")]
         public async Task<IActionResult> Delete(string userDId)
         {

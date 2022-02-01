@@ -31,3 +31,5 @@ namespace Domain.Objects
         }
     }
 }
+
+// TODO: private constructor
