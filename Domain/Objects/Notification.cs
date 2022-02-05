@@ -25,7 +25,7 @@ namespace Domain.Objects
             { TypeFriendWillVisitCity, "One of your friends will visit a new city" }
         };
 
-        public Notification(string dId, string userDId, string type,
+        private Notification(string dId, string userDId, string type,
             string text, bool wasOpen, string relatedDId)
         {
             DId = dId;
