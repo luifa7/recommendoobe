@@ -31,7 +31,7 @@ namespace Application
                     });
             });
 
-            // TODO: only one is needed, delete the others
+            // TODO: only one is needed
             services.AddMediatR(typeof(CreateRecommendationCommandHandler));
             services.AddMediatR(typeof(CreateCityCommandHandler));
             services.AddMediatR(typeof(CreateUserCommandHandler));
