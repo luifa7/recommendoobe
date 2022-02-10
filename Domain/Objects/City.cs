@@ -12,7 +12,7 @@ namespace Domain.Objects
         public bool Visited { get; private set; }
 
 
-        private City(string dId, string name, string country, string photo,
+        public City(string dId, string name, string country, string photo,
             string userDId, bool visited)
         {
             DId = dId;

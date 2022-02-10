@@ -10,7 +10,7 @@ namespace Domain.Objects
         public string Status { get; private set; }
 
 
-        private Friend(string dId, string userDId, string friendDId, string status)
+        public Friend(string dId, string userDId, string friendDId, string status)
         {
             DId = dId;
             UserDId = userDId;

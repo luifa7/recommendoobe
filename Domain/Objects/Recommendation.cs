@@ -21,7 +21,7 @@ namespace Domain.Objects
         public string ToUserDId { get; private set; }
 
 
-        private Recommendation(string dId, string placeName, string title, string text,
+        public Recommendation(string dId, string placeName, string title, string text,
             string address, string maps, string website, string instagram, string facebook,
             string otherLink, string photo, long createdOn, string cityDId,
             string fromUserDId, string toUserDId)

@@ -15,7 +15,7 @@ namespace Domain.Objects
         public string Photo { get; private set; }
 
 
-        private User(string dId, string userName, string name, string shortFact1,
+        public User(string dId, string userName, string name, string shortFact1,
             string shortFact2, string shortFact3, string aboutMe,
             string interestedIn, string photo)
         {

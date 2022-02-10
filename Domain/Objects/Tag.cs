@@ -6,7 +6,7 @@
         public string Word { get; private set; }
 
 
-        private Tag(string recommendationDId, string word)
+        public Tag(string recommendationDId, string word)
         {
             RecommendationDId = recommendationDId;
             Word = word;
