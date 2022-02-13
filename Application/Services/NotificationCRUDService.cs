@@ -24,6 +24,11 @@ namespace Application.Services
             return _notificationRepository.GetAllNotOpenedByUserDId(dId);
         }
 
+        public int GetNotOpenedCountByUserDId(string dId)
+        {
+            return _notificationRepository.GetNotOpenedCountByUserDId(dId);
+        }
+
         public Task PersistAsync(Notification notification)
         {
             return _notificationRepository.PersistAsync(notification);
@@ -32,6 +37,11 @@ namespace Application.Services
         public Task MarkNotificationAsOpened(string dId)
         {
             return _notificationRepository.MarkNotificationAsOpened(dId);
+        }
+
+        public Task MarkAllNotificationAsOpenedByUserDId(string userDId)
+        {
+            return _notificationRepository.MarkAllNotificationAsOpenedByUserDId(userDId);
         }
 
         public Task DeleteNotification(string dId)

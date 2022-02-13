@@ -16,6 +16,5 @@
     <Folder Include="Cities\" />
     <Folder Include="Users\" />
     <Folder Include="Friend\" />
-    <Folder Include="Notification\" />
   </ItemGroup>
 </Project>

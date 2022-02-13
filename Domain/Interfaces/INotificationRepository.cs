@@ -21,6 +21,13 @@ namespace Domain.Interfaces
         List<Notification> GetAllNotOpenedByUserDId(string userDId);
 
         /// <summary>
+        /// Return all not opened Notifications by user DId
+        /// </summary>
+        /// <param name="userDId">DId of the User</param>
+        /// <returns></returns>
+        int GetNotOpenedCountByUserDId(string userDId);
+
+        /// <summary>
         /// Persist Notification into the Database
         /// </summary>
         /// <param name="notification">Notification to persist</param>
@@ -33,6 +40,13 @@ namespace Domain.Interfaces
         /// <param name="dId">DId of the Notification to update</param>
         /// <returns></returns>
         Task MarkNotificationAsOpened(string dId);
+
+        /// <summary>
+        /// Mark Notification as opened
+        /// </summary>
+        /// <param name="userDId">DId of the User to mark all notifications as read</param>
+        /// <returns></returns>
+        Task MarkAllNotificationAsOpenedByUserDId(string userDId);
 
         /// <summary>
         /// Delete Notification from Database

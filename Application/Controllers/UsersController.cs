@@ -19,16 +19,19 @@ namespace Application.Controllers
         private readonly UserCRUDService _userService;
         private readonly TagCRUDService _tagService;
         private readonly RecommendationCRUDService _recommendationService;
+        private readonly NotificationCRUDService _notificationService;
 
         public UsersController(IMediator mediator,
             UserCRUDService userCRUDService,
             TagCRUDService tagCRUDService,
-            RecommendationCRUDService recommendationCRUDService)
+            RecommendationCRUDService recommendationCRUDService,
+            NotificationCRUDService notificationCRUDService)
         {
             _mediator = mediator;
             _userService = userCRUDService;
             _tagService = tagCRUDService;
             _recommendationService = recommendationCRUDService;
+            _notificationService = notificationCRUDService;
         }
 
         [HttpGet]
@@ -110,6 +113,12 @@ namespace Application.Controllers
             return Ok(recommendations);
         }
 
+        [HttpGet("{dId}/notifications-count")]
+        public IActionResult GetNotOpenedCountByUserDId(string dId)
+        {
+            return Ok(_notificationService.GetNotOpenedCountByUserDId(dId));
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateUser createUser)
         {
@@ -147,6 +156,21 @@ namespace Application.Controllers
                 updateUser.AboutMe,
                 updateUser.InterestedIn,
                 updateUser.Photo);
+            bool success = await _mediator.Send(command);
+            if (success)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut("{dId}/notifications")]
+        public async Task<IActionResult> MarkAllNotificationsAsOpenedByUserDId(string dId)
+        {
+            var command = new MarkAllNotificationAsOpenedByUserCommand(dId);
             bool success = await _mediator.Send(command);
             if (success)
             {

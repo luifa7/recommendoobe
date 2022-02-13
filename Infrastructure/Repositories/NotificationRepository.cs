@@ -43,6 +43,12 @@ namespace Infrastructure.Repositories
 
         }
 
+        public int GetNotOpenedCountByUserDId(string userDId)
+        {
+            return _dbContext.Notifications
+                .Count(n => (n.UserDId == userDId) && (!n.WasOpen));
+        }
+
         public Task PersistAsync(Notification notification)
         {
             var notificationDBEntity =
@@ -55,6 +61,16 @@ namespace Infrastructure.Repositories
         {
             var notification = _dbContext.Notifications.First(n => n.DId == dId);
             notification.WasOpen = true;
+            return _dbContext.SaveChangesAsync();
+        }
+
+        public Task MarkAllNotificationAsOpenedByUserDId(string userDId)
+        {
+            var notificationsFromDB = _dbContext.Notifications
+                .Where(n => n.UserDId == userDId &&
+                n.WasOpen == false).ToList();
+
+            notificationsFromDB.ForEach(n =>n.WasOpen=true);
             return _dbContext.SaveChangesAsync();
         }
 
