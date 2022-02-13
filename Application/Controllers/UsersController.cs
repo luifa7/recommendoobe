@@ -4,6 +4,7 @@ using Application.Commands;
 using Application.Services;
 using Domain.Objects;
 using DTOs.Cities;
+using DTOs.Recommendations;
 using DTOs.Users;
 using Infrastructure.Mappers;
 using MediatR;
@@ -16,11 +17,18 @@ namespace Application.Controllers
     {
         private readonly IMediator _mediator;
         private readonly UserCRUDService _userService;
+        private readonly TagCRUDService _tagService;
+        private readonly RecommendationCRUDService _recommendationService;
 
-        public UsersController(IMediator mediator, UserCRUDService userCRUDService)
+        public UsersController(IMediator mediator,
+            UserCRUDService userCRUDService,
+            TagCRUDService tagCRUDService,
+            RecommendationCRUDService recommendationCRUDService)
         {
             _mediator = mediator;
             _userService = userCRUDService;
+            _tagService = tagCRUDService;
+            _recommendationService = recommendationCRUDService;
         }
 
         [HttpGet]
@@ -83,6 +91,23 @@ namespace Application.Controllers
             domainCities.ForEach(dcity => cities.Add(
                 CityAppMappers.FromDomainObjectToApiDTO(dcity)));
             return Ok(cities);
+        }
+
+        [HttpGet("{dId}/recommendations")]
+        public IActionResult GetRecommendationsByUserCreatorDId(string dId)
+        {
+            var domainRecommendations =
+                _recommendationService.GetRecommendationsByUserCreatorDId(dId);
+            List<ReadRecommendation> recommendations = new();
+            foreach (Recommendation domainRecommendation in domainRecommendations)
+            {
+                List<Tag> domainTags =
+                    _tagService.GetTagsByRecommendationDId(domainRecommendation.DId);
+                recommendations.Add(
+                RecommendationAppMappers.FromDomainObjectToApiDTO(
+                    domainRecommendation, domainTags));
+            }
+            return Ok(recommendations);
         }
 
         [HttpPost]

@@ -28,6 +28,13 @@ namespace Domain.Interfaces
         List<Recommendation> GetRecommendationsByCityDId(string dId);
 
         /// <summary>
+        /// Return all Recommendations from Database from user creator dId
+        /// </summary>
+        /// <param name="dId">DId of the User that created the recommendation</param>
+        /// <returns></returns>
+        List<Recommendation> GetRecommendationsByUserCreatorDId(string dId);
+
+        /// <summary>
         /// Persist Recommendation into the Database
         /// </summary>
         /// <param name="recommendation">Recommendation to persist</param>

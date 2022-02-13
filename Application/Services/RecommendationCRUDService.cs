@@ -30,6 +30,11 @@ namespace Application.Services
             return _recommendationRepository.GetRecommendationsByCityDId(dId);
         }
 
+        public List<Recommendation> GetRecommendationsByUserCreatorDId(string dId)
+        {
+            return _recommendationRepository.GetRecommendationsByUserCreatorDId(dId);
+        }
+
         public Task PersistAsync(Recommendation recommendation)
         {
             return _recommendationRepository.PersistAsync(recommendation);
