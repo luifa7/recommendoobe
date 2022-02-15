@@ -4,6 +4,8 @@ using Application.Commands;
 using Application.Services;
 using Domain.Objects;
 using DTOs.Cities;
+using DTOs.Friends;
+using DTOs.Notifications;
 using DTOs.Recommendations;
 using DTOs.Users;
 using Infrastructure.Mappers;
@@ -20,18 +22,21 @@ namespace Application.Controllers
         private readonly TagCRUDService _tagService;
         private readonly RecommendationCRUDService _recommendationService;
         private readonly NotificationCRUDService _notificationService;
+        private readonly FriendCRUDService _friendService;
 
         public UsersController(IMediator mediator,
             UserCRUDService userCRUDService,
             TagCRUDService tagCRUDService,
             RecommendationCRUDService recommendationCRUDService,
-            NotificationCRUDService notificationCRUDService)
+            NotificationCRUDService notificationCRUDService,
+            FriendCRUDService friendCRUDService)
         {
             _mediator = mediator;
             _userService = userCRUDService;
             _tagService = tagCRUDService;
             _recommendationService = recommendationCRUDService;
             _notificationService = notificationCRUDService;
+            _friendService = friendCRUDService;
         }
 
         [HttpGet]
@@ -113,10 +118,77 @@ namespace Application.Controllers
             return Ok(recommendations);
         }
 
-        [HttpGet("{dId}/notifications-count")]
+        [HttpGet("{dId}/notifications/count")]
         public IActionResult GetNotOpenedCountByUserDId(string dId)
         {
             return Ok(_notificationService.GetNotOpenedCountByUserDId(dId));
+        }
+
+        [HttpGet("{dId}/notifications")]
+        public IActionResult GetAllNotificationsByUserDId(string dId)
+        {
+            List<ReadNotification> notifications = new();
+            var domainNotifications =
+                _notificationService.GetAllByUserDId(dId);
+            foreach (Notification domainNotification in domainNotifications)
+            {
+                notifications.Add(
+                NotificationAppMappers.FromDomainObjectToApiDTO(
+                    domainNotification));
+            }
+            return Ok(notifications);
+        }
+
+        [HttpGet("{dId}/notifications/unread")]
+        public IActionResult GetAllUnreadNotificationsByUserDId(string dId)
+        {
+            List<ReadNotification> notifications = new();
+            var domainNotifications =
+                _notificationService.GetAllNotOpenedByUserDId(dId);
+            foreach (Notification domainNotification in domainNotifications)
+            {
+                notifications.Add(
+                NotificationAppMappers.FromDomainObjectToApiDTO(
+                    domainNotification));
+            }
+            return Ok(notifications);
+        }
+
+        [HttpGet("{dId}/friends")]
+        public IActionResult GetFriendsByDId(string dId)
+        {
+            List<string> friends = new();
+            var domainFriends = _friendService.GetAllFriendsByUserDId(dId);
+            domainFriends.ForEach(dfriend => friends.Add(dfriend.FriendDId));
+            return Ok(friends);
+        }
+
+        [HttpGet("{dId}/friends/sent")]
+        public IActionResult GetSentFriendsByDId(string dId)
+        {
+            List<string> friends = new();
+            var domainFriends = _friendService.GetAllSentPendingByUserDId(dId);
+            domainFriends.ForEach(dfriend => friends.Add(dfriend.FriendDId));
+            return Ok(friends);
+        }
+
+        [HttpGet("{dId}/friends/received")]
+        public IActionResult GetReceivedFriendsByDId(string dId)
+        {
+            List<string> friends = new();
+            // this case returns list of UserDIds since received has the id as Friend
+            var domainFriends = _friendService.GetAllReceivedPendingByUserDId(dId);
+            domainFriends.ForEach(dfriend => friends.Add(dfriend.UserDId));
+
+            return Ok(friends);
+        }
+
+        [HttpGet("{dId}/friends/{friendDId}/ispending")]
+        public IActionResult IsPending(string dId, string friendDId)
+        {
+            var pendingExist =
+                _friendService.IsRequestPendingBetweenUsers(dId, friendDId);
+            return Ok(pendingExist);
         }
 
         [HttpPost]
@@ -141,6 +213,25 @@ namespace Application.Controllers
                 return Created(user.DId, UserAppMappers.FromDomainObjectToApiDTO(user));
 
             }
+        }
+
+        [HttpPost("{dId}/friends/")]
+        public async Task<IActionResult> Create(string dId,
+            [FromBody] CreateFriend createFriend)
+        {
+            var command = new CreatePendingFriendCommand(
+                dId, createFriend.FriendDId
+                );
+            Friend friend = await _mediator.Send(command);
+
+            var notificationCommand = new CreateNotificationCommand(
+                createFriend.FriendDId,
+                Notification.TypeFriendRequestReceived,
+                friend.DId
+                );
+            await _mediator.Send(notificationCommand);
+
+            return Created(friend.UserDId, friend);
         }
 
         [HttpPut("{dId}")]
@@ -182,10 +273,67 @@ namespace Application.Controllers
             }
         }
 
+        [HttpPut("{dId}/friends/{friendDId}/accept")]
+        public async Task<IActionResult> AcceptFriendRequest(
+            string dId, string friendDId)
+        {
+
+            var command = new AcceptFriendRequestCommand(dId, friendDId);
+            bool success = await _mediator.Send(command);
+            if (success)
+            {
+                var notificationCommand = new CreateNotificationCommand(
+                friendDId,
+                Notification.TypeFriendRequestAccepted,
+                dId
+                );
+                await _mediator.Send(notificationCommand);
+
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpDelete("{dId}")]
         public async Task<IActionResult> Delete(string dId)
         {
             var command = new DeleteUserCommand(dId);
+            bool success = await _mediator.Send(command);
+            if (success)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete("{dId}/notifications/{notificationDId}")]
+        public async Task<IActionResult> DeleteNotification(
+            string dId,
+            string notificationDId)
+        {
+            var command = new DeleteRecommendationCommand(notificationDId);
+            bool success = await _mediator.Send(command);
+            if (success)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete("{dId}/friends/{friendDId}")]
+        public async Task<IActionResult> DeleteFriend(string dId, string friendDId)
+        {
+            var command = new DeleteFriendCommand(
+            dId, friendDId);
             bool success = await _mediator.Send(command);
             if (success)
             {
