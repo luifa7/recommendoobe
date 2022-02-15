@@ -8,6 +8,7 @@ using Application.Commands;
 using Domain.Interfaces;
 using Infrastructure.Repositories;
 using Application.Services;
+using Microsoft.OpenApi.Models;
 
 namespace Application
 {
@@ -33,23 +34,6 @@ namespace Application
 
             // TODO: only one is needed
             services.AddMediatR(typeof(CreateRecommendationCommandHandler));
-            services.AddMediatR(typeof(CreateCityCommandHandler));
-            services.AddMediatR(typeof(CreateUserCommandHandler));
-            services.AddMediatR(typeof(CreateTagCommandHandler));
-            services.AddMediatR(typeof(CreatePendingFriendCommandHandler));
-            services.AddMediatR(typeof(CreateNotificationCommandHandler));
-
-            services.AddMediatR(typeof(DeleteRecommendationCommandHandler));
-            services.AddMediatR(typeof(DeleteCityCommandHandler));
-            services.AddMediatR(typeof(DeleteUserCommandHandler));
-            services.AddMediatR(typeof(DeleteFriendCommandHandler));
-            services.AddMediatR(typeof(DeleteNotificationCommandHandler));
-
-            services.AddMediatR(typeof(AcceptFriendRequestCommandHandler));
-            services.AddMediatR(typeof(UpdateCityCommandHandler));
-            services.AddMediatR(typeof(UpdateRecommendationCommandHandler));
-            services.AddMediatR(typeof(UpdateUserCommandHandler));
-            services.AddMediatR(typeof(MarkNotificationAsOpenedCommandHandler));
 
             services.AddControllers();
             services.AddTransient<IRecommendationRepository, RecommendationRepository>();
@@ -65,6 +49,11 @@ namespace Application
             services.AddTransient<TagCRUDService>();
             services.AddTransient<FriendCRUDService>();
             services.AddTransient<NotificationCRUDService>();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Recommendoo", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,6 +62,12 @@ namespace Application
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                    options.RoutePrefix = string.Empty;
+                });
             }
 
             app.UseRouting();

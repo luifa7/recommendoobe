@@ -21,6 +21,7 @@
     <None Remove="Commands\RecommendationCommands\" />
     <None Remove="Commands\TagCommands\" />
     <None Remove="Commands\NotificationCommands\" />
+    <None Remove="Swashbuckle.AspNetCore" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\" />
@@ -48,5 +49,6 @@
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 </Project>
