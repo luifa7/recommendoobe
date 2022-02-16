@@ -1,86 +1,77 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+﻿using Application.Commands;
+using Application.Services;
+using Domain.Interfaces;
+using Infrastructure.Repositories;
+using MediatR;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MediatR;
-using Application.Commands;
-using Domain.Interfaces;
-using Infrastructure.Repositories;
-using Application.Services;
 using Microsoft.OpenApi.Models;
 
-namespace Application
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddCors(options =>
 {
-    public class Startup
+    options.AddDefaultPolicy(
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:8080",
+                                "https://localhost:8080")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials()
+            .SetIsOriginAllowedToAllowWildcardSubdomains();
+        });
+});
+
+builder.Services.AddMediatR(typeof(CreateRecommendationCommandHandler));
+
+builder.Services.AddControllers();
+builder.Services.AddTransient<IRecommendationRepository, RecommendationRepository>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<ICityRepository, CityRepository>();
+builder.Services.AddTransient<ITagRepository, TagRepository>();
+builder.Services.AddTransient<IFriendRepository, FriendRepository>();
+builder.Services.AddTransient<INotificationRepository, NotificationRepository>();
+
+builder.Services.AddTransient<RecommendationCRUDService>();
+builder.Services.AddTransient<UserCRUDService>();
+builder.Services.AddTransient<CityCRUDService>();
+builder.Services.AddTransient<TagCRUDService>();
+builder.Services.AddTransient<FriendCRUDService>();
+builder.Services.AddTransient<NotificationCRUDService>();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Recommendoo", Version = "v1" });
+});
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(
-                    builder =>
-                    {
-                        builder.WithOrigins("http://localhost:8080",
-                                            "https://localhost:8080")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials()
-                        .SetIsOriginAllowedToAllowWildcardSubdomains();
-                    });
-            });
-
-            // TODO: only one is needed
-            services.AddMediatR(typeof(CreateRecommendationCommandHandler));
-
-            services.AddControllers();
-            services.AddTransient<IRecommendationRepository, RecommendationRepository>();
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<ICityRepository, CityRepository>();
-            services.AddTransient<ITagRepository, TagRepository>();
-            services.AddTransient<IFriendRepository, FriendRepository>();
-            services.AddTransient<INotificationRepository, NotificationRepository>();
-
-            services.AddTransient<RecommendationCRUDService>();
-            services.AddTransient<UserCRUDService>();
-            services.AddTransient<CityCRUDService>();
-            services.AddTransient<TagCRUDService>();
-            services.AddTransient<FriendCRUDService>();
-            services.AddTransient<NotificationCRUDService>();
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Recommendoo", Version = "v1" });
-            });
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(options =>
-                {
-                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-                    options.RoutePrefix = string.Empty;
-                });
-            }
-
-            app.UseRouting();
-            app.UseCors();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Recommendoo API");
-                });
-            });
-        }
-    }
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+        options.RoutePrefix = string.Empty;
+    });
 }
+
+app.UseRouting();
+app.UseCors();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapGet("/", async context =>
+    {
+        await context.Response.WriteAsync("Recommendoo API");
+    });
+});
+
+app.Run();
