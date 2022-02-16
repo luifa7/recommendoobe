@@ -3,6 +3,8 @@ Makefile.in
 *.userprefs
 *.usertasks
 *.db
+*.db-wal
+*.db-shm
 config.make
 config.status
 aclocal.m4
