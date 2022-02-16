@@ -1,0 +1,77 @@
+﻿using Application.Commands;
+using Application.Services;
+using Domain.Interfaces;
+using Infrastructure.Repositories;
+using MediatR;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:8080",
+                                "https://localhost:8080")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials()
+            .SetIsOriginAllowedToAllowWildcardSubdomains();
+        });
+});
+
+builder.Services.AddMediatR(typeof(CreateRecommendationCommandHandler));
+
+builder.Services.AddControllers();
+builder.Services.AddTransient<IRecommendationRepository, RecommendationRepository>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<ICityRepository, CityRepository>();
+builder.Services.AddTransient<ITagRepository, TagRepository>();
+builder.Services.AddTransient<IFriendRepository, FriendRepository>();
+builder.Services.AddTransient<INotificationRepository, NotificationRepository>();
+
+builder.Services.AddTransient<RecommendationCRUDService>();
+builder.Services.AddTransient<UserCRUDService>();
+builder.Services.AddTransient<CityCRUDService>();
+builder.Services.AddTransient<TagCRUDService>();
+builder.Services.AddTransient<FriendCRUDService>();
+builder.Services.AddTransient<NotificationCRUDService>();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Recommendoo", Version = "v1" });
+});
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+        options.RoutePrefix = string.Empty;
+    });
+}
+
+app.UseRouting();
+app.UseCors();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapGet("/", async context =>
+    {
+        await context.Response.WriteAsync("Recommendoo API");
+    });
+});
+
+app.Run();
