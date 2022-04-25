@@ -5,11 +5,11 @@ using Domain.Objects;
 
 namespace Application.Services
 {
-    public class CityCRUDService
+    public class CityCrudService
     {
         private readonly ICityRepository _cityRepository;
 
-        public CityCRUDService(ICityRepository cityRepository)
+        public CityCrudService(ICityRepository cityRepository)
         {
             _cityRepository = cityRepository;
         }
@@ -34,11 +34,19 @@ namespace Application.Services
             return _cityRepository.GetAll();
         }
 
-        public Task UpdateCity(string dId, string name, string country,
-            string photo, bool visited)
+        public Task UpdateCity(
+            string dId,
+            string name,
+            string country,
+            string photo,
+            bool visited)
         {
-            return _cityRepository.UpdateCity(dId, name, country,
-                photo, visited);
+            return _cityRepository.UpdateCity(
+                dId,
+                name,
+                country,
+                photo,
+                visited);
         }
 
         public Task DeleteCity(string dId)

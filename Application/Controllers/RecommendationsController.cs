@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Commands;
+using Application.Commands.NotificationCommands;
+using Application.Commands.RecommendationCommands;
+using Application.Mappers;
 using Application.Services;
 using Domain.Objects;
 using DTOs.Recommendations;
@@ -11,19 +14,20 @@ using Microsoft.AspNetCore.Mvc;
 namespace Application.Controllers
 {
     [Route("[controller]")]
-    public class RecommendationsController: Controller
+    public class RecommendationsController : Controller
     {
         private readonly IMediator _mediator;
-        private readonly RecommendationCRUDService _recommendationService;
-        private readonly TagCRUDService _tagService;
+        private readonly RecommendationCrudService _recommendationService;
+        private readonly TagCrudService _tagService;
 
-        public RecommendationsController(IMediator mediator,
-            RecommendationCRUDService recommendationCRUDService,
-            TagCRUDService tagCRUDService)
+        public RecommendationsController(
+            IMediator mediator,
+            RecommendationCrudService recommendationCrudService,
+            TagCrudService tagCrudService)
         {
             _mediator = mediator;
-            _recommendationService = recommendationCRUDService;
-            _tagService = tagCRUDService;
+            _recommendationService = recommendationCrudService;
+            _tagService = tagCrudService;
         }
 
         [HttpGet]
@@ -31,15 +35,15 @@ namespace Application.Controllers
         {
             var domainRecommendations = _recommendationService.GetAll();
             List<ReadRecommendation> recommendations = new();
-            foreach(Recommendation domainRecommendation in domainRecommendations)
+            foreach (Recommendation domainRecommendation in domainRecommendations)
             {
                 List<Tag> domainTags =
                     _tagService.GetTagsByRecommendationDId(domainRecommendation.DId);
                 recommendations.Add(
-                RecommendationAppMappers.FromDomainObjectToApiDTO(
+                RecommendationAppMappers.FromDomainObjectToApiDto(
                     domainRecommendation, domainTags));
             }
-            
+
             return Ok(recommendations);
         }
 
@@ -57,9 +61,10 @@ namespace Application.Controllers
                     List<Tag> domainTags =
                         _tagService.GetTagsByRecommendationDId(domainRecommendation.DId);
                     recommendations.Add(
-                    RecommendationAppMappers.FromDomainObjectToApiDTO(
+                    RecommendationAppMappers.FromDomainObjectToApiDto(
                         domainRecommendation, domainTags));
                 }
+
                 return Ok(recommendations);
             }
             else
@@ -69,7 +74,7 @@ namespace Application.Controllers
                         _tagService.GetTagsByRecommendationDId(dId);
                 ReadRecommendation recommendation =
                     RecommendationAppMappers
-                    .FromDomainObjectToApiDTO(domainRecommendation, domainTags);
+                    .FromDomainObjectToApiDto(domainRecommendation, domainTags);
                 return Ok(recommendation);
             }
         }
@@ -104,9 +109,10 @@ namespace Application.Controllers
                 );
             await _mediator.Send(notificationCommand);
 
-            return Created(recommendation.DId,
+            return Created(
+                recommendation.DId,
                 RecommendationAppMappers
-                .FromDomainObjectToApiDTO(recommendation, domainTags));
+                .FromDomainObjectToApiDto(recommendation, domainTags));
         }
 
         [HttpPost("copy")]
@@ -136,13 +142,15 @@ namespace Application.Controllers
             List<Tag> domainTags =
                         _tagService.GetTagsByRecommendationDId(recommendation.DId);
 
-            return Created(recommendation.DId,
+            return Created(
+                recommendation.DId,
                 RecommendationAppMappers
-                .FromDomainObjectToApiDTO(recommendation, domainTags));
+                .FromDomainObjectToApiDto(recommendation, domainTags));
         }
 
         [HttpPut("{dId}")]
-        public async Task<IActionResult> Update(string dId,
+        public async Task<IActionResult> Update(
+            string dId,
             [FromBody] UpdateRecommendation updateRecommendation)
         {
             var command = new UpdateRecommendationCommand(

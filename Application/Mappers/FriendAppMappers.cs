@@ -1,11 +1,11 @@
 ﻿using Domain.Objects;
 using DTOs.Friends;
 
-namespace Infrastructure.Mappers
+namespace Application.Mappers
 {
-    public class FriendAppMappers
+    public static class FriendAppMappers
     {
-        public static ReadFriend FromDomainObjectToApiDTO(Friend friend)
+        public static ReadFriend FromDomainObjectToApiDto(Friend friend)
         {
             return new ReadFriend(
                 dId: friend.DId,

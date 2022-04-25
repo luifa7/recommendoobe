@@ -12,9 +12,16 @@
         public string InterestedIn { get; set; }
         public string Photo { get; set; }
 
-        public ReadUser(string dId, string userName, string name, string shortFact1,
-            string shortFact2, string shortFact3, string aboutMe,
-            string interestedIn, string photo)
+        public ReadUser(
+            string dId,
+            string userName,
+            string name,
+            string shortFact1,
+            string shortFact2,
+            string shortFact3,
+            string aboutMe,
+            string interestedIn,
+            string photo)
         {
             DId = dId;
             UserName = userName;

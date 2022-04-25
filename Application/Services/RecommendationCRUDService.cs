@@ -6,11 +6,11 @@ using Domain.Objects;
 
 namespace Application.Services
 {
-    public class RecommendationCRUDService
+    public class RecommendationCrudService
     {
         private readonly IRecommendationRepository _recommendationRepository;
 
-        public RecommendationCRUDService(IRecommendationRepository recommendationRepository)
+        public RecommendationCrudService(IRecommendationRepository recommendationRepository)
         {
             _recommendationRepository = recommendationRepository;
         }
@@ -45,14 +45,33 @@ namespace Application.Services
             return _recommendationRepository.GetAll();
         }
 
-        public Task UpdateRecommendation(string dId, string placeName,
-            string title, string text, string address, string maps,
-            string website, string instagram, string facebook, string otherLink,
-            string photo, string[] tags)
+        public Task UpdateRecommendation(
+            string dId,
+            string placeName,
+            string title,
+            string text,
+            string address,
+            string maps,
+            string website,
+            string instagram,
+            string facebook,
+            string otherLink,
+            string photo,
+            string[] tags)
         {
-            return _recommendationRepository.UpdateRecommendation(dId,
-                placeName, title, text, address, maps, website, instagram,
-                facebook, otherLink, photo, tags);
+            return _recommendationRepository.UpdateRecommendation(
+                dId,
+                placeName,
+                title,
+                text,
+                address,
+                maps,
+                website,
+                instagram,
+                facebook,
+                otherLink,
+                photo,
+                tags);
         }
 
         public Task DeleteRecommendation(string dId)

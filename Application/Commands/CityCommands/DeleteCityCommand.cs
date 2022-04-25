@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 using Application.Services;
 using MediatR;
 
-namespace Application.Commands
+namespace Application.Commands.CityCommands
 {
     public class DeleteCityCommand : IRequest<bool>
     {
-        public string DId;
+        public string DId { get; }
 
         public DeleteCityCommand(string dId)
         {
@@ -19,14 +19,15 @@ namespace Application.Commands
     public class DeleteCityCommandHandler :
         IRequestHandler<DeleteCityCommand, bool>
     {
-        private readonly CityCRUDService _cityService;
+        private readonly CityCrudService _cityService;
 
-        public DeleteCityCommandHandler(CityCRUDService cityCRUDService)
+        public DeleteCityCommandHandler(CityCrudService cityCrudService)
         {
-            _cityService = cityCRUDService;
+            _cityService = cityCrudService;
         }
 
-        public async Task<bool> Handle(DeleteCityCommand request,
+        public async Task<bool> Handle(
+            DeleteCityCommand request,
             CancellationToken cancellationToken)
         {
             try

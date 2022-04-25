@@ -1,4 +1,5 @@
 ﻿using Application.Commands;
+using Application.Commands.RecommendationCommands;
 using Application.Services;
 using Domain.Interfaces;
 using Infrastructure.Repositories;
@@ -17,8 +18,9 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(
         builder =>
         {
-            builder.WithOrigins("http://localhost:8080",
-                                "https://localhost:8080")
+            builder.WithOrigins(
+                "http://localhost:8080",
+                "https://localhost:8080")
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials()
@@ -36,12 +38,12 @@ builder.Services.AddTransient<ITagRepository, TagRepository>();
 builder.Services.AddTransient<IFriendRepository, FriendRepository>();
 builder.Services.AddTransient<INotificationRepository, NotificationRepository>();
 
-builder.Services.AddTransient<RecommendationCRUDService>();
-builder.Services.AddTransient<UserCRUDService>();
-builder.Services.AddTransient<CityCRUDService>();
-builder.Services.AddTransient<TagCRUDService>();
-builder.Services.AddTransient<FriendCRUDService>();
-builder.Services.AddTransient<NotificationCRUDService>();
+builder.Services.AddTransient<RecommendationCrudService>();
+builder.Services.AddTransient<UserCrudService>();
+builder.Services.AddTransient<CityCrudService>();
+builder.Services.AddTransient<TagCrudService>();
+builder.Services.AddTransient<FriendCrudService>();
+builder.Services.AddTransient<NotificationCrudService>();
 
 builder.Services.AddSwaggerGen(c =>
 {

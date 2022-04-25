@@ -1,46 +1,44 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain.Objects;
 using Domain.Interfaces;
+using Domain.Objects;
 using Infrastructure.Database;
 using Infrastructure.Mappers;
 
 namespace Infrastructure.Repositories
 {
-    public class NotificationRepository: INotificationRepository
+    public class NotificationRepository : INotificationRepository
     {
-        private DBContext _dbContext;
+        private readonly DbContext _dbContext;
 
         public NotificationRepository()
         {
-            _dbContext = new DBContext();
+            _dbContext = new DbContext();
         }
 
         public List<Notification> GetAllByUserDId(string userDId)
         {
-            var notificationsFromDB = _dbContext.Notifications
-                .Where(n => n.UserDId ==userDId).ToList();
+            var notificationsFromDb = _dbContext.Notifications
+                .Where(n => n.UserDId == userDId).ToList();
             List<Notification> notifications = new();
 
-            notificationsFromDB.ForEach(n => notifications.Add
-            (NotificationMappers.FromDBEntityToDomainObject(n)));
+            notificationsFromDb.ForEach(n => notifications.Add(
+            NotificationMappers.FromDbEntityToDomainObject(n)));
 
             return notifications;
-
         }
 
         public List<Notification> GetAllNotOpenedByUserDId(string userDId)
         {
-            var notificationsFromDB = _dbContext.Notifications
+            var notificationsFromDb = _dbContext.Notifications
                 .Where(n => (n.UserDId == userDId) && (!n.WasOpen)).ToList();
             List<Notification> notifications = new();
 
-            notificationsFromDB.ForEach(n => notifications.Add
-            (NotificationMappers.FromDBEntityToDomainObject(n)));
+            notificationsFromDb.ForEach(n => notifications.Add(
+            NotificationMappers.FromDbEntityToDomainObject(n)));
 
             return notifications;
-
         }
 
         public int GetNotOpenedCountByUserDId(string userDId)
@@ -51,9 +49,9 @@ namespace Infrastructure.Repositories
 
         public Task PersistAsync(Notification notification)
         {
-            var notificationDBEntity =
-                NotificationMappers.FromDomainObjectToDBEntity(notification);
-            _dbContext.Notifications.Add(notificationDBEntity);
+            var notificationDbEntity =
+                NotificationMappers.FromDomainObjectToDbEntity(notification);
+            _dbContext.Notifications.Add(notificationDbEntity);
             return _dbContext.SaveChangesAsync();
         }
 
@@ -66,11 +64,11 @@ namespace Infrastructure.Repositories
 
         public Task MarkAllNotificationAsOpenedByUserDId(string userDId)
         {
-            var notificationsFromDB = _dbContext.Notifications
+            var notificationsFromDb = _dbContext.Notifications
                 .Where(n => n.UserDId == userDId &&
-                n.WasOpen == false).ToList();
+!n.WasOpen).ToList();
 
-            notificationsFromDB.ForEach(n =>n.WasOpen=true);
+            notificationsFromDb.ForEach(n => n.WasOpen = true);
             return _dbContext.SaveChangesAsync();
         }
 

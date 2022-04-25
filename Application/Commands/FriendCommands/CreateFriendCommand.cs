@@ -4,12 +4,12 @@ using Application.Services;
 using Domain.Objects;
 using MediatR;
 
-namespace Application.Commands
+namespace Application.Commands.FriendCommands
 {
     public class CreatePendingFriendCommand : IRequest<Friend>
     {
-        public string UserDId;
-        public string FriendDId;
+        public string UserDId { get; }
+        public string FriendDId { get; }
 
         public CreatePendingFriendCommand(string userDId, string friendDId)
         {
@@ -21,15 +21,16 @@ namespace Application.Commands
     public class CreatePendingFriendCommandHandler :
         IRequestHandler<CreatePendingFriendCommand, Friend>
     {
-        private readonly FriendCRUDService _friendService;
+        private readonly FriendCrudService _friendService;
         private const string FriendshipPending = "pending";
 
-        public CreatePendingFriendCommandHandler(FriendCRUDService friendCRUDService)
+        public CreatePendingFriendCommandHandler(FriendCrudService friendCrudService)
         {
-            _friendService = friendCRUDService;
+            _friendService = friendCrudService;
         }
 
-        public async Task<Friend> Handle(CreatePendingFriendCommand request,
+        public async Task<Friend> Handle(
+            CreatePendingFriendCommand request,
             CancellationToken cancellationToken)
         {
             var friend = Friend.Create(

@@ -3,13 +3,13 @@ using System.Linq;
 using Domain.Objects;
 using DTOs.Recommendations;
 
-namespace Infrastructure.Mappers
+namespace Application.Mappers
 {
-    public class RecommendationAppMappers
+    public static class RecommendationAppMappers
     {
-        public static ReadRecommendation FromDomainObjectToApiDTO(
+        public static ReadRecommendation FromDomainObjectToApiDto(
             Recommendation recommendation,
-            List<Tag> tags
+            IEnumerable<Tag> tags
             )
         {
             return new ReadRecommendation(
@@ -32,7 +32,7 @@ namespace Infrastructure.Mappers
                 );
         }
 
-        public static string[] FromTagListToArrayString(List<Tag> tags)
+        public static string[] FromTagListToArrayString(IEnumerable<Tag> tags)
         {
             return tags.Select(t => t.Word).ToArray();
         }

@@ -1,6 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Commands;
+using Application.Commands.FriendCommands;
+using Application.Commands.NotificationCommands;
+using Application.Commands.RecommendationCommands;
+using Application.Commands.UserCommands;
+using Application.Mappers;
 using Application.Services;
 using Domain.Objects;
 using DTOs.Cities;
@@ -15,28 +20,29 @@ using Microsoft.AspNetCore.Mvc;
 namespace Application.Controllers
 {
     [Route("[controller]")]
-    public class UsersController: Controller
+    public class UsersController : Controller
     {
         private readonly IMediator _mediator;
-        private readonly UserCRUDService _userService;
-        private readonly TagCRUDService _tagService;
-        private readonly RecommendationCRUDService _recommendationService;
-        private readonly NotificationCRUDService _notificationService;
-        private readonly FriendCRUDService _friendService;
+        private readonly UserCrudService _userService;
+        private readonly TagCrudService _tagService;
+        private readonly RecommendationCrudService _recommendationService;
+        private readonly NotificationCrudService _notificationService;
+        private readonly FriendCrudService _friendService;
 
-        public UsersController(IMediator mediator,
-            UserCRUDService userCRUDService,
-            TagCRUDService tagCRUDService,
-            RecommendationCRUDService recommendationCRUDService,
-            NotificationCRUDService notificationCRUDService,
-            FriendCRUDService friendCRUDService)
+        public UsersController(
+            IMediator mediator,
+            UserCrudService userCrudService,
+            TagCrudService tagCrudService,
+            RecommendationCrudService recommendationCrudService,
+            NotificationCrudService notificationCrudService,
+            FriendCrudService friendCrudService)
         {
             _mediator = mediator;
-            _userService = userCRUDService;
-            _tagService = tagCRUDService;
-            _recommendationService = recommendationCRUDService;
-            _notificationService = notificationCRUDService;
-            _friendService = friendCRUDService;
+            _userService = userCrudService;
+            _tagService = tagCrudService;
+            _recommendationService = recommendationCrudService;
+            _notificationService = notificationCrudService;
+            _friendService = friendCrudService;
         }
 
         [HttpGet]
@@ -51,16 +57,16 @@ namespace Application.Controllers
                 if (domainUser != null)
                 {
                     users.Add(
-                    UserAppMappers.FromDomainObjectToApiDTO(domainUser));
+                    UserAppMappers.FromDomainObjectToApiDto(domainUser));
                 }
             }
             else
             {
                 var domainUsers = _userService.GetAll();
                 domainUsers.ForEach(dre => users.Add(
-                    UserAppMappers.FromDomainObjectToApiDTO(dre)));
-                
+                    UserAppMappers.FromDomainObjectToApiDto(dre)));
             }
+
             return Ok(users);
         }
 
@@ -72,8 +78,8 @@ namespace Application.Controllers
                 string[] usersDIds = dId.Split(',');
                 var domainUsers = _userService.GetUsersByDIdList(usersDIds);
                 List<ReadUser> users = new();
-                domainUsers.ForEach(duser => users.Add(
-                    UserAppMappers.FromDomainObjectToApiDTO(duser)));
+                domainUsers.ForEach(dUser => users.Add(
+                    UserAppMappers.FromDomainObjectToApiDto(dUser)));
                 return Ok(users);
             }
             else
@@ -81,7 +87,7 @@ namespace Application.Controllers
                 var domainUser = _userService.GetByDId(dId);
                 if (domainUser != null)
                 {
-                    ReadUser user = UserAppMappers.FromDomainObjectToApiDTO(domainUser);
+                    ReadUser user = UserAppMappers.FromDomainObjectToApiDto(domainUser);
                     return Ok(user);
                 }
                 else
@@ -97,7 +103,7 @@ namespace Application.Controllers
             var domainCities = _userService.GetCitiesByUserDId(dId);
             List<ReadCity> cities = new();
             domainCities.ForEach(dcity => cities.Add(
-                CityAppMappers.FromDomainObjectToApiDTO(dcity)));
+                CityAppMappers.FromDomainObjectToApiDto(dcity)));
             return Ok(cities);
         }
 
@@ -112,9 +118,10 @@ namespace Application.Controllers
                 List<Tag> domainTags =
                     _tagService.GetTagsByRecommendationDId(domainRecommendation.DId);
                 recommendations.Add(
-                RecommendationAppMappers.FromDomainObjectToApiDTO(
+                RecommendationAppMappers.FromDomainObjectToApiDto(
                     domainRecommendation, domainTags));
             }
+
             return Ok(recommendations);
         }
 
@@ -133,9 +140,10 @@ namespace Application.Controllers
             foreach (Notification domainNotification in domainNotifications)
             {
                 notifications.Add(
-                NotificationAppMappers.FromDomainObjectToApiDTO(
+                NotificationAppMappers.FromDomainObjectToApiDto(
                     domainNotification));
             }
+
             return Ok(notifications);
         }
 
@@ -148,9 +156,10 @@ namespace Application.Controllers
             foreach (Notification domainNotification in domainNotifications)
             {
                 notifications.Add(
-                NotificationAppMappers.FromDomainObjectToApiDTO(
+                NotificationAppMappers.FromDomainObjectToApiDto(
                     domainNotification));
             }
+
             return Ok(notifications);
         }
 
@@ -176,6 +185,7 @@ namespace Application.Controllers
         public IActionResult GetReceivedFriendsByDId(string dId)
         {
             List<string> friends = new();
+
             // this case returns list of UserDIds since received has the id as Friend
             var domainFriends = _friendService.GetAllReceivedPendingByUserDId(dId);
             domainFriends.ForEach(dfriend => friends.Add(dfriend.UserDId));
@@ -204,19 +214,24 @@ namespace Application.Controllers
             else
             {
                 var command = new CreateUserCommand(
-                createUser.UserName.ToLower(), createUser.Name, createUser.ShortFact1,
-                createUser.ShortFact2, createUser.ShortFact3,
-                createUser.AboutMe, createUser.InterestedIn, createUser.Photo
+                createUser.UserName.ToLower(),
+                createUser.Name,
+                createUser.ShortFact1,
+                createUser.ShortFact2,
+                createUser.ShortFact3,
+                createUser.AboutMe,
+                createUser.InterestedIn,
+                createUser.Photo
                 );
                 User user = await _mediator.Send(command);
 
-                return Created(user.DId, UserAppMappers.FromDomainObjectToApiDTO(user));
-
+                return Created(user.DId, UserAppMappers.FromDomainObjectToApiDto(user));
             }
         }
 
         [HttpPost("{dId}/friends/")]
-        public async Task<IActionResult> Create(string dId,
+        public async Task<IActionResult> Create(
+            string dId,
             [FromBody] CreateFriend createFriend)
         {
             var command = new CreatePendingFriendCommand(
@@ -235,7 +250,8 @@ namespace Application.Controllers
         }
 
         [HttpPut("{dId}")]
-        public async Task<IActionResult> Update(string dId,
+        public async Task<IActionResult> Update(
+            string dId,
             [FromBody] UpdateUser updateUser)
         {
             var command = new UpdateUserCommand(
@@ -277,7 +293,6 @@ namespace Application.Controllers
         public async Task<IActionResult> AcceptFriendRequest(
             string dId, string friendDId)
         {
-
             var command = new AcceptFriendRequestCommand(dId, friendDId);
             bool success = await _mediator.Send(command);
             if (success)

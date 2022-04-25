@@ -4,12 +4,12 @@ using Application.Services;
 using Domain.Objects;
 using MediatR;
 
-namespace Application.Commands
+namespace Application.Commands.TagCommands
 {
     public class CreateTagCommand : IRequest<Tag>
     {
-        public string RecommendationDId;
-        public string Word;
+        public string RecommendationDId { get; }
+        public string Word { get; }
 
         public CreateTagCommand(string recommendationDId, string word)
         {
@@ -20,11 +20,11 @@ namespace Application.Commands
 
     public class CreateTagCommandHandler : IRequestHandler<CreateTagCommand, Tag>
     {
-        private readonly TagCRUDService _tagService;
+        private readonly TagCrudService _tagService;
 
-        public CreateTagCommandHandler(TagCRUDService tagCRUDService)
+        public CreateTagCommandHandler(TagCrudService tagCrudService)
         {
-            _tagService = tagCRUDService;
+            _tagService = tagCrudService;
         }
 
         public async Task<Tag> Handle(CreateTagCommand request, CancellationToken cancellationToken)

@@ -3,22 +3,22 @@ using Infrastructure.Database.Entities;
 
 namespace Infrastructure.Mappers
 {
-    public class TagMappers
+    public static class TagMappers
     {
-        public static Tags FromDomainObjectToDBEntity(Tag tag)
+        public static Tags FromDomainObjectToDbEntity(Tag tag)
         {
-            return new Tags() {
+            return new Tags()
+            {
                 RecommendationDId = tag.RecommendationDId,
                 Word = tag.Word
-                };
-
+            };
         }
 
-        public static Tag FromDBEntityToDomainObject(Tags tagDBEntity)
+        public static Tag FromDbEntityToDomainObject(Tags tagDbEntity)
         {
             return new Tag(
-                recommendationDId: tagDBEntity.RecommendationDId,
-                word: tagDBEntity.Word
+                recommendationDId: tagDbEntity.RecommendationDId,
+                word: tagDbEntity.Word
                 );
         }
     }

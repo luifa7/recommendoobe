@@ -3,10 +3,9 @@ using Infrastructure.Database.Entities;
 
 namespace Infrastructure.Mappers
 {
-    public class FriendMappers
+    public static class FriendMappers
     {
-
-        public static Friends FromDomainObjectToDBEntity(Friend friend)
+        public static Friends FromDomainObjectToDbEntity(Friend friend)
         {
             return new Friends()
             {
@@ -14,17 +13,16 @@ namespace Infrastructure.Mappers
                 UserDId = friend.UserDId,
                 FriendDId = friend.FriendDId,
                 Status = friend.Status
-        };
-
+            };
         }
 
-        public static Friend FromDBEntityToDomainObject(Friends friendDBEntity)
+        public static Friend FromDbEntityToDomainObject(Friends friendDbEntity)
         {
             return new Friend(
-                dId: friendDBEntity.DId,
-                userDId: friendDBEntity.UserDId,
-                friendDId: friendDBEntity.FriendDId,
-                status: friendDBEntity.Status
+                dId: friendDbEntity.DId,
+                userDId: friendDbEntity.UserDId,
+                friendDId: friendDbEntity.FriendDId,
+                status: friendDbEntity.Status
                 );
         }
     }

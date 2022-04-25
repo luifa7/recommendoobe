@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Database
 {
-    class DBContext : DbContext
+    internal sealed class DbContext : Microsoft.EntityFrameworkCore.DbContext
     {
         public DbSet<Recommendations> Recommendations { get; set; }
         public DbSet<Users> Users { get; set; }
@@ -12,7 +12,7 @@ namespace Infrastructure.Database
         public DbSet<Friends> Friends { get; set; }
         public DbSet<Notifications> Notifications { get; set; }
 
-        public DBContext()
+        public DbContext()
         {
             Database.EnsureCreatedAsync().Wait();
         }

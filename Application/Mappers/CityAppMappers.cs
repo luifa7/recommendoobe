@@ -1,11 +1,11 @@
 ﻿using Domain.Objects;
 using DTOs.Cities;
 
-namespace Infrastructure.Mappers
+namespace Application.Mappers
 {
-    public class CityAppMappers
+    public static class CityAppMappers
     {
-        public static ReadCity FromDomainObjectToApiDTO(City city)
+        public static ReadCity FromDomainObjectToApiDto(City city)
         {
             return new ReadCity(
                 dId: city.DId,
@@ -18,4 +18,3 @@ namespace Infrastructure.Mappers
         }
     }
 }
-// TODO: extensions methods

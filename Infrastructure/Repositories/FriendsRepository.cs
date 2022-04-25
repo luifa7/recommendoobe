@@ -2,73 +2,73 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain.Objects;
 using Domain.Interfaces;
+using Domain.Objects;
 using Infrastructure.Database;
 using Infrastructure.Database.Entities;
 using Infrastructure.Mappers;
 
 namespace Infrastructure.Repositories
 {
-    public class FriendRepository: IFriendRepository
+    public class FriendRepository : IFriendRepository
     {
-        private DBContext _dbContext;
+        private readonly DbContext _dbContext;
         public const string FriendshipPending = "pending";
-        public const string FriendshipAccepted = "accepted";
+        private const string FriendshipAccepted = "accepted";
 
         public FriendRepository()
         {
-            _dbContext = new DBContext();
+            _dbContext = new DbContext();
         }
 
         public List<Friend> GetAllFriendsByUserDId(string userDId)
         {
-            List<Friends> friendsFromDB =
+            var friendsFromDb =
                 _dbContext.Friends.Where(
                     f => f.UserDId == userDId
                     && f.Status == FriendshipAccepted
                 ).ToList();
 
             List<Friend> friends = new();
-            friendsFromDB.ForEach(fr => friends.Add
-            (FriendMappers.FromDBEntityToDomainObject(fr)));
+            friendsFromDb.ForEach(fr => friends.Add(
+            FriendMappers.FromDbEntityToDomainObject(fr)));
 
             return friends;
         }
 
         public List<Friend> GetAllSentPendingByUserDId(string userDId)
         {
-            List<Friends> sentFriendsFromDB =
+            var sentFriendsFromDb =
                 _dbContext.Friends.Where(
                     f => f.UserDId == userDId
                     && f.Status == FriendshipPending
                 ).ToList();
 
             List<Friend> friends = new();
-            sentFriendsFromDB.ForEach(fr => friends.Add
-            (FriendMappers.FromDBEntityToDomainObject(fr)));
+            sentFriendsFromDb.ForEach(fr => friends.Add(
+            FriendMappers.FromDbEntityToDomainObject(fr)));
 
             return friends;
         }
 
         public List<Friend> GetAllReceivedPendingByUserDId(string userDId)
         {
-            List<Friends> pendingFriendsFromDB =
+            var pendingFriendsFromDb =
                 _dbContext.Friends.Where(
                     f => f.FriendDId == userDId
                     && f.Status == FriendshipPending
                 ).ToList();
 
             List<Friend> friends = new();
-            pendingFriendsFromDB.ForEach(fr => friends.Add
-            (FriendMappers.FromDBEntityToDomainObject(fr)));
+            pendingFriendsFromDb.ForEach(fr => friends.Add(
+            FriendMappers.FromDbEntityToDomainObject(fr)));
 
             return friends;
         }
 
         public bool IsRequestPendingBetweenUsers(string user1DId, string user2DId)
         {
-            List<Friends> pendingFriendsFromDB =
+            var pendingFriendsFromDb =
                 _dbContext.Friends.Where(
                     f => (
                     (f.UserDId == user1DId && f.FriendDId == user2DId)
@@ -76,14 +76,14 @@ namespace Infrastructure.Repositories
                     && f.Status == FriendshipPending
                 ).ToList();
 
-            return pendingFriendsFromDB.Count > 0;
+            return pendingFriendsFromDb.Count > 0;
         }
 
         public Task PersistAsync(Friend friend)
         {
-            var friendDBEntity =
-                FriendMappers.FromDomainObjectToDBEntity(friend);
-            _dbContext.Friends.Add(friendDBEntity);
+            var friendDbEntity =
+                FriendMappers.FromDomainObjectToDbEntity(friend);
+            _dbContext.Friends.Add(friendDbEntity);
             return _dbContext.SaveChangesAsync();
         }
 
@@ -101,31 +101,30 @@ namespace Infrastructure.Repositories
         public Task DeleteAllFriendForUser(string userDId)
         {
             _dbContext.Friends.Where(
-                f => f.UserDId == userDId ||  f.FriendDId == userDId
+                f => f.UserDId == userDId || f.FriendDId == userDId
             ).ToList().ForEach(f => _dbContext.Friends.Remove(f));
 
             return _dbContext.SaveChangesAsync();
         }
 
-        public Task AcceptFriendRequest(string receiverDId, string senderDId,
+        public Task AcceptFriendRequest(
+            string receiverDId,
+            string senderDId,
             Friend friendshipInTheOtherDirection)
         {
-            Friends requestFromDB = _dbContext.Friends.FirstOrDefault(
-                f => (
-                (f.UserDId == senderDId && f.FriendDId == receiverDId))
+            var requestFromDb = _dbContext.Friends.FirstOrDefault(
+                f =>
+                (f.UserDId == senderDId && f.FriendDId == receiverDId)
                 && f.Status == FriendshipPending
             );
-            if (requestFromDB != null)
-            {
-                requestFromDB.Status = FriendshipAccepted;
-                var friendDBEntity =
-                FriendMappers.FromDomainObjectToDBEntity(
+            if (requestFromDb == null) return Task.CompletedTask;
+
+            requestFromDb.Status = FriendshipAccepted;
+            var friendDbEntity =
+                FriendMappers.FromDomainObjectToDbEntity(
                     friendshipInTheOtherDirection);
-                _dbContext.Friends.Add(friendDBEntity);
-                return _dbContext.SaveChangesAsync();
-            }
-            else return null;
-            
+            _dbContext.Friends.Add(friendDbEntity);
+            return _dbContext.SaveChangesAsync();
         }
     }
 }

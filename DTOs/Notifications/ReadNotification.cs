@@ -9,8 +9,13 @@
         public bool WasOpen { get; set; }
         public string RelatedDId { get; set; }
 
-        public ReadNotification(string dId, string userDId, string type,
-            string text, bool wasOpen, string relatedDId)
+        public ReadNotification(
+            string dId,
+            string userDId,
+            string type,
+            string text,
+            bool wasOpen,
+            string relatedDId)
         {
             DId = dId;
             UserDId = userDId;

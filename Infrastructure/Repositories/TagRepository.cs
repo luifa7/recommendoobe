@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain.Objects;
 using Domain.Interfaces;
+using Domain.Objects;
 using Infrastructure.Database;
 using Infrastructure.Database.Entities;
 using Infrastructure.Mappers;
@@ -11,78 +11,74 @@ namespace Infrastructure.Repositories
 {
     public class TagRepository : ITagRepository
     {
-        private DBContext _dbContext;
+        private readonly DbContext _dbContext;
 
         public TagRepository()
         {
-            _dbContext = new DBContext();
+            _dbContext = new DbContext();
         }
 
         public Tag GetByWord(string word)
         {
-            Tags tagFromDB =
+            Tags tagFromDb =
                 _dbContext.Tags.FirstOrDefault(t => t.Word == word);
 
-            if (tagFromDB == null) return null;
-            return TagMappers.FromDBEntityToDomainObject(tagFromDB);
+            return tagFromDb == null ? null : TagMappers.FromDbEntityToDomainObject(tagFromDb);
         }
 
         public Tag GetByWordAndRecommendationDId(
             string recommendationDId, string word)
         {
-            Tags tagFromDB =
+            Tags tagFromDb =
                 _dbContext.Tags.FirstOrDefault(
                     t => t.RecommendationDId == recommendationDId
                     && t.Word == word);
 
-            if (tagFromDB == null) return null;
-            return TagMappers.FromDBEntityToDomainObject(tagFromDB);
+            return tagFromDb == null ? null : TagMappers.FromDbEntityToDomainObject(tagFromDb);
         }
 
         public List<Tag> GetTagsByWordList(string[] words)
         {
-            var tagsFromDB = _dbContext.Tags.Where(
+            var tagFromDb = _dbContext.Tags.Where(
                 t => words.Contains(t.Word)).ToList();
             List<Tag> tags = new();
 
-            tagsFromDB.ForEach(re => tags.Add
-            (TagMappers.FromDBEntityToDomainObject(re)));
+            tagFromDb.ForEach(re => tags.Add(
+            TagMappers.FromDbEntityToDomainObject(re)));
 
             return tags;
-
         }
 
         public List<Tag> GetTagsByRecommendationDId(string recommendationDId)
         {
-            var tagsFromDB = _dbContext.Tags.Where(
+            var tagFromDb = _dbContext.Tags.Where(
                 t => t.RecommendationDId == recommendationDId).ToList();
             List<Tag> tags = new();
 
-            tagsFromDB.ForEach(re => tags.Add
-            (TagMappers.FromDBEntityToDomainObject(re)));
+            tagFromDb.ForEach(re => tags.Add(
+            TagMappers.FromDbEntityToDomainObject(re)));
 
             return tags;
-
         }
 
         public List<Tag> GetAll()
         {
-            List<Tags> tagsFromDB =
+            List<Tags> tagFromDb =
                 _dbContext.Tags.ToList();
 
             List<Tag> tags = new();
 
-            tagsFromDB.ForEach(re => tags.Add
-            (TagMappers.FromDBEntityToDomainObject(re)));
+            tagFromDb.ForEach(re => tags.Add(
+            TagMappers.FromDbEntityToDomainObject(re)));
 
             return tags;
         }
 
         public Task PersistAsync(Tag tag)
         {
-            var tagDBEntity =
-                TagMappers.FromDomainObjectToDBEntity(tag);
-            _dbContext.Tags.Add(tagDBEntity);
+            var tagFromDb =
+                TagMappers.FromDomainObjectToDbEntity(tag);
+            _dbContext.Tags.Add(tagFromDb);
             return _dbContext.SaveChangesAsync();
         }
 

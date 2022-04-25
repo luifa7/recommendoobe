@@ -22,10 +22,23 @@ namespace DTOs.Recommendations
         public string FromUserDId { get; set; }
         public string ToUserDId { get; set; }
 
-        public ReadRecommendation(string dId, string placeName, string title, string text,
-            string address, string maps, string website, string instagram, string facebook,
-            string otherLink, string photo, long createdOn, string cityDId, string[] tags,
-            string fromUserDId, string toUserDId)
+        public ReadRecommendation(
+            string dId,
+            string placeName,
+            string title,
+            string text,
+            string address,
+            string maps,
+            string website,
+            string instagram,
+            string facebook,
+            string otherLink,
+            string photo,
+            long createdOn,
+            string cityDId,
+            string[] tags,
+            string fromUserDId,
+            string toUserDId)
         {
             DId = dId;
             PlaceName = placeName;

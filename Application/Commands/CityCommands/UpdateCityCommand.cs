@@ -4,18 +4,22 @@ using System.Threading.Tasks;
 using Application.Services;
 using MediatR;
 
-namespace Application.Commands
+namespace Application.Commands.CityCommands
 {
     public class UpdateCityCommand : IRequest<bool>
     {
-        public string DId;
-        public string Name;
-        public string Country;
-        public string Photo;
-        public bool Visited;
+        public string DId { get; }
+        public string Name { get; }
+        public string Country { get; }
+        public string Photo { get; }
+        public bool Visited { get; }
 
-        public UpdateCityCommand(string dId, string name, string country,
-            string photo, bool visited)
+        public UpdateCityCommand(
+            string dId,
+            string name,
+            string country,
+            string photo,
+            bool visited)
         {
             DId = dId;
             Name = name;
@@ -28,20 +32,25 @@ namespace Application.Commands
     public class UpdateCityCommandHandler :
         IRequestHandler<UpdateCityCommand, bool>
     {
-        private readonly CityCRUDService _cityService;
+        private readonly CityCrudService _cityService;
 
-        public UpdateCityCommandHandler(CityCRUDService cityCRUDService)
+        public UpdateCityCommandHandler(CityCrudService cityCrudService)
         {
-            _cityService = cityCRUDService;
+            _cityService = cityCrudService;
         }
 
-        public async Task<bool> Handle(UpdateCityCommand request,
+        public async Task<bool> Handle(
+            UpdateCityCommand request,
             CancellationToken cancellationToken)
         {
             try
             {
-                await _cityService.UpdateCity(request.DId, request.Name,
-                    request.Country, request.Photo, request.Visited);
+                await _cityService.UpdateCity(
+                    request.DId,
+                    request.Name,
+                    request.Country,
+                    request.Photo,
+                    request.Visited);
 
                 return true;
             }

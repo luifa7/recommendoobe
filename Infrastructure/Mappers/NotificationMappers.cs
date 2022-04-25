@@ -3,9 +3,9 @@ using Infrastructure.Database.Entities;
 
 namespace Infrastructure.Mappers
 {
-    public class NotificationMappers
+    public static class NotificationMappers
     {
-        public static Notifications FromDomainObjectToDBEntity(
+        public static Notifications FromDomainObjectToDbEntity(
             Notification notification)
         {
             return new Notifications()
@@ -16,20 +16,19 @@ namespace Infrastructure.Mappers
                 Text = notification.Text,
                 WasOpen = notification.WasOpen,
                 RelatedDId = notification.RelatedDId
-        };
-
+            };
         }
 
-        public static Notification FromDBEntityToDomainObject(
-            Notifications notificationDBEntity)
+        public static Notification FromDbEntityToDomainObject(
+            Notifications notificationDbEntity)
         {
             return new Notification(
-                dId: notificationDBEntity.DId,
-                userDId: notificationDBEntity.UserDId,
-                type: notificationDBEntity.Type,
-                text: notificationDBEntity.Text,
-                wasOpen: notificationDBEntity.WasOpen,
-                relatedDId: notificationDBEntity.RelatedDId
+                dId: notificationDbEntity.DId,
+                userDId: notificationDbEntity.UserDId,
+                type: notificationDbEntity.Type,
+                text: notificationDbEntity.Text,
+                wasOpen: notificationDbEntity.WasOpen,
+                relatedDId: notificationDbEntity.RelatedDId
                 );
         }
     }
