@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Application.Commands;
+using Application.Commands.CityCommands;
+using Application.Commands.NotificationCommands;
+using Application.Mappers;
 using Application.Services;
 using Domain.Objects;
 using DTOs.Cities;
@@ -12,25 +16,26 @@ using Microsoft.AspNetCore.Mvc;
 namespace Application.Controllers
 {
     [Route("[controller]")]
-    public class CitiesController: Controller
+    public class CitiesController : Controller
     {
         private readonly IMediator _mediator;
-        private readonly CityCRUDService _cityService;
-        private readonly TagCRUDService _tagService;
-        private readonly RecommendationCRUDService _recommendationService;
-        private readonly FriendCRUDService _friendService;
+        private readonly CityCrudService _cityService;
+        private readonly TagCrudService _tagService;
+        private readonly RecommendationCrudService _recommendationService;
+        private readonly FriendCrudService _friendService;
 
-        public CitiesController(IMediator mediator,
-            CityCRUDService cityCRUDService,
-            TagCRUDService tagCRUDService,
-            RecommendationCRUDService recommendationCRUDService,
-            FriendCRUDService friendCRUDService)
+        public CitiesController(
+            IMediator mediator,
+            CityCrudService cityCrudService,
+            TagCrudService tagCrudService,
+            RecommendationCrudService recommendationCrudService,
+            FriendCrudService friendCrudService)
         {
             _mediator = mediator;
-            _cityService = cityCRUDService;
-            _tagService = tagCRUDService;
-            _recommendationService = recommendationCRUDService;
-            _friendService = friendCRUDService;
+            _cityService = cityCrudService;
+            _tagService = tagCrudService;
+            _recommendationService = recommendationCrudService;
+            _friendService = friendCrudService;
         }
 
         [HttpGet]
@@ -39,7 +44,7 @@ namespace Application.Controllers
             var domainCities = _cityService.GetAll();
             List<ReadCity> cities = new();
             domainCities.ForEach(dre => cities.Add(
-                CityAppMappers.FromDomainObjectToApiDTO(dre)));
+                CityAppMappers.FromDomainObjectToApiDto(dre)));
             return Ok(cities);
         }
 
@@ -51,14 +56,14 @@ namespace Application.Controllers
                 string[] citiesDIds = dId.Split(',');
                 var domainCities = _cityService.GetCitiesByDIdList(citiesDIds);
                 List<ReadCity> cities = new();
-                domainCities.ForEach(dcity => cities.Add(
-                    CityAppMappers.FromDomainObjectToApiDTO(dcity)));
+                domainCities.ForEach(dCity => cities.Add(
+                    CityAppMappers.FromDomainObjectToApiDto(dCity)));
                 return Ok(cities);
             }
             else
             {
                 var domainCity = _cityService.GetByDId(dId);
-                ReadCity city = CityAppMappers.FromDomainObjectToApiDTO(domainCity);
+                ReadCity city = CityAppMappers.FromDomainObjectToApiDto(domainCity);
                 return Ok(city);
             }
         }
@@ -74,9 +79,10 @@ namespace Application.Controllers
                 List<Tag> domainTags =
                     _tagService.GetTagsByRecommendationDId(domainRecommendation.DId);
                 recommendations.Add(
-                RecommendationAppMappers.FromDomainObjectToApiDTO(
+                RecommendationAppMappers.FromDomainObjectToApiDto(
                     domainRecommendation, domainTags));
             }
+
             return Ok(recommendations);
         }
 
@@ -93,21 +99,21 @@ namespace Application.Controllers
             City city = await _mediator.Send(command);
 
             var domainFriends = _friendService.GetAllFriendsByUserDId(createCity.UserDId);
-            foreach(Friend friend in domainFriends)
+            foreach (var notificationCommand in domainFriends.Select(friend => new CreateNotificationCommand(
+                         friend.DId,
+                         Notification.TypeFriendWillVisitCity,
+                         city.UserDId
+                     )))
             {
-                var notificationCommand = new CreateNotificationCommand(
-                friend.DId,
-                Notification.TypeFriendWillVisitCity,
-                city.UserDId
-                );
                 await _mediator.Send(notificationCommand);
             }
-            
-            return Created(city.DId, CityAppMappers.FromDomainObjectToApiDTO(city));
+
+            return Created(city.DId, CityAppMappers.FromDomainObjectToApiDto(city));
         }
 
         [HttpPut("{dId}")]
-        public async Task<IActionResult> Update(string dId,
+        public async Task<IActionResult> Update(
+            string dId,
             [FromBody] UpdateCity updateCity)
         {
             var command = new UpdateCityCommand(

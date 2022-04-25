@@ -1,11 +1,11 @@
 ﻿using Domain.Objects;
 using DTOs.Users;
 
-namespace Infrastructure.Mappers
+namespace Application.Mappers
 {
-    public class UserAppMappers
+    public static class UserAppMappers
     {
-        public static ReadUser FromDomainObjectToApiDTO(User user)
+        public static ReadUser FromDomainObjectToApiDto(User user)
         {
             return new ReadUser(
                 dId: user.DId,

@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 using Application.Services;
 using MediatR;
 
-namespace Application.Commands
+namespace Application.Commands.NotificationCommands
 {
     public class DeleteNotificationCommand : IRequest<bool>
     {
-        public string DId;
+        public string DId { get; }
 
         public DeleteNotificationCommand(string dId)
         {
@@ -19,15 +19,16 @@ namespace Application.Commands
     public class DeleteNotificationCommandHandler :
         IRequestHandler<DeleteNotificationCommand, bool>
     {
-        private readonly NotificationCRUDService _notificationService;
+        private readonly NotificationCrudService _notificationService;
 
         public DeleteNotificationCommandHandler(
-            NotificationCRUDService notificationCRUDService)
+            NotificationCrudService notificationCrudService)
         {
-            _notificationService = notificationCRUDService;
+            _notificationService = notificationCrudService;
         }
 
-        public async Task<bool> Handle(DeleteNotificationCommand request,
+        public async Task<bool> Handle(
+            DeleteNotificationCommand request,
             CancellationToken cancellationToken)
         {
             try

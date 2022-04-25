@@ -5,13 +5,13 @@ using Domain.Objects;
 
 namespace Application.Services
 {
-    public class FriendCRUDService
+    public class FriendCrudService
     {
         private readonly IFriendRepository _friendRepository;
 
-        public FriendCRUDService(IFriendRepository friednRepository)
+        public FriendCrudService(IFriendRepository friendRepository)
         {
-            _friendRepository = friednRepository;
+            _friendRepository = friendRepository;
         }
 
         public List<Friend> GetAllFriendsByUserDId(string userDId)
@@ -49,7 +49,8 @@ namespace Application.Services
         }
 
         public Task AcceptFriendRequest(
-            string receiverDId, string senderDId,
+            string receiverDId,
+            string senderDId,
             Friend friendshipInTheOtherDirection)
         {
             return _friendRepository.AcceptFriendRequest(

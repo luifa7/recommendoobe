@@ -11,9 +11,13 @@ namespace Domain.Objects
         public string UserDId { get; private set; }
         public bool Visited { get; private set; }
 
-
-        public City(string dId, string name, string country, string photo,
-            string userDId, bool visited)
+        public City(
+            string dId,
+            string name,
+            string country,
+            string photo,
+            string userDId,
+            bool visited)
         {
             DId = dId;
             Name = name;
@@ -23,13 +27,15 @@ namespace Domain.Objects
             Visited = visited;
         }
 
-        public static City Create(string name, string country, string photo,
-            string userDId, bool visited)
+        public static City Create(
+            string name,
+            string country,
+            string photo,
+            string userDId,
+            bool visited)
         {
-            var DId = Guid.NewGuid().ToString();
-            return new City(DId, name, country, photo, userDId, visited);
+            var dId = Guid.NewGuid().ToString();
+            return new City(dId, name, country, photo, userDId, visited);
         }
     }
 }
-
-// TODO: private constructor

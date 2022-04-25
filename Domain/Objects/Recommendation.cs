@@ -20,11 +20,22 @@ namespace Domain.Objects
         public string FromUserDId { get; private set; }
         public string ToUserDId { get; private set; }
 
-
-        public Recommendation(string dId, string placeName, string title, string text,
-            string address, string maps, string website, string instagram, string facebook,
-            string otherLink, string photo, long createdOn, string cityDId,
-            string fromUserDId, string toUserDId)
+        public Recommendation(
+            string dId,
+            string placeName,
+            string title,
+            string text,
+            string address,
+            string maps,
+            string website,
+            string instagram,
+            string facebook,
+            string otherLink,
+            string photo,
+            long createdOn,
+            string cityDId,
+            string fromUserDId,
+            string toUserDId)
         {
             DId = dId;
             PlaceName = placeName;
@@ -43,17 +54,40 @@ namespace Domain.Objects
             ToUserDId = toUserDId;
         }
 
-        public static Recommendation Create(string placeName, string title,
-            string text, string address, string maps, string website, 
-            string instagram, string facebook, string otherLink, string photo,
-            string cityDId, string fromUserDId, string toUserDId)
+        public static Recommendation Create(
+            string placeName,
+            string title,
+            string text,
+            string address,
+            string maps,
+            string website,
+            string instagram,
+            string facebook,
+            string otherLink,
+            string photo,
+            string cityDId,
+            string fromUserDId,
+            string toUserDId)
         {
-            var DId = Guid.NewGuid().ToString();
+            var dId = Guid.NewGuid().ToString();
             DateTime foo = DateTime.Now;
             long createdOn = ((DateTimeOffset)foo).ToUnixTimeSeconds();
-            return new Recommendation(DId, placeName, title, text, address,
-                maps, website, instagram, facebook, otherLink, photo, createdOn,
-                cityDId, fromUserDId, toUserDId);
+            return new Recommendation(
+                dId,
+                placeName,
+                title,
+                text,
+                address,
+                maps,
+                website,
+                instagram,
+                facebook,
+                otherLink,
+                photo,
+                createdOn,
+                cityDId,
+                fromUserDId,
+                toUserDId);
         }
     }
 }

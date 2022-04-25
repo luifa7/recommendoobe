@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 using Application.Services;
 using MediatR;
 
-namespace Application.Commands
+namespace Application.Commands.NotificationCommands
 {
     public class MarkNotificationAsOpenedCommand : IRequest<bool>
     {
-        public string DId;
+        public string DId { get; }
 
         public MarkNotificationAsOpenedCommand(string dId)
         {
@@ -19,15 +19,16 @@ namespace Application.Commands
     public class MarkNotificationAsOpenedCommandHandler :
         IRequestHandler<MarkNotificationAsOpenedCommand, bool>
     {
-        private readonly NotificationCRUDService _notificationService;
+        private readonly NotificationCrudService _notificationService;
 
         public MarkNotificationAsOpenedCommandHandler(
-            NotificationCRUDService notificationServiceCRUDService)
+            NotificationCrudService notificationServiceCrudService)
         {
-            _notificationService = notificationServiceCRUDService;
+            _notificationService = notificationServiceCrudService;
         }
 
-        public async Task<bool> Handle(MarkNotificationAsOpenedCommand request,
+        public async Task<bool> Handle(
+            MarkNotificationAsOpenedCommand request,
             CancellationToken cancellationToken)
         {
             try

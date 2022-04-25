@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 using Application.Services;
 using MediatR;
 
-namespace Application.Commands
+namespace Application.Commands.FriendCommands
 {
     public class DeleteFriendCommand : IRequest<bool>
     {
-        public string User1DId;
-        public string User2DId;
+        public string User1DId { get; }
+        public string User2DId { get; }
 
         public DeleteFriendCommand(string user1DId, string user2DId)
         {
@@ -21,15 +21,16 @@ namespace Application.Commands
     public class DeleteFriendCommandHandler :
         IRequestHandler<DeleteFriendCommand, bool>
     {
-        private readonly FriendCRUDService _friendService;
+        private readonly FriendCrudService _friendService;
 
         public DeleteFriendCommandHandler(
-            FriendCRUDService friendCRUDService)
+            FriendCrudService friendCrudService)
         {
-            _friendService = friendCRUDService;
+            _friendService = friendCrudService;
         }
 
-        public async Task<bool> Handle(DeleteFriendCommand request,
+        public async Task<bool> Handle(
+            DeleteFriendCommand request,
             CancellationToken cancellationToken)
         {
             try

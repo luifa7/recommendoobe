@@ -2,93 +2,93 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain.Objects;
 using Domain.Interfaces;
+using Domain.Objects;
 using Infrastructure.Database;
 using Infrastructure.Database.Entities;
 using Infrastructure.Mappers;
 using Microsoft.EntityFrameworkCore;
+using DbContext = Infrastructure.Database.DbContext;
 
 namespace Infrastructure.Repositories
 {
-    public class UserRepository: IUserRepository
+    public class UserRepository : IUserRepository
     {
-        private DBContext _dbContext;
+        private readonly DbContext _dbContext;
         private readonly IFriendRepository _friendRepository;
 
-        public UserRepository(IFriendRepository friednRepository)
+        public UserRepository(IFriendRepository friendRepository)
         {
-            _dbContext = new DBContext();
-            _friendRepository = friednRepository;
+            _dbContext = new DbContext();
+            _friendRepository = friendRepository;
         }
 
         public User GetByDId(string dId)
         {
-            Users userFromDB =
-                _dbContext.Users.FirstOrDefault(u => u.DId == dId);
-
-            if (userFromDB == null) return null;
-            return UserMappers.FromDBEntityToDomainObject(userFromDB);
+            var userFromDb = _dbContext.Users.FirstOrDefault(u => u.DId == dId);
+            return userFromDb == null ? null : UserMappers.FromDbEntityToDomainObject(userFromDb);
         }
 
         public User GetByUserName(string username)
         {
-            Users userFromDB =
+            var userFromDb =
                 _dbContext.Users.FirstOrDefault(u => u.UserName == username);
-
-            if (userFromDB == null) return null;
-            return UserMappers.FromDBEntityToDomainObject(userFromDB);
+            return userFromDb == null ? null : UserMappers.FromDbEntityToDomainObject(userFromDb);
         }
 
         public List<User> GetUsersByDIdList(string[] dIds)
         {
-            var usersFromDB = _dbContext.Users.Where(u => dIds.Contains(u.DId)).ToList();
+            var usersFromDb = _dbContext.Users.Where(u => dIds.Contains(u.DId)).ToList();
             List<User> users = new();
 
-            usersFromDB.ForEach(re => users.Add
-            (UserMappers.FromDBEntityToDomainObject(re)));
+            usersFromDb.ForEach(re => users.Add(
+            UserMappers.FromDbEntityToDomainObject(re)));
 
             return users;
-
         }
 
         public List<City> GetCitiesByUserDId(string dId)
         {
-            var citiesFromDB = _dbContext.Cities.Include(c => c.User)
+            var citiesFromDb = _dbContext.Cities.Include(c => c.User)
                 .Where(c => c.User.DId == dId).ToList();
             List<City> cities = new();
 
-            citiesFromDB.ForEach(re => cities.Add
-            (CityMappers.FromDBEntityToDomainObject(re)));
+            citiesFromDb.ForEach(re => cities.Add(
+            CityMappers.FromDbEntityToDomainObject(re)));
 
             return cities;
-
         }
 
         public List<User> GetAll()
         {
-            List<Users> usersFromDB =
+            var usersFromDb =
                 _dbContext.Users.ToList();
 
             List<User> users = new();
 
-            usersFromDB.ForEach(re => users.Add
-            (UserMappers.FromDBEntityToDomainObject(re)));
+            usersFromDb.ForEach(re => users.Add(
+            UserMappers.FromDbEntityToDomainObject(re)));
 
             return users;
         }
 
         public Task PersistAsync(User user)
         {
-            var userDBEntity =
-                UserMappers.FromDomainObjectToDBEntity(user);
-            _dbContext.Users.Add(userDBEntity);
+            var userDbEntity =
+                UserMappers.FromDomainObjectToDbEntity(user);
+            _dbContext.Users.Add(userDbEntity);
             return _dbContext.SaveChangesAsync();
         }
 
-        public Task UpdateUser(string dId, string name, string shortFact1,
-            string shortFact2, string shortFact3, string aboutMe,
-            string interestedIn, string photo)
+        public Task UpdateUser(
+            string dId,
+            string name,
+            string shortFact1,
+            string shortFact2,
+            string shortFact3,
+            string aboutMe,
+            string interestedIn,
+            string photo)
         {
             var user = _dbContext.Users.First(u => u.DId == dId);
             user.Name = name;

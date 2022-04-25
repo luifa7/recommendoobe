@@ -5,11 +5,11 @@ using Domain.Objects;
 
 namespace Application.Services
 {
-    public class TagCRUDService
+    public class TagCrudService
     {
         private readonly ITagRepository _tagRepository;
 
-        public TagCRUDService(ITagRepository tagRepository)
+        public TagCrudService(ITagRepository tagRepository)
         {
             _tagRepository = tagRepository;
         }

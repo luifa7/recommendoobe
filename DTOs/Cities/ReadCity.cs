@@ -9,8 +9,13 @@
         public string UserDId { get; set; }
         public bool Visited { get; set; }
 
-        public ReadCity(string dId, string name, string country, string photo,
-            string userDId, bool visited)
+        public ReadCity(
+            string dId,
+            string name,
+            string country,
+            string photo,
+            string userDId,
+            bool visited)
         {
             DId = dId;
             Name = name;

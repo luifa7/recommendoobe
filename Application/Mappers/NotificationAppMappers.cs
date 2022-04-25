@@ -1,11 +1,11 @@
 ﻿using Domain.Objects;
 using DTOs.Notifications;
 
-namespace Infrastructure.Mappers
+namespace Application.Mappers
 {
-    public class NotificationAppMappers
+    public static class NotificationAppMappers
     {
-        public static ReadNotification FromDomainObjectToApiDTO(
+        public static ReadNotification FromDomainObjectToApiDto(
             Notification notification)
         {
             return new ReadNotification(

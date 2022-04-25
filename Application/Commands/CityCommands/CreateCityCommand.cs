@@ -4,18 +4,22 @@ using Application.Services;
 using Domain.Objects;
 using MediatR;
 
-namespace Application.Commands
+namespace Application.Commands.CityCommands
 {
     public class CreateCityCommand : IRequest<City>
     {
-        public string Name;
-        public string Country;
-        public string Photo;
-        public string UserDId;
-        public bool Visited;
+        public string Name { get; }
+        public string Country { get; }
+        public string Photo { get; }
+        public string UserDId { get; }
+        public bool Visited { get; }
 
-        public CreateCityCommand(string name, string country, string photo,
-            string userDId, bool visited)
+        public CreateCityCommand(
+            string name,
+            string country,
+            string photo,
+            string userDId,
+            bool visited)
         {
             Name = name;
             Country = country;
@@ -27,17 +31,21 @@ namespace Application.Commands
 
     public class CreateCityCommandHandler : IRequestHandler<CreateCityCommand, City>
     {
-        private readonly CityCRUDService _cityService;
+        private readonly CityCrudService _cityService;
 
-        public CreateCityCommandHandler(CityCRUDService cityCRUDService)
+        public CreateCityCommandHandler(CityCrudService cityCrudService)
         {
-            _cityService = cityCRUDService;
+            _cityService = cityCrudService;
         }
 
         public async Task<City> Handle(CreateCityCommand request, CancellationToken cancellationToken)
         {
-            var city = City.Create(request.Name, request.Country,
-                request.Photo, request.UserDId, request.Visited);
+            var city = City.Create(
+                request.Name,
+                request.Country,
+                request.Photo,
+                request.UserDId,
+                request.Visited);
 
             await _cityService.PersistAsync(city);
 

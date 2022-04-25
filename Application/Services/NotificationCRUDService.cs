@@ -5,11 +5,11 @@ using Domain.Objects;
 
 namespace Application.Services
 {
-    public class NotificationCRUDService
+    public class NotificationCrudService
     {
         private readonly INotificationRepository _notificationRepository;
 
-        public NotificationCRUDService(INotificationRepository notificationRepository)
+        public NotificationCrudService(INotificationRepository notificationRepository)
         {
             _notificationRepository = notificationRepository;
         }

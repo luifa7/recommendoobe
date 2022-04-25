@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 using Application.Services;
 using MediatR;
 
-namespace Application.Commands
+namespace Application.Commands.UserCommands
 {
     public class DeleteUserCommand : IRequest<bool>
     {
-        public string DId;
+        public string DId { get; }
 
         public DeleteUserCommand(string dId)
         {
@@ -19,15 +19,16 @@ namespace Application.Commands
     public class DeleteUserCommandHandler :
         IRequestHandler<DeleteUserCommand, bool>
     {
-        private readonly UserCRUDService _userService;
+        private readonly UserCrudService _userService;
 
         public DeleteUserCommandHandler(
-            UserCRUDService userCRUDService)
+            UserCrudService userCrudService)
         {
-            _userService = userCRUDService;
+            _userService = userCrudService;
         }
 
-        public async Task<bool> Handle(DeleteUserCommand request,
+        public async Task<bool> Handle(
+            DeleteUserCommand request,
             CancellationToken cancellationToken)
         {
             try

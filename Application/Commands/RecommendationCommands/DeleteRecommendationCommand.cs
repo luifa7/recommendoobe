@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 using Application.Services;
 using MediatR;
 
-namespace Application.Commands
+namespace Application.Commands.RecommendationCommands
 {
     public class DeleteRecommendationCommand : IRequest<bool>
     {
-        public string DId;
+        public string DId { get; }
 
         public DeleteRecommendationCommand(string dId)
         {
@@ -19,15 +19,16 @@ namespace Application.Commands
     public class DeleteRecommendationCommandHandler :
         IRequestHandler<DeleteRecommendationCommand, bool>
     {
-        private readonly RecommendationCRUDService _recommendationService;
+        private readonly RecommendationCrudService _recommendationService;
 
         public DeleteRecommendationCommandHandler(
-            RecommendationCRUDService recommendationCRUDService)
+            RecommendationCrudService recommendationCrudService)
         {
-            _recommendationService = recommendationCRUDService;
+            _recommendationService = recommendationCrudService;
         }
 
-        public async Task<bool> Handle(DeleteRecommendationCommand request,
+        public async Task<bool> Handle(
+            DeleteRecommendationCommand request,
             CancellationToken cancellationToken)
         {
             try

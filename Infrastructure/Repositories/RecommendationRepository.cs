@@ -1,59 +1,58 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain.Objects;
 using Domain.Interfaces;
+using Domain.Objects;
 using Infrastructure.Database;
 using Infrastructure.Database.Entities;
 using Infrastructure.Mappers;
 using Microsoft.EntityFrameworkCore;
+using DbContext = Infrastructure.Database.DbContext;
 
 namespace Infrastructure.Repositories
 {
-    public class RecommendationRepository: IRecommendationRepository
+    public class RecommendationRepository : IRecommendationRepository
     {
-        private DBContext _dbContext;
+        private readonly DbContext _dbContext;
         private readonly ITagRepository _tagRepository;
 
         public RecommendationRepository(ITagRepository tagRepository)
         {
-            _dbContext = new DBContext();
+            _dbContext = new DbContext();
             _tagRepository = tagRepository;
         }
 
         public Recommendation GetByDId(string dId)
         {
-            Recommendations recommendationFromDB =
+            Recommendations recommendationFromDb =
                 _dbContext.Recommendations
                 .Include(r => r.FromUser)
                 .Include(r => r.ToUser)
                 .Include(r => r.City)
                 .FirstOrDefault(r => r.DId == dId);
 
-            if (recommendationFromDB == null) return null;
-            return RecommendationMappers.FromDBEntityToDomainObject(
-                recommendationFromDB);
+            return recommendationFromDb == null ? null : RecommendationMappers.FromDbEntityToDomainObject(
+                recommendationFromDb);
         }
 
         public List<Recommendation> GetRecommendationsByDIdList(string[] dIds)
         {
-            var recommendationsFromDB = _dbContext.Recommendations
+            var recommendationsFromDb = _dbContext.Recommendations
                 .Include(r => r.FromUser)
                 .Include(r => r.ToUser)
                 .Include(r => r.City)
                 .Where(r => dIds.Contains(r.DId)).ToList();
             List<Recommendation> recommendations = new();
 
-            recommendationsFromDB.ForEach(re => recommendations.Add
-            (RecommendationMappers.FromDBEntityToDomainObject(re)));
+            recommendationsFromDb.ForEach(re => recommendations.Add(
+            RecommendationMappers.FromDbEntityToDomainObject(re)));
 
             return recommendations;
-
         }
 
         public List<Recommendation> GetRecommendationsByCityDId(string dId)
         {
-            List<Recommendations> recommendationsFromDB =
+            var recommendationsFromDb =
                 _dbContext.Recommendations
                 .Include(r => r.FromUser)
                 .Include(r => r.ToUser)
@@ -63,16 +62,15 @@ namespace Infrastructure.Repositories
 
             List<Recommendation> recommendations = new();
 
-            recommendationsFromDB.ForEach(re => recommendations.Add
-            (RecommendationMappers.FromDBEntityToDomainObject(re)));
+            recommendationsFromDb.ForEach(re => recommendations.Add(
+            RecommendationMappers.FromDbEntityToDomainObject(re)));
 
             return recommendations;
-
         }
 
         public List<Recommendation> GetRecommendationsByUserCreatorDId(string dId)
         {
-            List<Recommendations> recommendationsFromDB =
+            var recommendationsFromDb =
                 _dbContext.Recommendations
                 .Include(r => r.FromUser)
                 .Include(r => r.ToUser)
@@ -82,16 +80,15 @@ namespace Infrastructure.Repositories
 
             List<Recommendation> recommendations = new();
 
-            recommendationsFromDB.ForEach(re => recommendations.Add
-            (RecommendationMappers.FromDBEntityToDomainObject(re)));
+            recommendationsFromDb.ForEach(re => recommendations.Add(
+            RecommendationMappers.FromDbEntityToDomainObject(re)));
 
             return recommendations;
-
         }
 
         public List<Recommendation> GetAll()
         {
-            List<Recommendations> recommendationsFromDB =
+            var recommendationsFromDb =
                 _dbContext.Recommendations
                 .Include(r => r.FromUser)
                 .Include(r => r.ToUser)
@@ -100,31 +97,33 @@ namespace Infrastructure.Repositories
 
             List<Recommendation> recommendations = new();
 
-            recommendationsFromDB.ForEach(re => recommendations.Add
-            (RecommendationMappers.FromDBEntityToDomainObject(re)));
+            recommendationsFromDb.ForEach(re => recommendations.Add(
+            RecommendationMappers.FromDbEntityToDomainObject(re)));
 
             return recommendations;
         }
 
         public Task PersistAsync(Recommendation recommendation)
         {
-            Cities cityFromDB =
+            var cityFromDb =
                 _dbContext.Cities.FirstOrDefault(
                     c => c.DId == recommendation.CityDId);
 
-            Users fromUserFromDB =
+            var fromUserFromDb =
                 _dbContext.Users.FirstOrDefault(
                     u => u.DId == recommendation.FromUserDId);
 
-            Users toUserFromDB =
+            var toUserFromDb =
                 _dbContext.Users.FirstOrDefault(
                     u => u.DId == recommendation.ToUserDId);
 
-            var recommendationDBEntity =
-                RecommendationMappers.FromDomainObjectToDBEntity(
-                    recommendation, cityFromDB,
-                    fromUserFromDB, toUserFromDB);
-            _dbContext.Recommendations.Add(recommendationDBEntity);
+            var recommendationDbEntity =
+                RecommendationMappers.FromDomainObjectToDbEntity(
+                    recommendation,
+                    cityFromDb,
+                    fromUserFromDb,
+                    toUserFromDb);
+            _dbContext.Recommendations.Add(recommendationDbEntity);
             return _dbContext.SaveChangesAsync();
         }
 
@@ -135,26 +134,33 @@ namespace Infrastructure.Repositories
             return _dbContext.SaveChangesAsync();
         }
 
-        public Task UpdateRecommendation(string dId, string placeName,
-            string title, string text, string address, string maps,
-            string website, string instagram, string facebook, string otherLink,
-            string photo, string[] tags)
+        public Task UpdateRecommendation(
+            string dId,
+            string placeName,
+            string title,
+            string text,
+            string address,
+            string maps,
+            string website,
+            string instagram,
+            string facebook,
+            string otherLink,
+            string photo,
+            string[] tags)
         {
             var recommendation = _dbContext.Recommendations.First(
                 r => r.DId == dId);
             var dbTags = _tagRepository.GetTagsByRecommendationDId(dId);
-            foreach(var dbTag in dbTags)
+            foreach (var dbTag in dbTags.Where(dbTag => !tags.Contains(dbTag.Word)))
             {
-                if (!tags.Contains(dbTag.Word))
-                {
-                    _tagRepository.DeleteByWordAndRecommendationDId(
-                        dId, dbTag.Word);
-                }
+                _tagRepository.DeleteByWordAndRecommendationDId(
+                    dId, dbTag.Word);
             }
 
-            foreach(var tag in tags)
+            foreach (var tag in tags)
             {
-                if(dbTags.Where(t => t.Word == tag).ToList().Count < 1){
+                if (dbTags.Where(t => t.Word == tag).ToList().Count < 1)
+                {
                     Tag newTag = Tag.Create(dId, tag);
                     _tagRepository.PersistAsync(newTag);
                 }

@@ -5,12 +5,12 @@ using Application.Services;
 using Domain.Objects;
 using MediatR;
 
-namespace Application.Commands
+namespace Application.Commands.FriendCommands
 {
     public class AcceptFriendRequestCommand : IRequest<bool>
     {
-        public string ReceiverDId;
-        public string SenderDId;
+        public string ReceiverDId { get; }
+        public string SenderDId { get; }
 
         public AcceptFriendRequestCommand(string receiverDId, string senderDId)
         {
@@ -22,15 +22,16 @@ namespace Application.Commands
     public class AcceptFriendRequestCommandHandler :
         IRequestHandler<AcceptFriendRequestCommand, bool>
     {
-        private readonly FriendCRUDService _friendService;
+        private readonly FriendCrudService _friendService;
         private const string FriendshipAccepted = "accepted";
 
-        public AcceptFriendRequestCommandHandler(FriendCRUDService friendCRUDService)
+        public AcceptFriendRequestCommandHandler(FriendCrudService friendCrudService)
         {
-            _friendService = friendCRUDService;
+            _friendService = friendCrudService;
         }
 
-        public async Task<bool> Handle(AcceptFriendRequestCommand request,
+        public async Task<bool> Handle(
+            AcceptFriendRequestCommand request,
             CancellationToken cancellationToken)
         {
             try
@@ -49,7 +50,6 @@ namespace Application.Commands
                 Console.WriteLine("{0} Exception caught.", e);
                 return false;
             }
-
         }
     }
 }

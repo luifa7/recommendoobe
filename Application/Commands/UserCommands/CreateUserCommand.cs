@@ -4,22 +4,28 @@ using Application.Services;
 using Domain.Objects;
 using MediatR;
 
-namespace Application.Commands
+namespace Application.Commands.UserCommands
 {
     public class CreateUserCommand : IRequest<User>
     {
-        public string UserName;
-        public string Name;
-        public string ShortFact1;
-        public string ShortFact2;
-        public string ShortFact3;
-        public string AboutMe;
-        public string InterestedIn;
-        public string Photo;
+        public string UserName { get; }
+        public string Name { get; }
+        public string ShortFact1 { get; }
+        public string ShortFact2 { get; }
+        public string ShortFact3 { get; }
+        public string AboutMe { get; }
+        public string InterestedIn { get; }
+        public string Photo { get; }
 
-        public CreateUserCommand(string userName, string name,
-            string shortFact1, string shortFact2, string shortFact3,
-            string aboutMe, string interestedIn, string photo)
+        public CreateUserCommand(
+            string userName,
+            string name,
+            string shortFact1,
+            string shortFact2,
+            string shortFact3,
+            string aboutMe,
+            string interestedIn,
+            string photo)
         {
             UserName = userName;
             Name = name;
@@ -34,18 +40,24 @@ namespace Application.Commands
 
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, User>
     {
-        private readonly UserCRUDService _userService;
+        private readonly UserCrudService _userService;
 
-        public CreateUserCommandHandler(UserCRUDService userCRUDService)
+        public CreateUserCommandHandler(UserCrudService userCrudService)
         {
-            _userService = userCRUDService;
+            _userService = userCrudService;
         }
 
         public async Task<User> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            var user = User.Create(request.UserName, request.Name,
-                request.ShortFact1, request.ShortFact2, request.ShortFact3,
-                request.AboutMe, request.InterestedIn, request.Photo);
+            var user = User.Create(
+                request.UserName,
+                request.Name,
+                request.ShortFact1,
+                request.ShortFact2,
+                request.ShortFact3,
+                request.AboutMe,
+                request.InterestedIn,
+                request.Photo);
 
             await _userService.PersistAsync(user);
 

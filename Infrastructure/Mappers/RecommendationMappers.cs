@@ -5,11 +5,13 @@ using Infrastructure.Database.Entities;
 
 namespace Infrastructure.Mappers
 {
-    public class RecommendationMappers
+    public static class RecommendationMappers
     {
-        public static Recommendations FromDomainObjectToDBEntity(
-            Recommendation recommendation, Cities city,
-            Users fromUser, Users toUser)
+        public static Recommendations FromDomainObjectToDbEntity(
+            Recommendation recommendation,
+            Cities city,
+            Users fromUser,
+            Users toUser)
         {
             return new Recommendations()
             {
@@ -28,28 +30,27 @@ namespace Infrastructure.Mappers
                 City = city,
                 FromUser = fromUser,
                 ToUser = toUser,
-        };
-
+            };
         }
 
-        public static Recommendation FromDBEntityToDomainObject(Recommendations recommendationDBEntity)
+        public static Recommendation FromDbEntityToDomainObject(Recommendations recommendationDbEntity)
         {
             return new Recommendation(
-                dId:recommendationDBEntity.DId,
-                placeName:recommendationDBEntity.PlaceName,
-                title:recommendationDBEntity.Title,
-                text:recommendationDBEntity.Text,
-                address:recommendationDBEntity.Address,
-                maps:recommendationDBEntity.Maps,
-                website:recommendationDBEntity.Website,
-                instagram:recommendationDBEntity.Instagram,
-                facebook:recommendationDBEntity.Facebook,
-                otherLink:recommendationDBEntity.OtherLink,
-                photo:recommendationDBEntity.Photo,
-                createdOn:recommendationDBEntity.CreatedOn,
-                cityDId:recommendationDBEntity.City.DId,
-                fromUserDId:recommendationDBEntity.FromUser.DId,
-                toUserDId:recommendationDBEntity.ToUser.DId
+                dId: recommendationDbEntity.DId,
+                placeName: recommendationDbEntity.PlaceName,
+                title: recommendationDbEntity.Title,
+                text: recommendationDbEntity.Text,
+                address: recommendationDbEntity.Address,
+                maps: recommendationDbEntity.Maps,
+                website: recommendationDbEntity.Website,
+                instagram: recommendationDbEntity.Instagram,
+                facebook: recommendationDbEntity.Facebook,
+                otherLink: recommendationDbEntity.OtherLink,
+                photo: recommendationDbEntity.Photo,
+                createdOn: recommendationDbEntity.CreatedOn,
+                cityDId: recommendationDbEntity.City.DId,
+                fromUserDId: recommendationDbEntity.FromUser.DId,
+                toUserDId: recommendationDbEntity.ToUser.DId
                 );
         }
     }

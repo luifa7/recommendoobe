@@ -4,22 +4,28 @@ using System.Threading.Tasks;
 using Application.Services;
 using MediatR;
 
-namespace Application.Commands
+namespace Application.Commands.UserCommands
 {
     public class UpdateUserCommand : IRequest<bool>
     {
-        public string DId;
-        public string Name;
-        public string ShortFact1;
-        public string ShortFact2;
-        public string ShortFact3;
-        public string AboutMe;
-        public string InterestedIn;
-        public string Photo;
+        public string DId { get; }
+        public string Name { get; }
+        public string ShortFact1 { get; }
+        public string ShortFact2 { get; }
+        public string ShortFact3 { get; }
+        public string AboutMe { get; }
+        public string InterestedIn { get; }
+        public string Photo { get; }
 
-        public UpdateUserCommand(string dId, string name, string shortFact1,
-            string shortFact2, string shortFact3, string aboutMe,
-            string interestedIn, string photo)
+        public UpdateUserCommand(
+            string dId,
+            string name,
+            string shortFact1,
+            string shortFact2,
+            string shortFact3,
+            string aboutMe,
+            string interestedIn,
+            string photo)
         {
             DId = dId;
             Name = name;
@@ -35,22 +41,29 @@ namespace Application.Commands
     public class UpdateUserCommandHandler :
         IRequestHandler<UpdateUserCommand, bool>
     {
-        private readonly UserCRUDService _userService;
+        private readonly UserCrudService _userService;
 
         public UpdateUserCommandHandler(
-            UserCRUDService userCRUDService)
+            UserCrudService userCrudService)
         {
-            _userService = userCRUDService;
+            _userService = userCrudService;
         }
 
-        public async Task<bool> Handle(UpdateUserCommand request,
+        public async Task<bool> Handle(
+            UpdateUserCommand request,
             CancellationToken cancellationToken)
         {
             try
             {
-                await _userService.UpdateUser(request.DId, request.Name,
-                    request.ShortFact1, request.ShortFact2, request.ShortFact3,
-                    request.AboutMe, request.InterestedIn, request.Photo);
+                await _userService.UpdateUser(
+                    request.DId,
+                    request.Name,
+                    request.ShortFact1,
+                    request.ShortFact2,
+                    request.ShortFact3,
+                    request.AboutMe,
+                    request.InterestedIn,
+                    request.Photo);
                 return true;
             }
             catch (Exception e)

@@ -14,10 +14,16 @@ namespace Domain.Objects
         public string InterestedIn { get; private set; }
         public string Photo { get; private set; }
 
-
-        public User(string dId, string userName, string name, string shortFact1,
-            string shortFact2, string shortFact3, string aboutMe,
-            string interestedIn, string photo)
+        public User(
+            string dId,
+            string userName,
+            string name,
+            string shortFact1,
+            string shortFact2,
+            string shortFact3,
+            string aboutMe,
+            string interestedIn,
+            string photo)
         {
             DId = dId;
             UserName = userName;
@@ -30,13 +36,27 @@ namespace Domain.Objects
             Photo = photo;
         }
 
-        public static User Create(string userName, string name,
-            string shortFact1, string shortFact2, string shortFact3,
-            string aboutMe, string interestedIn, string photo)
+        public static User Create(
+            string userName,
+            string name,
+            string shortFact1,
+            string shortFact2,
+            string shortFact3,
+            string aboutMe,
+            string interestedIn,
+            string photo)
         {
-            var DId = Guid.NewGuid().ToString();
-            return new User(DId, userName, name, shortFact1, shortFact2,
-                shortFact3, aboutMe, interestedIn, photo);
+            var dId = Guid.NewGuid().ToString();
+            return new User(
+                dId,
+                userName,
+                name,
+                shortFact1,
+                shortFact2,
+                shortFact3,
+                aboutMe,
+                interestedIn,
+                photo);
         }
     }
 }

@@ -5,10 +5,9 @@ using Infrastructure.Database.Entities;
 
 namespace Infrastructure.Mappers
 {
-    public class UserMappers
+    public static class UserMappers
     {
-
-        public static Users FromDomainObjectToDBEntity(User user)
+        public static Users FromDomainObjectToDbEntity(User user)
         {
             return new Users()
             {
@@ -21,22 +20,21 @@ namespace Infrastructure.Mappers
                 AboutMe = user.AboutMe,
                 InterestedIn = user.InterestedIn,
                 Photo = user.Photo,
-        };
-
+            };
         }
 
-        public static User FromDBEntityToDomainObject(Users userDBEntity)
+        public static User FromDbEntityToDomainObject(Users userDbEntity)
         {
             return new User(
-                dId:userDBEntity.DId,
-                userName: userDBEntity.UserName,
-                name:userDBEntity.Name,
-                shortFact1: userDBEntity.ShortFact1,
-                shortFact2: userDBEntity.ShortFact2,
-                shortFact3: userDBEntity.ShortFact3,
-                aboutMe: userDBEntity.AboutMe,
-                interestedIn: userDBEntity.InterestedIn,
-                photo: userDBEntity.Photo
+                dId: userDbEntity.DId,
+                userName: userDbEntity.UserName,
+                name: userDbEntity.Name,
+                shortFact1: userDbEntity.ShortFact1,
+                shortFact2: userDbEntity.ShortFact2,
+                shortFact3: userDbEntity.ShortFact3,
+                aboutMe: userDbEntity.AboutMe,
+                interestedIn: userDbEntity.InterestedIn,
+                photo: userDbEntity.Photo
                 );
         }
     }
