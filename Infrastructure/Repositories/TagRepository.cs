@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain.Interfaces;
-using Domain.Objects;
-using Infrastructure.Database;
-using Infrastructure.Database.Entities;
-using Infrastructure.Mappers;
+using Domain.Core.Interfaces;
+using Domain.Core.Objects;
+using Infrastructure.Core.Database;
+using Infrastructure.Core.Database.Entities;
+using Infrastructure.Core.Mappers;
 
-namespace Infrastructure.Repositories
+namespace Infrastructure.Core.Repositories
 {
     public class TagRepository : ITagRepository
     {

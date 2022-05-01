@@ -1,7 +1,7 @@
-﻿using Domain.Objects;
-using DTOs.Friends;
+﻿using Domain.Core.Objects;
+using DTOs.Friend;
 
-namespace Application.Mappers
+namespace Application.Core.Mappers
 {
     public static class FriendAppMappers
     {

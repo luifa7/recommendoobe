@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Application.Commands;
-using Application.Commands.NotificationCommands;
-using Application.Commands.RecommendationCommands;
-using Application.Mappers;
-using Application.Services;
-using Domain.Objects;
+using Application.Core.Commands;
+using Application.Core.Commands.NotificationCommands;
+using Application.Core.Commands.RecommendationCommands;
+using Application.Core.Mappers;
+using Application.Core.Services;
+using Domain.Core.Objects;
 using DTOs.Recommendations;
-using Infrastructure.Mappers;
+using Infrastructure.Core.Mappers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Application.Controllers
+namespace Application.Core.Controllers
 {
     [Route("[controller]")]
     public class RecommendationsController : Controller

@@ -1,8 +1,7 @@
-﻿using Application.Commands;
-using Application.Commands.RecommendationCommands;
-using Application.Services;
-using Domain.Interfaces;
-using Infrastructure.Repositories;
+﻿using Application.Core.Commands.RecommendationCommands;
+using Application.Core.Services;
+using Domain.Core.Interfaces;
+using Infrastructure.Core.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;

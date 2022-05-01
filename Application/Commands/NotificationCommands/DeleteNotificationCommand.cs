@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Services;
+using Application.Core.Services;
 using MediatR;
 
-namespace Application.Commands.NotificationCommands
+namespace Application.Core.Commands.NotificationCommands
 {
     public class DeleteNotificationCommand : IRequest<bool>
     {

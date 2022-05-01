@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Services;
+using Application.Core.Services;
 using MediatR;
 
-namespace Application.Commands.CityCommands
+namespace Application.Core.Commands.CityCommands
 {
     public class UpdateCityCommand : IRequest<bool>
     {

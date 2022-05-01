@@ -1,7 +1,7 @@
-﻿using Infrastructure.Database.Entities;
+﻿using Infrastructure.Core.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Database
+namespace Infrastructure.Core.Database
 {
     internal sealed class DbContext : Microsoft.EntityFrameworkCore.DbContext
     {

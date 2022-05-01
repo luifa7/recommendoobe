@@ -1,4 +1,4 @@
-﻿namespace DTOs.Friends
+﻿namespace DTOs.Friend
 {
     public class ReadFriend
     {

@@ -1,10 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Application.Services;
-using Domain.Objects;
+using Application.Core.Services;
+using Domain.Core.Objects;
 using MediatR;
 
-namespace Application.Commands.CityCommands
+namespace Application.Core.Commands.CityCommands
 {
     public class CreateCityCommand : IRequest<City>
     {

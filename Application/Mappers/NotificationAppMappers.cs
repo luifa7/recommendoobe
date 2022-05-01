@@ -1,7 +1,7 @@
-﻿using Domain.Objects;
+﻿using Domain.Core.Objects;
 using DTOs.Notifications;
 
-namespace Application.Mappers
+namespace Application.Core.Mappers
 {
     public static class NotificationAppMappers
     {
