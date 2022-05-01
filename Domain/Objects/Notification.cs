@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Domain.Objects
+namespace Domain.Core.Objects
 {
     public class Notification
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Database.Entities
+namespace Infrastructure.Core.Database.Entities
 {
     [Index(nameof(DId), IsUnique = true)]
     [Index(nameof(UserName), IsUnique = true)]

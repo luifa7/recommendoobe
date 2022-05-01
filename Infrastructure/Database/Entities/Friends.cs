@@ -1,8 +1,8 @@
 ﻿using System;
-using Infrastructure.Repositories;
+using Infrastructure.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Database.Entities
+namespace Infrastructure.Core.Database.Entities
 {
     [Index(nameof(DId), IsUnique = true)]
     public class Friends

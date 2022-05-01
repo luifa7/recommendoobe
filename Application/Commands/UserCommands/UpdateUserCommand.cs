@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Services;
+using Application.Core.Services;
 using MediatR;
 
-namespace Application.Commands.UserCommands
+namespace Application.Core.Commands.UserCommands
 {
     public class UpdateUserCommand : IRequest<bool>
     {

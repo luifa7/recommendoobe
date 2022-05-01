@@ -1,19 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Application.Commands;
-using Application.Commands.CityCommands;
-using Application.Commands.NotificationCommands;
-using Application.Mappers;
-using Application.Services;
-using Domain.Objects;
+using Application.Core.Commands;
+using Application.Core.Commands.CityCommands;
+using Application.Core.Commands.NotificationCommands;
+using Application.Core.Mappers;
+using Application.Core.Services;
+using Domain.Core.Objects;
 using DTOs.Cities;
 using DTOs.Recommendations;
-using Infrastructure.Mappers;
+using Infrastructure.Core.Mappers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Application.Controllers
+namespace Application.Core.Controllers
 {
     [Route("[controller]")]
     public class CitiesController : Controller

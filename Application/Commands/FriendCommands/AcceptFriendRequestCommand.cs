@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Services;
-using Domain.Objects;
+using Application.Core.Services;
+using Domain.Core.Objects;
 using MediatR;
 
-namespace Application.Commands.FriendCommands
+namespace Application.Core.Commands.FriendCommands
 {
     public class AcceptFriendRequestCommand : IRequest<bool>
     {

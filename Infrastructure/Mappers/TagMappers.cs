@@ -1,7 +1,7 @@
-﻿using Domain.Objects;
-using Infrastructure.Database.Entities;
+﻿using Domain.Core.Objects;
+using Infrastructure.Core.Database.Entities;
 
-namespace Infrastructure.Mappers
+namespace Infrastructure.Core.Mappers
 {
     public static class TagMappers
     {

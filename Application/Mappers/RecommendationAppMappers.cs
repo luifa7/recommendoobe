@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Domain.Objects;
+using Domain.Core.Objects;
 using DTOs.Recommendations;
 
-namespace Application.Mappers
+namespace Application.Core.Mappers
 {
     public static class RecommendationAppMappers
     {

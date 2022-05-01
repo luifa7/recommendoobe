@@ -1,7 +1,7 @@
-﻿using Domain.Objects;
+﻿using Domain.Core.Objects;
 using DTOs.Cities;
 
-namespace Application.Mappers
+namespace Application.Core.Mappers
 {
     public static class CityAppMappers
     {

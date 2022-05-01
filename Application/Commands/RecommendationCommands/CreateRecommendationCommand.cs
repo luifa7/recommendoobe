@@ -1,10 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Application.Services;
-using Domain.Objects;
+using Application.Core.Services;
+using Domain.Core.Objects;
 using MediatR;
 
-namespace Application.Commands.RecommendationCommands
+namespace Application.Core.Commands.RecommendationCommands
 {
     public class CreateRecommendationCommand : IRequest<Recommendation>
     {

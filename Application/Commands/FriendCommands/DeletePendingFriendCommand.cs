@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Services;
+using Application.Core.Services;
 using MediatR;
 
-namespace Application.Commands.FriendCommands
+namespace Application.Core.Commands.FriendCommands
 {
     public class DeleteFriendCommand : IRequest<bool>
     {

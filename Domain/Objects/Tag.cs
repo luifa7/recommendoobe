@@ -1,4 +1,4 @@
-﻿namespace Domain.Objects
+﻿namespace Domain.Core.Objects
 {
     public class Tag
     {

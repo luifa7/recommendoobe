@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Domain.Interfaces;
-using Domain.Objects;
+using Domain.Core.Interfaces;
+using Domain.Core.Objects;
 
-namespace Application.Services
+namespace Application.Core.Services
 {
     public class RecommendationCrudService
     {

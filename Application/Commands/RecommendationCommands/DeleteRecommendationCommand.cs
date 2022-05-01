@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Services;
+using Application.Core.Services;
 using MediatR;
 
-namespace Application.Commands.RecommendationCommands
+namespace Application.Core.Commands.RecommendationCommands
 {
     public class DeleteRecommendationCommand : IRequest<bool>
     {

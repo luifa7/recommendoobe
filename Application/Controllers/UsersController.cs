@@ -1,23 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Application.Commands;
-using Application.Commands.FriendCommands;
-using Application.Commands.NotificationCommands;
-using Application.Commands.RecommendationCommands;
-using Application.Commands.UserCommands;
-using Application.Mappers;
-using Application.Services;
-using Domain.Objects;
+using Application.Core.Commands;
+using Application.Core.Commands.FriendCommands;
+using Application.Core.Commands.NotificationCommands;
+using Application.Core.Commands.RecommendationCommands;
+using Application.Core.Commands.UserCommands;
+using Application.Core.Mappers;
+using Application.Core.Services;
+using Domain.Core.Objects;
 using DTOs.Cities;
-using DTOs.Friends;
+using DTOs.Friend;
 using DTOs.Notifications;
 using DTOs.Recommendations;
 using DTOs.Users;
-using Infrastructure.Mappers;
+using Infrastructure.Core.Mappers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Application.Controllers
+namespace Application.Core.Controllers
 {
     [Route("[controller]")]
     public class UsersController : Controller

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Domain.Objects;
+using Domain.Core.Objects;
 
-namespace Domain.Interfaces
+namespace Domain.Core.Interfaces
 {
     public interface IUserRepository
     {
