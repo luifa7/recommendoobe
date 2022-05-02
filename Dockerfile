@@ -8,15 +8,14 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 
 WORKDIR /src
 COPY *.sln ./
-COPY Application/Application.Core.csproj ./Application/
-COPY DTOs/DTOs.csproj ./DTOs/
-COPY Domain/Domain.Core.csproj ./Domain/
-COPY Infrastructure/Infrastructure.Core.csproj ./Infrastructure/
+COPY Application/Application.Core/Application.Core.csproj ./Application/Application.Core/
+COPY Application/DTOs/DTOs.csproj ./Application/DTOs/
+COPY Domain/Domain.Core/Domain.Core.csproj ./Domain/Domain.Core/
+COPY Infrastructure/Infrastructure.Core/Infrastructure.Core.csproj ./Infrastructure/Infrastructure.Core/
 
 RUN dotnet restore
 
 COPY Application/. ./Application/
-COPY DTOs/. ./DTOs/
 COPY Domain/. ./Domain/
 COPY Infrastructure/. ./Infrastructure/
 RUN dotnet build -c Release -o /app/build

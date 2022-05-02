@@ -3,20 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.810.10
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Core", "Application\Application.Core.csproj", "{A27018E3-633B-4E17-8540-19804510A010}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Core", "Application\Application.Core\Application.Core.csproj", "{A27018E3-633B-4E17-8540-19804510A010}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8A597339-8BFE-4ED1-A1FE-EBB13E04E1A7} = {8A597339-8BFE-4ED1-A1FE-EBB13E04E1A7}
 		{8059467A-375E-4415-9662-1108E395E8CF} = {8059467A-375E-4415-9662-1108E395E8CF}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Core", "Domain\Domain.Core.csproj", "{8A597339-8BFE-4ED1-A1FE-EBB13E04E1A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Core", "Domain\Domain.Core\Domain.Core.csproj", "{8A597339-8BFE-4ED1-A1FE-EBB13E04E1A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Core", "Infrastructure\Infrastructure.Core.csproj", "{8059467A-375E-4415-9662-1108E395E8CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Core", "Infrastructure\Infrastructure.Core\Infrastructure.Core.csproj", "{8059467A-375E-4415-9662-1108E395E8CF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8A597339-8BFE-4ED1-A1FE-EBB13E04E1A7} = {8A597339-8BFE-4ED1-A1FE-EBB13E04E1A7}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTOs", "DTOs\DTOs.csproj", "{36188CEE-4448-4216-9815-DB1798F591B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTOs", "Application\DTOs\DTOs.csproj", "{36188CEE-4448-4216-9815-DB1798F591B7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{F538E115-A925-40EF-867F-F95FC58AD126}"
 EndProject
