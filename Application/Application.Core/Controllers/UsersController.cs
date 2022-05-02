@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Application.Core.Commands;
 using Application.Core.Commands.FriendCommands;
@@ -46,13 +47,11 @@ namespace Application.Core.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult GetAll([FromQuery] string username)
         {
             List<ReadUser> users = new();
-            if (!string.IsNullOrEmpty(HttpContext.Request.Query["username"]))
+            if (!string.IsNullOrEmpty(username))
             {
-                var username = HttpContext.Request.Query["username"];
-
                 var domainUser = _userService.GetByUserNameCaseInsensitive(username);
                 if (domainUser != null)
                 {
@@ -112,15 +111,10 @@ namespace Application.Core.Controllers
         {
             var domainRecommendations =
                 _recommendationService.GetRecommendationsByUserCreatorDId(dId);
-            List<ReadRecommendation> recommendations = new();
-            foreach (Recommendation domainRecommendation in domainRecommendations)
-            {
-                List<Tag> domainTags =
-                    _tagService.GetTagsByRecommendationDId(domainRecommendation.DId);
-                recommendations.Add(
-                RecommendationAppMappers.FromDomainObjectToApiDto(
-                    domainRecommendation, domainTags));
-            }
+            List<ReadRecommendation> recommendations = (
+                from domainRecommendation in domainRecommendations
+                let domainTags = _tagService.GetTagsByRecommendationDId(domainRecommendation.DId)
+                select RecommendationAppMappers.FromDomainObjectToApiDto(domainRecommendation, domainTags)).ToList();
 
             return Ok(recommendations);
         }
@@ -134,15 +128,11 @@ namespace Application.Core.Controllers
         [HttpGet("{dId}/notifications")]
         public IActionResult GetAllNotificationsByUserDId(string dId)
         {
-            List<ReadNotification> notifications = new();
             var domainNotifications =
                 _notificationService.GetAllByUserDId(dId);
-            foreach (Notification domainNotification in domainNotifications)
-            {
-                notifications.Add(
-                NotificationAppMappers.FromDomainObjectToApiDto(
-                    domainNotification));
-            }
+            List<ReadNotification> notifications = new();
+            notifications.AddRange(domainNotifications.Select(
+                NotificationAppMappers.FromDomainObjectToApiDto));
 
             return Ok(notifications);
         }
@@ -150,15 +140,10 @@ namespace Application.Core.Controllers
         [HttpGet("{dId}/notifications/unread")]
         public IActionResult GetAllUnreadNotificationsByUserDId(string dId)
         {
-            List<ReadNotification> notifications = new();
             var domainNotifications =
                 _notificationService.GetAllNotOpenedByUserDId(dId);
-            foreach (Notification domainNotification in domainNotifications)
-            {
-                notifications.Add(
-                NotificationAppMappers.FromDomainObjectToApiDto(
-                    domainNotification));
-            }
+            List<ReadNotification> notifications = domainNotifications.Select(
+                NotificationAppMappers.FromDomainObjectToApiDto).ToList();
 
             return Ok(notifications);
         }

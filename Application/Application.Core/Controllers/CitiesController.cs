@@ -73,15 +73,10 @@ namespace Application.Core.Controllers
         {
             var domainRecommendations =
                 _recommendationService.GetRecommendationsByCityDId(dId);
-            List<ReadRecommendation> recommendations = new();
-            foreach (Recommendation domainRecommendation in domainRecommendations)
-            {
-                List<Tag> domainTags =
-                    _tagService.GetTagsByRecommendationDId(domainRecommendation.DId);
-                recommendations.Add(
-                RecommendationAppMappers.FromDomainObjectToApiDto(
-                    domainRecommendation, domainTags));
-            }
+            List<ReadRecommendation> recommendations = (
+                from domainRecommendation in domainRecommendations
+                let domainTags = _tagService.GetTagsByRecommendationDId(domainRecommendation.DId)
+                select RecommendationAppMappers.FromDomainObjectToApiDto(domainRecommendation, domainTags)).ToList();
 
             return Ok(recommendations);
         }
