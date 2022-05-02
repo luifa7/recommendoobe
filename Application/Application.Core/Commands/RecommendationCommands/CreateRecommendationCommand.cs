@@ -92,13 +92,11 @@ namespace Application.Core.Commands.RecommendationCommands
             {
                 Tag existingTag = _tagService.GetByWordAndRecommendationDId(
                     recommendation.DId, tag);
-                if (existingTag == null)
-                {
-                    Tag newTag = new(
+                if (existingTag != null) continue;
+                Tag newTag = new(
                     recommendationDId: recommendation.DId,
                     word: tag);
-                    await _tagService.PersistAsync(newTag);
-                }
+                await _tagService.PersistAsync(newTag);
             }
 
             return recommendation;

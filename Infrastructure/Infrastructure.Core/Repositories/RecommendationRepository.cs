@@ -159,11 +159,9 @@ namespace Infrastructure.Core.Repositories
 
             foreach (var tag in tags)
             {
-                if (dbTags.Where(t => t.Word == tag).ToList().Count < 1)
-                {
-                    Tag newTag = Tag.Create(dId, tag);
-                    _tagRepository.PersistAsync(newTag);
-                }
+                if (dbTags.Where(t => t.Word == tag).ToList().Count >= 1) continue;
+                Tag newTag = Tag.Create(dId, tag);
+                _tagRepository.PersistAsync(newTag);
             }
 
             recommendation.PlaceName = placeName;
