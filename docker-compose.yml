@@ -1,0 +1,17 @@
+version: "3.7"
+# complete service stack with dependencies
+services:
+  api:
+    build: .
+    restart: "unless-stopped"
+    expose:
+      - 7126
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://0.0.0.0:7126
+  nginx:
+    build: ./nginx
+    ports:
+      - 1337:80
+    depends_on:
+      - api
