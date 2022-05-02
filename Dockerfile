@@ -12,6 +12,7 @@ COPY Application/Application.Core/Application.Core.csproj ./Application/Applicat
 COPY Application/DTOs/DTOs.csproj ./Application/DTOs/
 COPY Domain/Domain.Core/Domain.Core.csproj ./Domain/Domain.Core/
 COPY Infrastructure/Infrastructure.Core/Infrastructure.Core.csproj ./Infrastructure/Infrastructure.Core/
+COPY Application/Application.Tests/Application.Tests.csproj ./Application/Application.Tests/
 
 RUN dotnet restore
 
