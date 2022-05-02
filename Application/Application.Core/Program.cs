@@ -77,4 +77,6 @@ app.UseEndpoints(endpoints =>
 
 app.Run();
 
+#pragma warning disable S3903
+#pragma warning disable S1118
 public partial class Program { }
