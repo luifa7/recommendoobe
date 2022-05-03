@@ -43,8 +43,8 @@ namespace Application.Core.Controllers
         {
             var domainCities = _cityService.GetAll();
             List<ReadCity> cities = new();
-            domainCities.ForEach(dre => cities.Add(
-                CityAppMappers.FromDomainObjectToApiDto(dre)));
+            domainCities.ForEach(dCity => cities.Add(
+                CityAppMappers.FromDomainObjectToApiDto(dCity)));
             return Ok(cities);
         }
 
@@ -60,12 +60,10 @@ namespace Application.Core.Controllers
                     CityAppMappers.FromDomainObjectToApiDto(dCity)));
                 return Ok(cities);
             }
-            else
-            {
-                var domainCity = _cityService.GetByDId(dId);
-                ReadCity city = CityAppMappers.FromDomainObjectToApiDto(domainCity);
-                return Ok(city);
-            }
+
+            var domainCity = _cityService.GetByDId(dId);
+            ReadCity city = CityAppMappers.FromDomainObjectToApiDto(domainCity);
+            return Ok(city);
         }
 
         [HttpGet("{dId}/recommendations")]
