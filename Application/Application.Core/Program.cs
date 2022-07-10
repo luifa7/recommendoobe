@@ -27,6 +27,7 @@ builder.Services.AddCors(options =>
         });
 });
 
+builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddMediatR(typeof(CreateRecommendationCommandHandler));
 
 builder.Services.AddControllers();
