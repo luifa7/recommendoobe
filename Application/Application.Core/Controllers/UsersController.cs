@@ -8,6 +8,7 @@ using Application.Core.Commands.RecommendationCommands;
 using Application.Core.Commands.UserCommands;
 using Application.Core.Mappers;
 using Application.Core.Services;
+using AutoMapper;
 using Domain.Core.Objects;
 using DTOs.Cities;
 using DTOs.Friend;
@@ -23,6 +24,7 @@ namespace Application.Core.Controllers
     [Route("[controller]")]
     public class UsersController : Controller
     {
+        private readonly IMapper _mapper;
         private readonly IMediator _mediator;
         private readonly UserCrudService _userService;
         private readonly TagCrudService _tagService;
@@ -31,6 +33,7 @@ namespace Application.Core.Controllers
         private readonly FriendCrudService _friendService;
 
         public UsersController(
+            IMapper mapper,
             IMediator mediator,
             UserCrudService userCrudService,
             TagCrudService tagCrudService,
@@ -38,6 +41,7 @@ namespace Application.Core.Controllers
             NotificationCrudService notificationCrudService,
             FriendCrudService friendCrudService)
         {
+            _mapper = mapper;
             _mediator = mediator;
             _userService = userCrudService;
             _tagService = tagCrudService;
@@ -56,14 +60,13 @@ namespace Application.Core.Controllers
                 if (domainUser != null)
                 {
                     users.Add(
-                    UserAppMappers.FromDomainObjectToApiDto(domainUser));
+                        _mapper.Map<ReadUser>(domainUser));
                 }
             }
             else
             {
                 var domainUsers = _userService.GetAll();
-                domainUsers.ForEach(dre => users.Add(
-                    UserAppMappers.FromDomainObjectToApiDto(dre)));
+                domainUsers.ForEach(dUser => users.Add(_mapper.Map<ReadUser>(dUser)));
             }
 
             return Ok(users);
@@ -77,8 +80,7 @@ namespace Application.Core.Controllers
                 string[] usersDIds = dId.Split(',');
                 var domainUsers = _userService.GetUsersByDIdList(usersDIds);
                 List<ReadUser> users = new();
-                domainUsers.ForEach(dUser => users.Add(
-                    UserAppMappers.FromDomainObjectToApiDto(dUser)));
+                domainUsers.ForEach(dUser => users.Add(_mapper.Map<ReadUser>(dUser)));
                 return Ok(users);
             }
             else
@@ -86,7 +88,7 @@ namespace Application.Core.Controllers
                 var domainUser = _userService.GetByDId(dId);
                 if (domainUser != null)
                 {
-                    ReadUser user = UserAppMappers.FromDomainObjectToApiDto(domainUser);
+                    ReadUser user = _mapper.Map<ReadUser>(domainUser);
                     return Ok(user);
                 }
                 else
@@ -101,8 +103,7 @@ namespace Application.Core.Controllers
         {
             var domainCities = _userService.GetCitiesByUserDId(dId);
             List<ReadCity> cities = new();
-            domainCities.ForEach(dcity => cities.Add(
-                CityAppMappers.FromDomainObjectToApiDto(dcity)));
+            domainCities.ForEach(dCity => cities.Add(_mapper.Map<ReadCity>(dCity)));
             return Ok(cities);
         }
 
@@ -131,8 +132,8 @@ namespace Application.Core.Controllers
             var domainNotifications =
                 _notificationService.GetAllByUserDId(dId);
             List<ReadNotification> notifications = new();
-            notifications.AddRange(domainNotifications.Select(
-                NotificationAppMappers.FromDomainObjectToApiDto));
+            domainNotifications.ForEach(dNotification =>
+                notifications.Add(_mapper.Map<ReadNotification>(dNotification)));
 
             return Ok(notifications);
         }
@@ -142,8 +143,9 @@ namespace Application.Core.Controllers
         {
             var domainNotifications =
                 _notificationService.GetAllNotOpenedByUserDId(dId);
-            List<ReadNotification> notifications = domainNotifications.Select(
-                NotificationAppMappers.FromDomainObjectToApiDto).ToList();
+            List<ReadNotification> notifications = new();
+            domainNotifications.ForEach(dNotification =>
+                notifications.Add(_mapper.Map<ReadNotification>(dNotification)));
 
             return Ok(notifications);
         }
@@ -153,7 +155,7 @@ namespace Application.Core.Controllers
         {
             List<string> friends = new();
             var domainFriends = _friendService.GetAllFriendsByUserDId(dId);
-            domainFriends.ForEach(dfriend => friends.Add(dfriend.FriendDId));
+            domainFriends.ForEach(dFriend => friends.Add(dFriend.FriendDId));
             return Ok(friends);
         }
 
@@ -162,7 +164,7 @@ namespace Application.Core.Controllers
         {
             List<string> friends = new();
             var domainFriends = _friendService.GetAllSentPendingByUserDId(dId);
-            domainFriends.ForEach(dfriend => friends.Add(dfriend.FriendDId));
+            domainFriends.ForEach(dFriend => friends.Add(dFriend.FriendDId));
             return Ok(friends);
         }
 
@@ -173,7 +175,7 @@ namespace Application.Core.Controllers
 
             // this case returns list of UserDIds since received has the id as Friend
             var domainFriends = _friendService.GetAllReceivedPendingByUserDId(dId);
-            domainFriends.ForEach(dfriend => friends.Add(dfriend.UserDId));
+            domainFriends.ForEach(dFriend => friends.Add(dFriend.UserDId));
 
             return Ok(friends);
         }
@@ -210,7 +212,7 @@ namespace Application.Core.Controllers
                 );
                 User user = await _mediator.Send(command);
 
-                return Created(user.DId, UserAppMappers.FromDomainObjectToApiDto(user));
+                return Created(user.DId, _mapper.Map<ReadUser>(user));
             }
         }
 

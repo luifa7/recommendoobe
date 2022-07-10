@@ -6,6 +6,7 @@ using Application.Core.Commands.CityCommands;
 using Application.Core.Commands.NotificationCommands;
 using Application.Core.Mappers;
 using Application.Core.Services;
+using AutoMapper;
 using Domain.Core.Objects;
 using DTOs.Cities;
 using DTOs.Recommendations;
@@ -18,6 +19,7 @@ namespace Application.Core.Controllers
     [Route("[controller]")]
     public class CitiesController : Controller
     {
+        private readonly IMapper _mapper;
         private readonly IMediator _mediator;
         private readonly CityCrudService _cityService;
         private readonly TagCrudService _tagService;
@@ -25,12 +27,14 @@ namespace Application.Core.Controllers
         private readonly FriendCrudService _friendService;
 
         public CitiesController(
+            IMapper mapper,
             IMediator mediator,
             CityCrudService cityCrudService,
             TagCrudService tagCrudService,
             RecommendationCrudService recommendationCrudService,
             FriendCrudService friendCrudService)
         {
+            _mapper = mapper;
             _mediator = mediator;
             _cityService = cityCrudService;
             _tagService = tagCrudService;
@@ -44,7 +48,7 @@ namespace Application.Core.Controllers
             var domainCities = _cityService.GetAll();
             List<ReadCity> cities = new();
             domainCities.ForEach(dCity => cities.Add(
-                CityAppMappers.FromDomainObjectToApiDto(dCity)));
+                _mapper.Map<ReadCity>(dCity)));
             return Ok(cities);
         }
 
@@ -56,13 +60,12 @@ namespace Application.Core.Controllers
                 string[] citiesDIds = dId.Split(',');
                 var domainCities = _cityService.GetCitiesByDIdList(citiesDIds);
                 List<ReadCity> cities = new();
-                domainCities.ForEach(dCity => cities.Add(
-                    CityAppMappers.FromDomainObjectToApiDto(dCity)));
+                domainCities.ForEach(dCity => cities.Add(_mapper.Map<ReadCity>(dCity)));
                 return Ok(cities);
             }
 
-            var domainCity = _cityService.GetByDId(dId);
-            ReadCity city = CityAppMappers.FromDomainObjectToApiDto(domainCity);
+            var dCity = _cityService.GetByDId(dId);
+            ReadCity city = _mapper.Map<ReadCity>(dCity);
             return Ok(city);
         }
 
@@ -101,7 +104,7 @@ namespace Application.Core.Controllers
                 await _mediator.Send(notificationCommand);
             }
 
-            return Created(city.DId, CityAppMappers.FromDomainObjectToApiDto(city));
+            return Created(city.DId, _mapper.Map<ReadCity>(city));
         }
 
         [HttpPut("{dId}")]
