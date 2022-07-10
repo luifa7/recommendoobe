@@ -13,6 +13,8 @@ public class CityProfile : Profile
     public CityProfile()
     {
         CreateMap<City, ReadCity>();
+        CreateMap<City, Cities>();
+        CreateMap<Cities, City>();
     }
 }
 
@@ -21,6 +23,8 @@ public class FriendProfile : Profile
     public FriendProfile()
     {
         CreateMap<Friend, ReadFriend>();
+        CreateMap<Friend, Friends>();
+        CreateMap<Friends, Friend>();
     }
 }
 
@@ -29,6 +33,8 @@ public class NotificationProfile : Profile
     public NotificationProfile()
     {
         CreateMap<Notification, ReadNotification>();
+        CreateMap<Notification, Notifications>();
+        CreateMap<Notifications, Notification>();
     }
 }
 
@@ -37,60 +43,25 @@ public class UserProfile : Profile
     public UserProfile()
     {
         CreateMap<User, ReadUser>();
+        CreateMap<User, Users>();
+        CreateMap<Users, User>();
     }
 }
 
-public class CityInfrastructureProfile : Profile
+public class RecommendationProfile : Profile
 {
-    public CityInfrastructureProfile()
-    {
-        CreateMap<City, Cities>();
-        CreateMap<Cities, City>();
-    }
-}
-
-public class FriendInfrastructureProfile : Profile
-{
-    public FriendInfrastructureProfile()
-    {
-        CreateMap<Friend, Friends>();
-        CreateMap<Friends, Friend>();
-    }
-}
-
-public class NotificationInfrastructureProfile : Profile
-{
-    public NotificationInfrastructureProfile()
-    {
-        CreateMap<Notification, Notifications>();
-        CreateMap<Notifications, Notification>();
-    }
-}
-
-public class RecommendationInfrastructureProfile : Profile
-{
-    public RecommendationInfrastructureProfile()
+    public RecommendationProfile()
     {
         CreateMap<Recommendation, Recommendations>();
         CreateMap<Recommendations, Recommendation>();
     }
 }
 
-public class TagInfrastructureProfile : Profile
+public class TagProfile : Profile
 {
-    public TagInfrastructureProfile()
+    public TagProfile()
     {
         CreateMap<Tag, Tags>();
         CreateMap<Tags, Tag>();
     }
 }
-
-public class UserInfrastructureProfile : Profile
-{
-    public UserInfrastructureProfile()
-    {
-        CreateMap<User, Users>();
-        CreateMap<Users, User>();
-    }
-}
-
