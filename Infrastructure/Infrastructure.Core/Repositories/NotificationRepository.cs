@@ -1,20 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Domain.Core.Interfaces;
 using Domain.Core.Objects;
 using Infrastructure.Core.Database;
-using Infrastructure.Core.Mappers;
+using Infrastructure.Core.Database.Entities;
 
 namespace Infrastructure.Core.Repositories
 {
     public class NotificationRepository : INotificationRepository
     {
         private readonly DbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public NotificationRepository()
+        public NotificationRepository(IMapper mapper)
         {
             _dbContext = new DbContext();
+            _mapper = mapper;
         }
 
         public List<Notification> GetAllByUserDId(string userDId)
@@ -23,8 +26,7 @@ namespace Infrastructure.Core.Repositories
                 .Where(n => n.UserDId == userDId).ToList();
             List<Notification> notifications = new();
 
-            notificationsFromDb.ForEach(n => notifications.Add(
-            NotificationMappers.FromDbEntityToDomainObject(n)));
+            notificationsFromDb.ForEach(n => notifications.Add(_mapper.Map<Notification>(n)));
 
             return notifications;
         }
@@ -35,8 +37,7 @@ namespace Infrastructure.Core.Repositories
                 .Where(n => (n.UserDId == userDId) && (!n.WasOpen)).ToList();
             List<Notification> notifications = new();
 
-            notificationsFromDb.ForEach(n => notifications.Add(
-            NotificationMappers.FromDbEntityToDomainObject(n)));
+            notificationsFromDb.ForEach(n => notifications.Add(_mapper.Map<Notification>(n)));
 
             return notifications;
         }
@@ -49,8 +50,7 @@ namespace Infrastructure.Core.Repositories
 
         public Task PersistAsync(Notification notification)
         {
-            var notificationDbEntity =
-                NotificationMappers.FromDomainObjectToDbEntity(notification);
+            var notificationDbEntity = _mapper.Map<Notifications>(notification);
             _dbContext.Notifications.Add(notificationDbEntity);
             return _dbContext.SaveChangesAsync();
         }

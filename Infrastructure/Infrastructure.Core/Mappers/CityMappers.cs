@@ -18,17 +18,5 @@ namespace Infrastructure.Core.Mappers
                 Visited = city.Visited
             };
         }
-
-        public static City FromDbEntityToDomainObject(Cities cityDbEntity)
-        {
-            return new City(
-                dId: cityDbEntity.DId,
-                name: cityDbEntity.Name,
-                country: cityDbEntity.Country,
-                photo: cityDbEntity.Photo,
-                userDId: cityDbEntity.User.DId,
-                visited: cityDbEntity.Visited
-                );
-        }
     }
 }

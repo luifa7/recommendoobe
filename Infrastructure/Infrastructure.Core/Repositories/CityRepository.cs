@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Domain.Core.Interfaces;
 using Domain.Core.Objects;
 using Infrastructure.Core.Database;
@@ -14,10 +15,12 @@ namespace Infrastructure.Core.Repositories
     public class CityRepository : ICityRepository
     {
         private readonly DbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public CityRepository()
+        public CityRepository(IMapper mapper)
         {
             _dbContext = new DbContext();
+            _mapper = mapper;
         }
 
         public City GetByDId(string dId)
@@ -26,7 +29,7 @@ namespace Infrastructure.Core.Repositories
                 _dbContext.Cities.Include(c => c.User)
                 .FirstOrDefault(c => c.DId == dId);
 
-            return cityFromDb == null ? null : CityMappers.FromDbEntityToDomainObject(cityFromDb);
+            return cityFromDb == null ? null : _mapper.Map<City>(cityFromDb);
         }
 
         public List<City> GetCitiesByDIdList(string[] dIds)
@@ -35,8 +38,7 @@ namespace Infrastructure.Core.Repositories
                 .Where(c => dIds.Contains(c.DId)).ToList();
             List<City> cities = new();
 
-            citiesFromDb.ForEach(re => cities.Add(
-            CityMappers.FromDbEntityToDomainObject(re)));
+            citiesFromDb.ForEach(cityFromDb => cities.Add(_mapper.Map<City>(cityFromDb)));
 
             return cities;
         }
@@ -48,8 +50,7 @@ namespace Infrastructure.Core.Repositories
 
             List<City> cities = new();
 
-            citiesFromDb.ForEach(re => cities.Add(
-            CityMappers.FromDbEntityToDomainObject(re)));
+            citiesFromDb.ForEach(cityFromDb => cities.Add(_mapper.Map<City>(cityFromDb)));
 
             return cities;
         }

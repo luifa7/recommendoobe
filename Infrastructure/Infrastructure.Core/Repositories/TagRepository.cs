@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Domain.Core.Interfaces;
 using Domain.Core.Objects;
 using Infrastructure.Core.Database;
@@ -12,10 +13,12 @@ namespace Infrastructure.Core.Repositories
     public class TagRepository : ITagRepository
     {
         private readonly DbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public TagRepository()
+        public TagRepository(IMapper mapper)
         {
             _dbContext = new DbContext();
+            _mapper = mapper;
         }
 
         public Tag GetByWord(string word)
@@ -23,7 +26,7 @@ namespace Infrastructure.Core.Repositories
             Tags tagFromDb =
                 _dbContext.Tags.FirstOrDefault(t => t.Word == word);
 
-            return tagFromDb == null ? null : TagMappers.FromDbEntityToDomainObject(tagFromDb);
+            return tagFromDb == null ? null : _mapper.Map<Tag>(tagFromDb);
         }
 
         public Tag GetByWordAndRecommendationDId(
@@ -34,7 +37,7 @@ namespace Infrastructure.Core.Repositories
                     t => t.RecommendationDId == recommendationDId
                     && t.Word == word);
 
-            return tagFromDb == null ? null : TagMappers.FromDbEntityToDomainObject(tagFromDb);
+            return tagFromDb == null ? null : _mapper.Map<Tag>(tagFromDb);
         }
 
         public List<Tag> GetTagsByWordList(string[] words)
@@ -43,8 +46,7 @@ namespace Infrastructure.Core.Repositories
                 t => words.Contains(t.Word)).ToList();
             List<Tag> tags = new();
 
-            tagFromDb.ForEach(re => tags.Add(
-            TagMappers.FromDbEntityToDomainObject(re)));
+            tagFromDb.ForEach(t => tags.Add(_mapper.Map<Tag>(t)));
 
             return tags;
         }
@@ -55,8 +57,7 @@ namespace Infrastructure.Core.Repositories
                 t => t.RecommendationDId == recommendationDId).ToList();
             List<Tag> tags = new();
 
-            tagFromDb.ForEach(re => tags.Add(
-            TagMappers.FromDbEntityToDomainObject(re)));
+            tagFromDb.ForEach(t => tags.Add(_mapper.Map<Tag>(t)));
 
             return tags;
         }
@@ -68,16 +69,14 @@ namespace Infrastructure.Core.Repositories
 
             List<Tag> tags = new();
 
-            tagFromDb.ForEach(re => tags.Add(
-            TagMappers.FromDbEntityToDomainObject(re)));
+            tagFromDb.ForEach(t => tags.Add(_mapper.Map<Tag>(t)));
 
             return tags;
         }
 
         public Task PersistAsync(Tag tag)
         {
-            var tagFromDb =
-                TagMappers.FromDomainObjectToDbEntity(tag);
+            var tagFromDb = _mapper.Map<Tags>(tag);
             _dbContext.Tags.Add(tagFromDb);
             return _dbContext.SaveChangesAsync();
         }

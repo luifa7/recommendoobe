@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Domain.Core.Interfaces;
 using Domain.Core.Objects;
 using Infrastructure.Core.Database;
@@ -14,11 +15,13 @@ namespace Infrastructure.Core.Repositories
     public class RecommendationRepository : IRecommendationRepository
     {
         private readonly DbContext _dbContext;
+        private readonly IMapper _mapper;
         private readonly ITagRepository _tagRepository;
 
-        public RecommendationRepository(ITagRepository tagRepository)
+        public RecommendationRepository(ITagRepository tagRepository, IMapper mapper)
         {
             _dbContext = new DbContext();
+            _mapper = mapper;
             _tagRepository = tagRepository;
         }
 
@@ -31,8 +34,7 @@ namespace Infrastructure.Core.Repositories
                 .Include(r => r.City)
                 .FirstOrDefault(r => r.DId == dId);
 
-            return recommendationFromDb == null ? null : RecommendationMappers.FromDbEntityToDomainObject(
-                recommendationFromDb);
+            return recommendationFromDb == null ? null : _mapper.Map<Recommendation>(recommendationFromDb);
         }
 
         public List<Recommendation> GetRecommendationsByDIdList(string[] dIds)
@@ -45,7 +47,7 @@ namespace Infrastructure.Core.Repositories
             List<Recommendation> recommendations = new();
 
             recommendationsFromDb.ForEach(re => recommendations.Add(
-            RecommendationMappers.FromDbEntityToDomainObject(re)));
+                _mapper.Map<Recommendation>(re)));
 
             return recommendations;
         }
@@ -63,7 +65,7 @@ namespace Infrastructure.Core.Repositories
             List<Recommendation> recommendations = new();
 
             recommendationsFromDb.ForEach(re => recommendations.Add(
-            RecommendationMappers.FromDbEntityToDomainObject(re)));
+                _mapper.Map<Recommendation>(re)));
 
             return recommendations;
         }
@@ -81,7 +83,7 @@ namespace Infrastructure.Core.Repositories
             List<Recommendation> recommendations = new();
 
             recommendationsFromDb.ForEach(re => recommendations.Add(
-            RecommendationMappers.FromDbEntityToDomainObject(re)));
+                _mapper.Map<Recommendation>(re)));
 
             return recommendations;
         }
@@ -98,7 +100,7 @@ namespace Infrastructure.Core.Repositories
             List<Recommendation> recommendations = new();
 
             recommendationsFromDb.ForEach(re => recommendations.Add(
-            RecommendationMappers.FromDbEntityToDomainObject(re)));
+                _mapper.Map<Recommendation>(re)));
 
             return recommendations;
         }

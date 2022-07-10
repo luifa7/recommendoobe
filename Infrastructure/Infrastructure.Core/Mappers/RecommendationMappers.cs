@@ -32,26 +32,5 @@ namespace Infrastructure.Core.Mappers
                 ToUser = toUser,
             };
         }
-
-        public static Recommendation FromDbEntityToDomainObject(Recommendations recommendationDbEntity)
-        {
-            return new Recommendation(
-                dId: recommendationDbEntity.DId,
-                placeName: recommendationDbEntity.PlaceName,
-                title: recommendationDbEntity.Title,
-                text: recommendationDbEntity.Text,
-                address: recommendationDbEntity.Address,
-                maps: recommendationDbEntity.Maps,
-                website: recommendationDbEntity.Website,
-                instagram: recommendationDbEntity.Instagram,
-                facebook: recommendationDbEntity.Facebook,
-                otherLink: recommendationDbEntity.OtherLink,
-                photo: recommendationDbEntity.Photo,
-                createdOn: recommendationDbEntity.CreatedOn,
-                cityDId: recommendationDbEntity.City.DId,
-                fromUserDId: recommendationDbEntity.FromUser.DId,
-                toUserDId: recommendationDbEntity.ToUser.DId
-                );
-        }
     }
 }

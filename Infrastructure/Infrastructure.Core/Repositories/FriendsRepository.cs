@@ -2,23 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Domain.Core.Interfaces;
 using Domain.Core.Objects;
 using Infrastructure.Core.Database;
 using Infrastructure.Core.Database.Entities;
-using Infrastructure.Core.Mappers;
 
 namespace Infrastructure.Core.Repositories
 {
     public class FriendRepository : IFriendRepository
     {
         private readonly DbContext _dbContext;
+        private readonly IMapper _mapper;
         public const string FriendshipPending = "pending";
         private const string FriendshipAccepted = "accepted";
 
-        public FriendRepository()
+        public FriendRepository(IMapper mapper)
         {
             _dbContext = new DbContext();
+            _mapper = mapper;
         }
 
         public List<Friend> GetAllFriendsByUserDId(string userDId)
@@ -30,8 +32,7 @@ namespace Infrastructure.Core.Repositories
                 ).ToList();
 
             List<Friend> friends = new();
-            friendsFromDb.ForEach(fr => friends.Add(
-            FriendMappers.FromDbEntityToDomainObject(fr)));
+            friendsFromDb.ForEach(friendFromDb => friends.Add(_mapper.Map<Friend>(friendFromDb)));
 
             return friends;
         }
@@ -45,8 +46,7 @@ namespace Infrastructure.Core.Repositories
                 ).ToList();
 
             List<Friend> friends = new();
-            sentFriendsFromDb.ForEach(fr => friends.Add(
-            FriendMappers.FromDbEntityToDomainObject(fr)));
+            sentFriendsFromDb.ForEach(friendFromDb => friends.Add(_mapper.Map<Friend>(friendFromDb)));
 
             return friends;
         }
@@ -60,8 +60,7 @@ namespace Infrastructure.Core.Repositories
                 ).ToList();
 
             List<Friend> friends = new();
-            pendingFriendsFromDb.ForEach(fr => friends.Add(
-            FriendMappers.FromDbEntityToDomainObject(fr)));
+            pendingFriendsFromDb.ForEach(friendFromDb => friends.Add(_mapper.Map<Friend>(friendFromDb)));
 
             return friends;
         }
@@ -81,8 +80,7 @@ namespace Infrastructure.Core.Repositories
 
         public Task PersistAsync(Friend friend)
         {
-            var friendDbEntity =
-                FriendMappers.FromDomainObjectToDbEntity(friend);
+            var friendDbEntity = _mapper.Map<Friends>(friend);
             _dbContext.Friends.Add(friendDbEntity);
             return _dbContext.SaveChangesAsync();
         }
@@ -120,9 +118,7 @@ namespace Infrastructure.Core.Repositories
             if (requestFromDb == null) return Task.CompletedTask;
 
             requestFromDb.Status = FriendshipAccepted;
-            var friendDbEntity =
-                FriendMappers.FromDomainObjectToDbEntity(
-                    friendshipInTheOtherDirection);
+            var friendDbEntity = _mapper.Map<Friends>(friendshipInTheOtherDirection);
             _dbContext.Friends.Add(friendDbEntity);
             return _dbContext.SaveChangesAsync();
         }
