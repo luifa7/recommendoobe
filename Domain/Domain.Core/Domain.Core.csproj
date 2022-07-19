@@ -17,4 +17,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Diagnostics" Version="7.1.2" />
+  </ItemGroup>
 </Project>
