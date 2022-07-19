@@ -1,5 +1,4 @@
-﻿using System;
-using Infrastructure.Core.Repositories;
+﻿using Infrastructure.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Core.Database.Entities

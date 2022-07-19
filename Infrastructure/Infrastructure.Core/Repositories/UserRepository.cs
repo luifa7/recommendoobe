@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Domain.Core.Interfaces;
 using Domain.Core.Objects;
-using Infrastructure.Core.Database;
 using Infrastructure.Core.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 using DbContext = Infrastructure.Core.Database.DbContext;

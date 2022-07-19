@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Application.Core.Services;
+﻿using Application.Core.Services;
 using MediatR;
 
 namespace Application.Core.Commands.FriendCommands
