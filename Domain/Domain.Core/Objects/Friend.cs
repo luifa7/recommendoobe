@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Domain.Core.Objects
+﻿namespace Domain.Core.Objects
 {
     public class Friend
     {

@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Application.Core.Commands;
-using Application.Core.Commands.CityCommands;
+﻿using Application.Core.Commands.CityCommands;
 using Application.Core.Commands.NotificationCommands;
 using Application.Core.Mappers;
 using Application.Core.Services;
@@ -10,7 +6,6 @@ using AutoMapper;
 using Domain.Core.Objects;
 using DTOs.Cities;
 using DTOs.Recommendations;
-using Infrastructure.Core.Mappers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

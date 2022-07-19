@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Application.Core.Commands;
-using Application.Core.Commands.FriendCommands;
+﻿using Application.Core.Commands.FriendCommands;
 using Application.Core.Commands.NotificationCommands;
 using Application.Core.Commands.RecommendationCommands;
 using Application.Core.Commands.UserCommands;
@@ -15,7 +11,6 @@ using DTOs.Friend;
 using DTOs.Notifications;
 using DTOs.Recommendations;
 using DTOs.Users;
-using Infrastructure.Core.Mappers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
