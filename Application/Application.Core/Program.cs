@@ -63,13 +63,10 @@ if (app.Environment.IsDevelopment())
 app.UseRouting();
 app.UseCors();
 
-app.UseEndpoints(endpoints =>
+app.MapControllers();
+app.MapGet("/", async context =>
 {
-    endpoints.MapControllers();
-    endpoints.MapGet("/", async context =>
-    {
-        await context.Response.WriteAsync("Recommendoo API");
-    });
+    await context.Response.WriteAsync("Recommendoo API");
 });
 
 app.Run();

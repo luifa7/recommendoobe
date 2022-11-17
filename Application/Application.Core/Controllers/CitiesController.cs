@@ -62,7 +62,7 @@ namespace Application.Core.Controllers
                 if (!domainCities.Any()) return NotFound();
                 return domainCities.Count == 1 ? Ok(cities.First()) : Ok(cities);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return BadRequest();
             }
@@ -84,7 +84,7 @@ namespace Application.Core.Controllers
 
                 return Ok(recommendations);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return BadRequest();
             }
@@ -123,7 +123,7 @@ namespace Application.Core.Controllers
 
                 return Created(city.DId, _mapper.Map<ReadCity>(city));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return BadRequest();
             }
@@ -151,7 +151,7 @@ namespace Application.Core.Controllers
                 bool success = await _mediator.Send(command);
                 return success ? NoContent() : BadRequest();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return BadRequest();
             }
@@ -167,7 +167,7 @@ namespace Application.Core.Controllers
                 bool success = await _mediator.Send(command);
                 return success ? NoContent() : BadRequest();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return BadRequest();
             }
