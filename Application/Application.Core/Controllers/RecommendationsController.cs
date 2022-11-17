@@ -1,14 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Application.Core.Commands;
-using Application.Core.Commands.NotificationCommands;
+﻿using Application.Core.Commands.NotificationCommands;
 using Application.Core.Commands.RecommendationCommands;
 using Application.Core.Mappers;
 using Application.Core.Services;
 using Domain.Core.Objects;
 using DTOs.Recommendations;
-using Infrastructure.Core.Mappers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

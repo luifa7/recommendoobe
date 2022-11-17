@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Application.Core.Services;
+﻿using Application.Core.Services;
 using Domain.Core.Objects;
 using MediatR;
 

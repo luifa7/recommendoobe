@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Domain.Core.Interfaces;
+﻿using Domain.Core.Interfaces;
 using Domain.Core.Objects;
 
 namespace Application.Core.Services

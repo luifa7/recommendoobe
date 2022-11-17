@@ -3,10 +3,6 @@ using Application.Core.Services;
 using Domain.Core.Interfaces;
 using Infrastructure.Core.Repositories;
 using MediatR;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -67,13 +63,10 @@ if (app.Environment.IsDevelopment())
 app.UseRouting();
 app.UseCors();
 
-app.UseEndpoints(endpoints =>
+app.MapControllers();
+app.MapGet("/", async context =>
 {
-    endpoints.MapControllers();
-    endpoints.MapGet("/", async context =>
-    {
-        await context.Response.WriteAsync("Recommendoo API");
-    });
+    await context.Response.WriteAsync("Recommendoo API");
 });
 
 app.Run();
