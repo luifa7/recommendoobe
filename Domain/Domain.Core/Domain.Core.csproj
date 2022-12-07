@@ -16,8 +16,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Update="SonarAnalyzer.CSharp" Version="8.50.0.58025" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Diagnostics" Version="7.1.2" />
+    <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.0.0" />
   </ItemGroup>
 </Project>

@@ -53,9 +53,9 @@ namespace Application.Core.Controllers
         {
             try
             {
-                Guard.IsNotNullOrWhiteSpace(dId, nameof(dId));
+                Guard.IsNotNullOrWhiteSpace(dId);
                 string[] citiesDIds = dId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                Guard.IsNotEmpty(citiesDIds, nameof(citiesDIds));
+                Guard.IsNotEmpty(citiesDIds);
                 var domainCities = _cityService.GetCitiesByDIdList(citiesDIds);
                 List<ReadCity> cities = new();
                 domainCities.ForEach(dCity => cities.Add(_mapper.Map<ReadCity>(dCity)));
@@ -73,7 +73,7 @@ namespace Application.Core.Controllers
         {
             try
             {
-                Guard.IsNotNullOrWhiteSpace(dId, nameof(dId));
+                Guard.IsNotNullOrWhiteSpace(dId);
                 var domainRecommendations =
                     _recommendationService.GetRecommendationsByCityDId(dId);
                 List<ReadRecommendation> recommendations = (
@@ -95,12 +95,12 @@ namespace Application.Core.Controllers
         {
             try
             {
-                Guard.IsNotNullOrEmpty(createCity.Name, nameof(createCity.Name));
-                Guard.IsNotNullOrEmpty(createCity.Country, nameof(createCity.Country));
-                Guard.IsNotNullOrEmpty(createCity.UserDId, nameof(createCity.UserDId));
-                Guard.IsNotNullOrWhiteSpace(createCity.Name, nameof(createCity.Name));
-                Guard.IsNotNullOrWhiteSpace(createCity.Country, nameof(createCity.Country));
-                Guard.IsNotNullOrWhiteSpace(createCity.UserDId, nameof(createCity.UserDId));
+                Guard.IsNotNullOrEmpty(createCity.Name);
+                Guard.IsNotNullOrEmpty(createCity.Country);
+                Guard.IsNotNullOrEmpty(createCity.UserDId);
+                Guard.IsNotNullOrWhiteSpace(createCity.Name);
+                Guard.IsNotNullOrWhiteSpace(createCity.Country);
+                Guard.IsNotNullOrWhiteSpace(createCity.UserDId);
 
                 var command = new CreateCityCommand(
                     createCity.Name,
@@ -136,11 +136,11 @@ namespace Application.Core.Controllers
         {
             try
             {
-                Guard.IsNotNullOrWhiteSpace(dId, nameof(dId));
-                Guard.IsNotNullOrEmpty(updateCity.Name, nameof(updateCity.Name));
-                Guard.IsNotNullOrEmpty(updateCity.Country, nameof(updateCity.Country));
-                Guard.IsNotNullOrWhiteSpace(updateCity.Name, nameof(updateCity.Name));
-                Guard.IsNotNullOrWhiteSpace(updateCity.Country, nameof(updateCity.Country));
+                Guard.IsNotNullOrWhiteSpace(dId);
+                Guard.IsNotNullOrEmpty(updateCity.Name);
+                Guard.IsNotNullOrEmpty(updateCity.Country);
+                Guard.IsNotNullOrWhiteSpace(updateCity.Name);
+                Guard.IsNotNullOrWhiteSpace(updateCity.Country);
 
                 var command = new UpdateCityCommand(
                     dId,
@@ -162,7 +162,7 @@ namespace Application.Core.Controllers
         {
             try
             {
-                Guard.IsNotNullOrWhiteSpace(dId, nameof(dId));
+                Guard.IsNotNullOrWhiteSpace(dId);
                 var command = new DeleteCityCommand(dId);
                 bool success = await _mediator.Send(command);
                 return success ? NoContent() : BadRequest();
