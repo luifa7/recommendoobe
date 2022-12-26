@@ -2,3 +2,35 @@
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
+
+trigger:
+- none
+
+resources:
+ pipelines:
+     - pipeline: 'buildPipeline'
+       project: 'BE'
+       source: 'Build pipeline'
+       branch: 'main'
+
+stages:
+    - stage: DeployWebApp
+      displayName: 'Deploy Web App'
+      pool:
+        vmImage: windows-latest
+    
+      jobs:
+      - deployment: DeployWebApp
+        displayName: 'Deploy Web App'
+        environment: 'Staging'
+        strategy:
+         runOnce:
+             deploy:
+                 steps:
+                     - checkout: none
+
+                     - download: 'buildPipeline'
+                       name: 'DownloadBuildArtifacts'
+                       displayName: 'Download Build Artifacts'
+                       artifact: 'RecommendooBE'
+                       
