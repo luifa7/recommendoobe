@@ -1,6 +1,6 @@
 # API
 
-Using .Net core 5
+Using .Net core 7
 
 ## Project build
 
