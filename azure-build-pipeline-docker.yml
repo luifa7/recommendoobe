@@ -13,6 +13,7 @@ resources:
     
 variables:
   tag: 'be.$(Build.BuildId)'
+  repositoryName: 'luifa7/recommendoo'
   
 stages:
   - stage: BuildAndPush
@@ -25,7 +26,7 @@ stages:
             displayName: Build the Docker image
             inputs:
               containerRegistry: dockerHub
-              repository: luifa7/recommendoo_be
+              repository: '$(repositoryName)'
               command: build
               dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
               tags: '$(tag)'
@@ -36,7 +37,7 @@ stages:
             displayName: Push the Docker image to DockerHub
             inputs:
               containerRegistry: dockerHub
-              repository: luifa7/recommendoo_be
+              repository: '$(repositoryName)'
               command: push
               tags: '$(tag)'
             condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
