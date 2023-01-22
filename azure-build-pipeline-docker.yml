@@ -25,6 +25,7 @@ stages:
             displayName: Build the Docker image
             inputs:
               containerRegistry: dockerHub
+              repository: luifa7/recommendoo_be
               command: build
               dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
               tags: '$(tag)'
