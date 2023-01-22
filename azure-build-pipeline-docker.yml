@@ -12,7 +12,7 @@ resources:
   - repo: self
     
 variables:
-  ImageName: 'luifa7/recommendoo_be:$(Build.BuildId)'
+  tag: '$(Build.BuildId)'
   
 stages:
   - stage: BuildAndPush
@@ -27,7 +27,7 @@ stages:
               containerRegistry: dockerHub
               command: build
               dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
-              tags: '$(ImageName)'
+              tags: '$(tag)'
               includeLatestTag: true
               useDefaultContext: false
               buildContext: '.'
@@ -37,5 +37,5 @@ stages:
               containerRegistry: dockerHub
               repository: luifa7/recommendoo_be
               command: push
-              tags: '$(ImageName)'
+              tags: '$(tag)'
             condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
