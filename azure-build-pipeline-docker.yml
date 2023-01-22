@@ -1,25 +1,42 @@
 # Docker
 # Build a Docker image
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+name: Docker-CI
 trigger:
   - main
+    
+pool: 
+  vmImage: 'ubuntu-latest'
+
 resources:
   - repo: self
+    
 variables:
-  tag: '$(Build.BuildId)'
+  ImageName: 'luifa7/recommendoo_be:$(Build.BuildId)'
+  
 stages:
   - stage: Build
     displayName: Build image
     jobs:
-      - job: Build
-        displayName: Build
-        pool:
-          vmImage: ubuntu-latest
+      - job: DockerImage
+        displayName: Build and push Docker Image
         steps:
           - task: Docker@2
-            displayName: Build an image
+            displayName: Build the Docker image
             inputs:
+              containerregistrytype: 'Container Registry'
+              dockerRegistryEndpoint: 'Docker Hub'
               command: build
               dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
-              tags: |
-                $(tag)
+              imageName: '$(ImageName)'
+              includeLatestTag: true
+              useDefaultContext: false
+              buildContext: '.'
+          - task: Docker@2
+            displayName: Push the Docker image to DockerHub
+            inputs:
+              containerregistrytype: 'Container Registry'
+              dockerRegistryEndpoint: 'Docker Hub'
+              command: 'Push an image'
+              imageName: '$(ImageName)'
+            condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
