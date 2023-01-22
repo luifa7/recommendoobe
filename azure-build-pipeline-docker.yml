@@ -27,7 +27,7 @@ stages:
               containerRegistry: dockerHub
               command: build
               dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
-              tag: '$(ImageName)'
+              tags: '$(ImageName)'
               includeLatestTag: true
               useDefaultContext: false
               buildContext: '.'
@@ -37,5 +37,5 @@ stages:
               containerRegistry: dockerHub
               repository: luifa7/recommendoo_be
               command: push
-              tag: '$(ImageName)'
+              tags: '$(ImageName)'
             condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
