@@ -12,7 +12,7 @@ resources:
   - repo: self
     
 variables:
-  tag: '$(Build.BuildId)'
+  tag: 'be.$(Build.BuildId)'
   
 stages:
   - stage: BuildAndPush
