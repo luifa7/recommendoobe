@@ -168,4 +168,76 @@ public class CitiesControllerTests
         // Assert
         Assert.IsType<BadRequestResult>(result);
     }
+    
+    [Fact]
+    public void GetByDId_ReturnsNotFound_WhenCityDoesNotExist()
+    {
+        // Arrange
+        _mockCityService.Setup(service => service.GetByDId("1")).Returns((City)null);
+
+        // Act
+        var result = _controller.GetByDId("1");
+
+        // Assert
+        Assert.IsType<NotFoundResult>(result);
+    }
+
+    [Fact]
+    public async Task Create_ReturnsBadRequest_WhenCityCreationFails()
+    {
+        // Arrange
+        _mockMediator.Setup(mediator => mediator.Send(It.IsAny<CreateCityCommand>(), default(CancellationToken))).ReturnsAsync((City)null);
+
+        // Act
+        var result = await _controller.Create(new CreateCity());
+
+        // Assert
+        Assert.IsType<BadRequestResult>(result);
+    }
+
+    [Fact]
+    public void GetAll_ReturnsCorrectData()
+    {
+        // Arrange
+        var cities = new List<City> { new City("1", "Test City", "Test Country", "Test Photo", "Test UserDId", false) };
+        var readCities = new List<ReadCity> { new ReadCity("1", "Test City", "Test Country", "Test Photo", "Test UserDId", false)  };
+        _mockCityService.Setup(service => service.GetAll()).Returns(cities);
+        _mockMapper.Setup(mapper => mapper.Map<List<ReadCity>>(cities)).Returns(readCities);
+
+        // Act
+        var result = _controller.GetAll();
+
+        // Assert
+        var okResult = Assert.IsType<OkObjectResult>(result);
+        var returnValue = Assert.IsType<List<ReadCity>>(okResult.Value);
+        Assert.Equal(readCities, returnValue);
+    }
+
+    [Fact]
+    public void GetRecommendationsByCityDId_ReturnsCorrectData()
+    {
+        // Arrange
+        var recommendations = new List<Recommendation> 
+        { 
+            new Recommendation("1", "Test PlaceName", "Test Title", "Test Text", "Test Address", "Test Maps", 
+            "Test Website", "Test Instagram", "Test Facebook", "Test OtherLink", "Test Photo", 1234567890, 
+            "Test CityDId", "Test FromUserDId", "Test ToUserDId") 
+        };
+        var readRecommendations = new List<ReadRecommendation> 
+        { 
+            new ReadRecommendation("1", "Test PlaceName", "Test Title", "Test Text", "Test Address", "Test Maps", 
+                "Test Website", "Test Instagram", "Test Facebook", "Test OtherLink", "Test Photo", 1234567890, 
+                "Test CityDId", new string[1] , "Test ToUserDId","Test FromUserDId" ) 
+        };
+        _mockRecommendationService.Setup(service => service.GetRecommendationsByCityDId("1")).Returns(recommendations);
+        _mockMapper.Setup(mapper => mapper.Map<List<ReadRecommendation>>(recommendations)).Returns(readRecommendations);
+
+        // Act
+        var result = _controller.GetRecommendationsByCityDId("1");
+
+        // Assert
+        var okResult = Assert.IsType<OkObjectResult>(result);
+        var returnValue = Assert.IsType<List<ReadRecommendation>>(okResult.Value);
+        Assert.Equal(readRecommendations, returnValue);
+    }
 }
