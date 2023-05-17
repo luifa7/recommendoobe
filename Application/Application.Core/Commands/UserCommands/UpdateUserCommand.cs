@@ -1,4 +1,5 @@
-﻿using Application.Core.Services;
+﻿using Application.Core.Interfaces;
+using Application.Core.Services;
 using MediatR;
 
 namespace Application.Core.Commands.UserCommands
@@ -38,10 +39,10 @@ namespace Application.Core.Commands.UserCommands
     public class UpdateUserCommandHandler :
         IRequestHandler<UpdateUserCommand, bool>
     {
-        private readonly UserCrudService _userService;
+        private readonly IUserCrudService _userService;
 
         public UpdateUserCommandHandler(
-            UserCrudService userCrudService)
+            IUserCrudService userCrudService)
         {
             _userService = userCrudService;
         }

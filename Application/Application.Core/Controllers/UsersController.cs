@@ -2,6 +2,7 @@
 using Application.Core.Commands.NotificationCommands;
 using Application.Core.Commands.RecommendationCommands;
 using Application.Core.Commands.UserCommands;
+using Application.Core.Interfaces;
 using Application.Core.Mappers;
 using Application.Core.Services;
 using AutoMapper;
@@ -21,20 +22,20 @@ namespace Application.Core.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
-        private readonly UserCrudService _userService;
-        private readonly TagCrudService _tagService;
-        private readonly RecommendationCrudService _recommendationService;
-        private readonly NotificationCrudService _notificationService;
-        private readonly FriendCrudService _friendService;
+        private readonly IUserCrudService _userService;
+        private readonly ITagCrudService _tagService;
+        private readonly IRecommendationCrudService _recommendationService;
+        private readonly INotificationCrudService _notificationService;
+        private readonly IFriendCrudService _friendService;
 
         public UsersController(
             IMapper mapper,
             IMediator mediator,
-            UserCrudService userCrudService,
-            TagCrudService tagCrudService,
-            RecommendationCrudService recommendationCrudService,
-            NotificationCrudService notificationCrudService,
-            FriendCrudService friendCrudService)
+            IUserCrudService userCrudService,
+            ITagCrudService tagCrudService,
+            IRecommendationCrudService recommendationCrudService,
+            INotificationCrudService notificationCrudService,
+            IFriendCrudService friendCrudService)
         {
             _mapper = mapper;
             _mediator = mediator;

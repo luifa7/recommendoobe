@@ -1,4 +1,5 @@
-﻿using Application.Core.Services;
+﻿using Application.Core.Interfaces;
+using Application.Core.Services;
 using Domain.Core.Objects;
 using MediatR;
 
@@ -56,12 +57,12 @@ namespace Application.Core.Commands.RecommendationCommands
 
     public class CreateRecommendationCommandHandler : IRequestHandler<CreateRecommendationCommand, Recommendation>
     {
-        private readonly RecommendationCrudService _recommendationService;
-        private readonly TagCrudService _tagService;
+        private readonly IRecommendationCrudService _recommendationService;
+        private readonly ITagCrudService _tagService;
 
         public CreateRecommendationCommandHandler(
-            RecommendationCrudService recommendationCrudService,
-            TagCrudService tagCrudService)
+            IRecommendationCrudService recommendationCrudService,
+            ITagCrudService tagCrudService)
         {
             _recommendationService = recommendationCrudService;
             _tagService = tagCrudService;

@@ -1,9 +1,10 @@
-﻿using Domain.Core.Interfaces;
+﻿using Application.Core.Interfaces;
+using Domain.Core.Interfaces;
 using Domain.Core.Objects;
 
 namespace Application.Core.Services
 {
-    public class FriendCrudService
+    public class FriendCrudService: IFriendCrudService
     {
         private readonly IFriendRepository _friendRepository;
 

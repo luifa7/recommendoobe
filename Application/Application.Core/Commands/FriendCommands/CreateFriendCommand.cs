@@ -1,4 +1,5 @@
-﻿using Application.Core.Services;
+﻿using Application.Core.Interfaces;
+using Application.Core.Services;
 using Domain.Core.Objects;
 using MediatR;
 
@@ -19,10 +20,10 @@ namespace Application.Core.Commands.FriendCommands
     public class CreatePendingFriendCommandHandler :
         IRequestHandler<CreatePendingFriendCommand, Friend>
     {
-        private readonly FriendCrudService _friendService;
+        private readonly IFriendCrudService _friendService;
         private const string FriendshipPending = "pending";
 
-        public CreatePendingFriendCommandHandler(FriendCrudService friendCrudService)
+        public CreatePendingFriendCommandHandler(IFriendCrudService friendCrudService)
         {
             _friendService = friendCrudService;
         }

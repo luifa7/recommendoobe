@@ -1,4 +1,5 @@
-﻿using Application.Core.Services;
+﻿using Application.Core.Interfaces;
+using Application.Core.Services;
 using Domain.Core.Objects;
 using MediatR;
 
@@ -18,9 +19,9 @@ namespace Application.Core.Commands.TagCommands
 
     public class CreateTagCommandHandler : IRequestHandler<CreateTagCommand, Tag>
     {
-        private readonly TagCrudService _tagService;
+        private readonly ITagCrudService _tagService;
 
-        public CreateTagCommandHandler(TagCrudService tagCrudService)
+        public CreateTagCommandHandler(ITagCrudService tagCrudService)
         {
             _tagService = tagCrudService;
         }

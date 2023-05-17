@@ -1,4 +1,5 @@
-﻿using Application.Core.Services;
+﻿using Application.Core.Interfaces;
+using Application.Core.Services;
 using MediatR;
 
 namespace Application.Core.Commands.FriendCommands
@@ -18,10 +19,10 @@ namespace Application.Core.Commands.FriendCommands
     public class DeleteFriendCommandHandler :
         IRequestHandler<DeleteFriendCommand, bool>
     {
-        private readonly FriendCrudService _friendService;
+        private readonly IFriendCrudService _friendService;
 
         public DeleteFriendCommandHandler(
-            FriendCrudService friendCrudService)
+            IFriendCrudService friendCrudService)
         {
             _friendService = friendCrudService;
         }

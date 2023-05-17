@@ -1,4 +1,5 @@
-﻿using Application.Core.Services;
+﻿using Application.Core.Interfaces;
+using Application.Core.Services;
 using MediatR;
 
 namespace Application.Core.Commands.CityCommands
@@ -16,9 +17,9 @@ namespace Application.Core.Commands.CityCommands
     public class DeleteCityCommandHandler :
         IRequestHandler<DeleteCityCommand, bool>
     {
-        private readonly CityCrudService _cityService;
+        private readonly ICityCrudService _cityService;
 
-        public DeleteCityCommandHandler(CityCrudService cityCrudService)
+        public DeleteCityCommandHandler(ICityCrudService cityCrudService)
         {
             _cityService = cityCrudService;
         }

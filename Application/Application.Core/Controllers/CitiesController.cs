@@ -1,5 +1,6 @@
 ﻿using Application.Core.Commands.CityCommands;
 using Application.Core.Commands.NotificationCommands;
+using Application.Core.Interfaces;
 using Application.Core.Mappers;
 using Application.Core.Services;
 using AutoMapper;
@@ -17,18 +18,18 @@ namespace Application.Core.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
-        private readonly CityCrudService _cityService;
-        private readonly TagCrudService _tagService;
-        private readonly RecommendationCrudService _recommendationService;
-        private readonly FriendCrudService _friendService;
+        private readonly ICityCrudService _cityService;
+        private readonly ITagCrudService _tagService;
+        private readonly IRecommendationCrudService _recommendationService;
+        private readonly IFriendCrudService _friendService;
 
         public CitiesController(
             IMapper mapper,
             IMediator mediator,
-            CityCrudService cityCrudService,
-            TagCrudService tagCrudService,
-            RecommendationCrudService recommendationCrudService,
-            FriendCrudService friendCrudService)
+            ICityCrudService cityCrudService,
+            ITagCrudService tagCrudService,
+            IRecommendationCrudService recommendationCrudService,
+            IFriendCrudService friendCrudService)
         {
             _mapper = mapper;
             _mediator = mediator;

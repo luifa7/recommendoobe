@@ -1,4 +1,5 @@
-﻿using Application.Core.Services;
+﻿using Application.Core.Interfaces;
+using Application.Core.Services;
 using Domain.Core.Objects;
 using MediatR;
 
@@ -29,9 +30,9 @@ namespace Application.Core.Commands.CityCommands
 
     public class CreateCityCommandHandler : IRequestHandler<CreateCityCommand, City>
     {
-        private readonly CityCrudService _cityService;
+        private readonly ICityCrudService _cityService;
 
-        public CreateCityCommandHandler(CityCrudService cityCrudService)
+        public CreateCityCommandHandler(ICityCrudService cityCrudService)
         {
             _cityService = cityCrudService;
         }

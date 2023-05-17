@@ -1,4 +1,5 @@
 ﻿using Application.Core.Commands.RecommendationCommands;
+using Application.Core.Interfaces;
 using Application.Core.Services;
 using Domain.Core.Interfaces;
 using Infrastructure.Core.Repositories;
@@ -34,12 +35,12 @@ builder.Services.AddTransient<ITagRepository, TagRepository>();
 builder.Services.AddTransient<IFriendRepository, FriendRepository>();
 builder.Services.AddTransient<INotificationRepository, NotificationRepository>();
 
-builder.Services.AddTransient<RecommendationCrudService>();
-builder.Services.AddTransient<UserCrudService>();
-builder.Services.AddTransient<CityCrudService>();
-builder.Services.AddTransient<TagCrudService>();
-builder.Services.AddTransient<FriendCrudService>();
-builder.Services.AddTransient<NotificationCrudService>();
+builder.Services.AddTransient<IRecommendationCrudService, RecommendationCrudService>();
+builder.Services.AddTransient<IUserCrudService, UserCrudService>();
+builder.Services.AddTransient<ICityCrudService, CityCrudService>();
+builder.Services.AddTransient<ITagCrudService, TagCrudService>();
+builder.Services.AddTransient<IFriendCrudService, FriendCrudService>();
+builder.Services.AddTransient<INotificationCrudService, NotificationCrudService>();
 
 builder.Services.AddSwaggerGen(c =>
 {

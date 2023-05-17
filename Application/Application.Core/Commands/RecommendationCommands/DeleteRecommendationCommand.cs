@@ -1,4 +1,5 @@
-﻿using Application.Core.Services;
+﻿using Application.Core.Interfaces;
+using Application.Core.Services;
 using MediatR;
 
 namespace Application.Core.Commands.RecommendationCommands
@@ -16,10 +17,10 @@ namespace Application.Core.Commands.RecommendationCommands
     public class DeleteRecommendationCommandHandler :
         IRequestHandler<DeleteRecommendationCommand, bool>
     {
-        private readonly RecommendationCrudService _recommendationService;
+        private readonly IRecommendationCrudService _recommendationService;
 
         public DeleteRecommendationCommandHandler(
-            RecommendationCrudService recommendationCrudService)
+            IRecommendationCrudService recommendationCrudService)
         {
             _recommendationService = recommendationCrudService;
         }

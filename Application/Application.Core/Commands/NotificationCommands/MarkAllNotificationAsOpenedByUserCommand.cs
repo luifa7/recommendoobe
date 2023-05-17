@@ -1,4 +1,5 @@
-﻿using Application.Core.Services;
+﻿using Application.Core.Interfaces;
+using Application.Core.Services;
 using MediatR;
 
 namespace Application.Core.Commands.NotificationCommands
@@ -16,10 +17,10 @@ namespace Application.Core.Commands.NotificationCommands
     public class MarkAllNotificationAsOpenedByUserCommandHandler :
         IRequestHandler<MarkAllNotificationAsOpenedByUserCommand, bool>
     {
-        private readonly NotificationCrudService _notificationService;
+        private readonly INotificationCrudService _notificationService;
 
         public MarkAllNotificationAsOpenedByUserCommandHandler(
-            NotificationCrudService notificationServiceCrudService)
+            INotificationCrudService notificationServiceCrudService)
         {
             _notificationService = notificationServiceCrudService;
         }

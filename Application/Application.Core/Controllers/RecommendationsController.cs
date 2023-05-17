@@ -1,5 +1,6 @@
 ﻿using Application.Core.Commands.NotificationCommands;
 using Application.Core.Commands.RecommendationCommands;
+using Application.Core.Interfaces;
 using Application.Core.Mappers;
 using Application.Core.Services;
 using Domain.Core.Objects;
@@ -13,13 +14,13 @@ namespace Application.Core.Controllers
     public class RecommendationsController : Controller
     {
         private readonly IMediator _mediator;
-        private readonly RecommendationCrudService _recommendationService;
-        private readonly TagCrudService _tagService;
+        private readonly IRecommendationCrudService _recommendationService;
+        private readonly ITagCrudService _tagService;
 
         public RecommendationsController(
             IMediator mediator,
-            RecommendationCrudService recommendationCrudService,
-            TagCrudService tagCrudService)
+            IRecommendationCrudService recommendationCrudService,
+            ITagCrudService tagCrudService)
         {
             _mediator = mediator;
             _recommendationService = recommendationCrudService;

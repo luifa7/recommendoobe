@@ -1,4 +1,5 @@
-﻿using Application.Core.Services;
+﻿using Application.Core.Interfaces;
+using Application.Core.Services;
 using Domain.Core.Objects;
 using MediatR;
 
@@ -24,10 +25,10 @@ namespace Application.Core.Commands.NotificationCommands
     public class CreateNotificationCommandHandler :
         IRequestHandler<CreateNotificationCommand, Notification>
     {
-        private readonly NotificationCrudService _notificationService;
+        private readonly INotificationCrudService _notificationService;
 
         public CreateNotificationCommandHandler(
-            NotificationCrudService notificationCrudService)
+            INotificationCrudService notificationCrudService)
         {
             _notificationService = notificationCrudService;
         }

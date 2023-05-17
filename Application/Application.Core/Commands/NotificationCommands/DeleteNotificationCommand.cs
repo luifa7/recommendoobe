@@ -1,4 +1,5 @@
-﻿using Application.Core.Services;
+﻿using Application.Core.Interfaces;
+using Application.Core.Services;
 using MediatR;
 
 namespace Application.Core.Commands.NotificationCommands
@@ -16,10 +17,10 @@ namespace Application.Core.Commands.NotificationCommands
     public class DeleteNotificationCommandHandler :
         IRequestHandler<DeleteNotificationCommand, bool>
     {
-        private readonly NotificationCrudService _notificationService;
+        private readonly INotificationCrudService _notificationService;
 
         public DeleteNotificationCommandHandler(
-            NotificationCrudService notificationCrudService)
+            INotificationCrudService notificationCrudService)
         {
             _notificationService = notificationCrudService;
         }

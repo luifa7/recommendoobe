@@ -1,9 +1,10 @@
-﻿using Domain.Core.Interfaces;
+﻿using Application.Core.Interfaces;
+using Domain.Core.Interfaces;
 using Domain.Core.Objects;
 
 namespace Application.Core.Services
 {
-    public class TagCrudService
+    public class TagCrudService: ITagCrudService
     {
         private readonly ITagRepository _tagRepository;
 

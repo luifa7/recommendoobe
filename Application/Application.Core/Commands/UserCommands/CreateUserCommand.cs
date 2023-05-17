@@ -1,4 +1,5 @@
-﻿using Application.Core.Services;
+﻿using Application.Core.Interfaces;
+using Application.Core.Services;
 using Domain.Core.Objects;
 using MediatR;
 
@@ -38,9 +39,9 @@ namespace Application.Core.Commands.UserCommands
 
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, User>
     {
-        private readonly UserCrudService _userService;
+        private readonly IUserCrudService _userService;
 
-        public CreateUserCommandHandler(UserCrudService userCrudService)
+        public CreateUserCommandHandler(IUserCrudService userCrudService)
         {
             _userService = userCrudService;
         }
